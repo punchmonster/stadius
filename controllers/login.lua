@@ -34,10 +34,11 @@ return {
     Reads self.params.action to decide which flow to run ("login" or "signup").
 
     Self contains the request context with self.params.username, self.params.password,
-    and self.params.action.
+    self.params.action, self.params.email, and self.params.phone.
 
-    On successful login: sets self.session.username and self.session.role,
-    then redirects admins to /admin and everyone else to /.
+    On successful login: records last_login and last_ip via User.record_login,
+    sets self.session.username and self.session.role, then redirects admins
+    to /admin and everyone else to /.
     On successful signup: sets self.session.username and self.session.role,
     then redirects to /.
     On failure: sets self.error_message, returns { render = "login" }.
@@ -46,11 +47,12 @@ return {
     local action = self.params.action
     local username = self.params.username
     local password = self.params.password
+    local email = self.params.email
+    local phone = self.params.phone
 
     if action == "signup" then
-      local ok, msg = User.create(username, password)
+      local ok, msg = User.create(username, password, nil, email, phone)
       if ok then
-        -- New signups always get the default role, look it up
         local user = User.find_by_username(username)
         self.session.username = username
         self.session.role = user and user.role or User.DEFAULT_ROLE
@@ -60,11 +62,15 @@ return {
         return { render = "login" }
       end
     else
-      -- Login: User.login now returns (true, user_table) on success
+      -- Login: User.login returns (true, user_table) on success
       local ok, user_or_msg = User.login(username, password)
       if ok then
         self.session.username = username
         self.session.role = user_or_msg.role
+
+        -- Record login timestamp and IP
+        local ip = ngx and ngx.var.remote_addr or "127.0.0.1"
+        User.record_login(username, ip)
 
         -- Admins land on the admin dashboard, everyone else goes home
         if user_or_msg.role == "admin" then

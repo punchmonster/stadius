@@ -18,3 +18,4 @@
 - keep variables consistent.
 - look at this project: https://github.com/punchmonster/anzu-git for strcuctural guidance
 - use flex box for html layout
+- use html safe characters in layouts

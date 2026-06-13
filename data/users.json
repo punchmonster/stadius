@@ -1,14 +1,69 @@
 {
+  "editor1": {
+    "created_at": "2026-06-13T10:48:52Z",
+    "email": "",
+    "join_date": "2026-06-13T10:48:52Z",
+    "last_password_change": "2026-06-13T10:48:52Z",
+    "password_hash": "49ca072fa52da83d82fda2c962d1b00c908ae0d4452285292f58fb57d6a5078e",
+    "phone": "",
+    "role": "editor",
+    "salt": "2a76d7ad36a7bb1779d47b89432e36f9",
+    "subscription_active": false,
+    "subscription_end_date": null,
+    "subscription_start_date": null
+  },
+  "reader2": {
+    "created_at": "2026-06-13T10:48:53Z",
+    "email": "",
+    "join_date": "2026-06-13T10:48:53Z",
+    "last_password_change": "2026-06-13T10:48:53Z",
+    "password_hash": "95580e1f5ab74d11ea91114df7c083047a5ae3abae3d2d7c07a93d5409483927",
+    "phone": "",
+    "role": "reader",
+    "salt": "e213114ae641828abf5e4878b4721901",
+    "subscription_active": false,
+    "subscription_end_date": null,
+    "subscription_start_date": null
+  },
   "stadius-admin": {
     "created_at": "2026-06-13T10:28:52Z",
+    "email": "",
+    "join_date": "2026-06-13T10:28:52Z",
+    "last_ip": "192.168.65.1",
+    "last_login": "2026-06-13T11:26:24Z",
+    "last_password_change": "2026-06-13T10:28:52Z",
     "password_hash": "aa5e6a5155ad3ad04a91f16d41204f0a6f4da46dde0e6720941e4a3a98c42a2e",
+    "phone": "",
     "role": "admin",
-    "salt": "bb67424181a9a81c79b7bc09d649f35e"
+    "salt": "bb67424181a9a81c79b7bc09d649f35e",
+    "subscription_active": false,
+    "subscription_end_date": null,
+    "subscription_start_date": null
+  },
+  "subscriber1": {
+    "created_at": "2026-06-13T10:48:52Z",
+    "email": "",
+    "join_date": "2026-06-13T10:48:52Z",
+    "last_password_change": "2026-06-13T10:48:52Z",
+    "password_hash": "d2800380791bbad40122b79ea55f5152c35d346ef7f92554c2991fe5ef43c112",
+    "phone": "",
+    "role": "reader",
+    "salt": "357c778e118471783cf474e90361209a",
+    "subscription_active": true,
+    "subscription_end_date": "2027-06-13",
+    "subscription_start_date": "2026-06-13"
   },
   "testreader": {
     "created_at": "2026-06-13T10:39:20Z",
+    "email": "",
+    "join_date": "2026-06-13T10:39:20Z",
+    "last_password_change": "2026-06-13T10:39:20Z",
     "password_hash": "e6a30261eb9e98720c63b904fd4c486dc58fede37f90bf6b256bcaf4050e4f60",
+    "phone": "",
     "role": "reader",
-    "salt": "48d4bee53f8d831505890279ead2b3d5"
+    "salt": "48d4bee53f8d831505890279ead2b3d5",
+    "subscription_active": false,
+    "subscription_end_date": null,
+    "subscription_start_date": null
   }
 }

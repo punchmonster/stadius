@@ -1,7 +1,7 @@
 <!--
   views/admin.etlua — Admin dashboard template
   Rendered by controllers/admin.lua for the "/admin" route.
-  Shows a list of all registered users with their roles.
+  Shows a summary and links to admin subpages.
 -->
 <h1>Admin Dashboard</h1>
 
@@ -9,30 +9,13 @@
 
 <hr>
 
-<h2>Registered Users</h2>
+<h2>Overview</h2>
+<p>Registered users (non-admin): <strong><%= user_count or 0 %></strong></p>
 
-<table border="1" cellpadding="8" cellspacing="0" style="border-collapse: collapse; width: 100%;">
-  <thead>
-    <tr style="background: #f0f0f0;">
-      <th>Username</th>
-      <th>Role</th>
-      <th>Created</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% if users then %>
-      <% local keys = {} for k in pairs(users) do table.insert(keys, k) end table.sort(keys) %>
-      <% for _, username in ipairs(keys) do local u = users[username] %>
-        <tr>
-          <td><strong><%= username %></strong></td>
-          <td><%= u.role or "reader" %></td>
-          <td><%= u.created_at or "-" %></td>
-        </tr>
-      <% end %>
-    <% end %>
-  </tbody>
-</table>
+<ul>
+  <li><a href="/admin/users">Manage Users</a> view, edit, or delete accounts</li>
+</ul>
 
 <hr>
 
-<p><a href="/">Back to home</a> | <a href="/login">Login page</a></p>
+<p><a href="/">Back to home</a></p>

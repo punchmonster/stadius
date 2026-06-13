@@ -11,7 +11,7 @@ return {
   --[[
     Sets page metadata before the admin action.
 
-    Self contains the request context (session, params, url_for, etc.).
+    Self contains the request context.
     Mutates self.page_title in place. No return value.
   --]]
   before = function(self)
@@ -19,35 +19,40 @@ return {
   end,
 
   --[[
-    Renders the admin dashboard if the user has the admin role, otherwise
-    redirects to the home page.
+    Renders the admin dashboard if the user is an admin, otherwise redirects
+    to the home page. Shows a summary count of non-admin registered users.
 
     Self contains the request context with self.session.role.
-    Sets self.users (all registered users), self.current_user, and self.roles.
+    Sets self.user_count (number of registered non-admin users).
+
     Returns { render = "admin" } or { redirect_to = "/" }.
   --]]
   GET = function(self)
     local role = self.session.role
 
-    -- Only admins may view this page
     if role ~= "admin" then
       return { redirect_to = self:url_for("index") }
     end
 
-    -- Load all registered users for display
+    -- Count registered users excluding admins
     local file = io.open("data/users.json", "r")
-    local users = {}
+    local count = 0
     if file then
       local content = file:read("*a")
       file:close()
       if content and content ~= "" then
-        users = require("lapis.util").from_json(content) or {}
+        local users = require("lapis.util").from_json(content) or {}
+        for _, u in pairs(users) do
+          local r = u.role or User.DEFAULT_ROLE
+          if r ~= "admin" then
+            count = count + 1
+          end
+        end
       end
     end
 
-    self.users = users
+    self.user_count = count
     self.current_user = self.session.username
-    self.roles = User.ROLES
 
     return { render = "admin" }
   end,
