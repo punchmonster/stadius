@@ -1,0 +1,49 @@
+<!--
+  views/layout.etlua — Global layout template
+  Wraps every page with the HTML document structure.
+  Uses etlua templating syntax: <%- %> escaped, <%= %> raw, <% %> control flow.
+  This is the base template that all other views render within.
+-->
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= page_title or "Stadius" %></title>
+
+  <!-- Stylesheets loaded from the /static/ directory -->
+  <link rel="stylesheet" href="<%- build_url() %>/static/css/normalize.css">
+  <link rel="stylesheet" href="<%- build_url() %>/static/css/style.css">
+</head>
+<body>
+
+  <!-- Conditionally show the global header unless the page opts out -->
+  <% if header_vis ~= false then %>
+    <% render("views.header") %>
+  <% end %>
+
+  <!-- Main content area — wraps the page-specific inner content -->
+  <main class="content">
+    <!-- Display error banner if an error_message is set by the controller -->
+    <% if error_message then %>
+      <div class="error-banner">
+        <p><%= error_message %></p>
+      </div>
+    <% end %>
+
+    <!-- Inner content block: filled by page-specific templates -->
+    <div class="inner-content">
+      <% content_for("inner") %>
+    </div>
+  </main>
+
+  <!-- Footer included at the bottom of every page -->
+  <footer class="site-footer">
+    <p>&copy; 2026 Stadius. Built with <a href="https://leafo.net/lapis/">Lapis</a> &amp; OpenResty.</p>
+  </footer>
+
+  <!-- Scripts loaded at end of body -->
+  <% render("views.scripts") %>
+
+</body>
+</html>

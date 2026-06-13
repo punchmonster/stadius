@@ -1,0 +1,6 @@
+<!--
+  views/scripts.etlua — Scripts partial
+  Included at the bottom of layout.etlua.
+  Add page-specific JavaScript includes here.
+-->
+<!-- Page scripts loaded here -->

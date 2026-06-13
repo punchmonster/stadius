@@ -1,0 +1,5 @@
+192.168.65.1 - - [13/Jun/2026:08:02:40 +0000] "GET / HTTP/1.1" 200 123 "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:148.0) Gecko/20100101 Firefox/148.0"
+192.168.65.1 - - [13/Jun/2026:08:02:41 +0000] "GET / HTTP/1.1" 200 123 "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:148.0) Gecko/20100101 Firefox/148.0"
+192.168.65.1 - - [13/Jun/2026:08:04:56 +0000] "GET / HTTP/1.1" 200 123 "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:148.0) Gecko/20100101 Firefox/148.0"
+192.168.65.1 - - [13/Jun/2026:09:17:55 +0000] "GET / HTTP/1.1" 200 123 "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:148.0) Gecko/20100101 Firefox/148.0"
+192.168.65.1 - - [13/Jun/2026:09:18:09 +0000] "GET / HTTP/1.1" 200 123 "-" "curl/8.7.1"
