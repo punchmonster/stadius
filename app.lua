@@ -38,6 +38,7 @@ local admin_users_controller  = require("controllers.admin_users")
 local admin_articles_controller = require("controllers.admin_articles")
 local admin_events_controller   = require("controllers.admin_events")
 local admin_roles_controller   = require("controllers.admin_roles")
+local admin_media_controller   = require("controllers.admin_media")
 local profile_controller      = require("controllers.profile")
 local articles_controller     = require("controllers.articles")
 local events_controller       = require("controllers.events")
@@ -78,6 +79,9 @@ app:match("admin_events", "/admin/events", respond_to(admin_events_controller))
 
 -- Admin role permissions — admin only
 app:match("admin_roles", "/admin/roles", respond_to(admin_roles_controller))
+
+-- Admin media library
+app:match("admin_media", "/admin/media", respond_to(admin_media_controller))
 
 -- Public agenda page (listing)
 app:match("agenda", "/agenda", respond_to(events_controller))

@@ -1,0 +1,92 @@
+[
+  {
+    "alt_text": "Soft green placeholder background",
+    "credit": "Default",
+    "file_size": 0,
+    "filename": "_default_green.jpg",
+    "id": 3,
+    "tags": [
+      "default",
+      "placeholder",
+      "green"
+    ],
+    "title": "Pastel Green",
+    "uploaded_at": "2026-06-13T18:00:00Z",
+    "uploaded_by": "system"
+  },
+  {
+    "alt_text": "Soft blue placeholder background",
+    "credit": "Default",
+    "file_size": 0,
+    "filename": "_default_blue.jpg",
+    "id": 4,
+    "tags": [
+      "default",
+      "placeholder",
+      "blue"
+    ],
+    "title": "Pastel Blue",
+    "uploaded_at": "2026-06-13T18:00:00Z",
+    "uploaded_by": "system"
+  },
+  {
+    "alt_text": "Soft red placeholder background",
+    "credit": "Default",
+    "file_size": 0,
+    "filename": "_default_red.jpg",
+    "id": 5,
+    "tags": [
+      "default",
+      "placeholder",
+      "red"
+    ],
+    "title": "Pastel Red",
+    "uploaded_at": "2026-06-13T18:00:00Z",
+    "uploaded_by": "system"
+  },
+  {
+    "alt_text": "Soft yellow placeholder background",
+    "credit": "Default",
+    "file_size": 0,
+    "filename": "_default_yellow.jpg",
+    "id": 6,
+    "tags": [
+      "default",
+      "placeholder",
+      "yellow"
+    ],
+    "title": "Pastel Yellow",
+    "uploaded_at": "2026-06-13T18:00:00Z",
+    "uploaded_by": "system"
+  },
+  {
+    "alt_text": "Soft orange placeholder background",
+    "credit": "Default",
+    "file_size": 0,
+    "filename": "_default_orange.jpg",
+    "id": 7,
+    "tags": [
+      "default",
+      "placeholder",
+      "orange"
+    ],
+    "title": "Pastel Orange",
+    "uploaded_at": "2026-06-13T18:00:00Z",
+    "uploaded_by": "system"
+  },
+  {
+    "alt_text": "Soft brown placeholder background",
+    "credit": "Default",
+    "file_size": 0,
+    "filename": "_default_brown.jpg",
+    "id": 8,
+    "tags": [
+      "default",
+      "placeholder",
+      "brown"
+    ],
+    "title": "Pastel Brown",
+    "uploaded_at": "2026-06-13T18:00:00Z",
+    "uploaded_by": "system"
+  }
+]

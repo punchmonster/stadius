@@ -82,6 +82,13 @@ local function find_by_filename(filename)
   return nil
 end
 
+local function find_by_id(id)
+  for _, m in ipairs(read_all()) do
+    if m.id == id then return m end
+  end
+  return nil
+end
+
 local function list_all()
   local all = read_all()
   table.sort(all, function(a, b) return a.uploaded_at > b.uploaded_at end)
@@ -96,4 +103,4 @@ local function delete(id)
   return false
 end
 
-return { create = create, find_by_filename = find_by_filename, list_all = list_all, delete = delete }
+return { create = create, find_by_filename = find_by_filename, find_by_id = find_by_id, list_all = list_all, delete = delete }

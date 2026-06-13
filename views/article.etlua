@@ -8,7 +8,7 @@
 <% else %>
   <h1><%= article.title %></h1>
 
-  <% if article.header_image then
+  <% if article.header_image and article.header_image ~= '' then
        local Media = require("models.media")
        local meta = Media.find_by_filename(article.header_image)
   %>

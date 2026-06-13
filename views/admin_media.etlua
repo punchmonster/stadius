@@ -1,0 +1,49 @@
+<%
+  local icon = require("modules.icon").icon
+%>
+<h1><%- icon('image') %> Media Library</h1>
+
+<% if message then %>
+  <p class="alert"><strong><%= message %></strong></p>
+<% end %>
+
+<% if not media or #media == 0 then %>
+  <p>No images uploaded yet. Upload a header image when editing an article or event.</p>
+<% else %>
+  <form action="/admin/media" method="POST">
+  <input type="hidden" name="action" value="delete">
+  <div style="display: flex; justify-content: flex-end; margin-bottom: 0.5rem;">
+    <button type="submit" class="btn-danger" onclick="return confirm('Delete selected images?')">
+      <%- icon('trash-2') %> Delete Selected
+    </button>
+  </div>
+  <div class="row">
+    <% for _, m in ipairs(media) do %>
+      <div class="col-25" style="margin-bottom: 1rem;">
+        <div class="card" style="padding: 0.75rem; position: relative;">
+          <label style="position: absolute; top: 8px; left: 8px; z-index: 2; background: rgba(0,0,0,0.5); border-radius: 3px; padding: 2px 4px; cursor: pointer;">
+            <input type="checkbox" name="ids" value="<%= m.id %>" style="margin: 0;">
+          </label>
+          <img src="/static/uploads/media/<%= m.filename %>"
+               alt="<%= m.alt_text or m.title or '' %>"
+               style="width: 100%; aspect-ratio: 1650/1050; object-fit: cover; border-radius: 4px; margin-bottom: 0.4rem;"
+               loading="lazy">
+          <p style="font-size: 0.8rem; font-weight: 600; margin: 0 0 0.2rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+            <%= m.title ~= '' and m.title or m.filename %>
+          </p>
+          <p class="text-muted" style="font-size: 0.7rem; margin: 0;">
+            <%- icon('user') %> <%= m.uploaded_by %>
+            <% if m.file_size then %><% local kb = math.floor(m.file_size/1024); if kb > 1024 then %>&middot; <%= math.floor(kb/1024) %> MB<% else %>&middot; <%= kb %> KB<% end %><% end %>
+          </p>
+          <% if #(m.tags or {}) > 0 then %>
+            <p style="margin: 0.2rem 0 0;"><% for _, t in ipairs(m.tags) do %><span class="badge badge-public" style="font-size: 0.65rem; padding: 1px 6px;"><%= t %></span> <% end %></p>
+          <% end %>
+          <% if m.credit ~= '' then %>
+            <p class="text-muted" style="font-size: 0.65rem; margin: 0.2rem 0 0;">Credit: <%= m.credit %></p>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+  </form>
+<% end %>
