@@ -172,37 +172,72 @@ local function write_users(users)
 end
 
 -- ---------------------------------------------------------------------------
+-- Roles
+-- ---------------------------------------------------------------------------
+
+-- Ordered from highest to lowest privilege
+local ROLES = { "admin", "editor", "subscriber", "reader" }
+
+-- Default role assigned to newly registered users
+local DEFAULT_ROLE = "reader"
+
+--[[
+  Returns true if the given role string is a recognised role.
+
+  Args:
+    role — string, the role to check
+
+  Returns:
+    boolean, true if role is valid
+--]]
+local function is_valid_role(role)
+  for _, r in ipairs(ROLES) do
+    if r == role then return true end
+  end
+  return false
+end
+
+-- ---------------------------------------------------------------------------
 -- Public API
 -- ---------------------------------------------------------------------------
 
 --[[
   Looks up a user record by username.
+  Backfills a missing role field to the default for older records.
 
   Args:
     username — string, the username to search for
 
   Returns:
-    table { password_hash, salt, created_at } if found, or nil
+    table { password_hash, salt, role, created_at } if found, or nil
 --]]
 local function find_by_username(username)
   local users = read_users()
-  return users[username]
+  local user = users[username]
+  if user and not user.role then
+    user.role = DEFAULT_ROLE
+  end
+  return user
 end
 
 --[[
   Registers a new user with a randomly salted and hashed password.
   Validates that the username is 3+ chars, alphanumeric/dash/underscore only,
   and not already taken. Password must be 3+ characters.
+  The role parameter is only honoured by existing admin users — public signups
+  always get the default role ("reader").
 
   Args:
     username — string, the desired username
     password — string, the plaintext password to salt and hash
+    role     — string, optional role to assign (only used internally; ignored
+               for public signups, defaults to "reader")
 
   Returns:
     true, "ok" on success
     false, error_message on failure
 --]]
-local function create(username, password)
+local function create(username, password, role)
   if not username or #username < 3 then
     return false, "Username must be at least 3 characters"
   end
@@ -221,12 +256,16 @@ local function create(username, password)
     return false, "Username already taken"
   end
 
+  -- Default to "reader" unless a valid role was explicitly passed
+  local assigned_role = is_valid_role(role) and role or DEFAULT_ROLE
+
   local salt = generate_salt()
   local hash = hash_password(password, salt)
 
   users[username] = {
     password_hash = hash,
     salt = salt,
+    role = assigned_role,
     created_at = os.date("!%Y-%m-%dT%H:%M:%SZ"),
   }
 
@@ -249,8 +288,8 @@ end
     password — string, the plaintext password to verify
 
   Returns:
-    true, "ok" on successful authentication
-    false, error_message on failure (same message for wrong user or wrong password)
+    true, user_table on successful authentication (user table contains role)
+    false, error_message on failure
 --]]
 local function login(username, password)
   local user = find_by_username(username)
@@ -261,14 +300,20 @@ local function login(username, password)
   local computed_hash = hash_password(password, user.salt)
 
   if computed_hash == user.password_hash then
-    return true, "Login successful"
+    return true, user
   else
     return false, "Invalid username or password"
   end
 end
 
 return {
+  -- Constants
+  ROLES = ROLES,
+  DEFAULT_ROLE = DEFAULT_ROLE,
+
+  -- Functions
   create = create,
   login = login,
   find_by_username = find_by_username,
+  is_valid_role = is_valid_role,
 }

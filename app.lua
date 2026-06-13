@@ -16,6 +16,7 @@ app:enable("etlua")
 -- ---------------------------------------------------------------------------
 local index_controller = require("controllers.index")
 local login_controller = require("controllers.login")
+local admin_controller = require("controllers.admin")
 
 -- ---------------------------------------------------------------------------
 -- Routes
@@ -26,5 +27,8 @@ app:match("index", "/", respond_to(index_controller))
 
 -- Login page — GET renders form, POST processes login/signup
 app:match("login", "/login", respond_to(login_controller))
+
+-- Admin dashboard — protected by role check in the controller's before filter
+app:match("admin", "/admin", respond_to(admin_controller))
 
 return app

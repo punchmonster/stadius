@@ -2,6 +2,13 @@
   "stadius-admin": {
     "created_at": "2026-06-13T10:28:52Z",
     "password_hash": "aa5e6a5155ad3ad04a91f16d41204f0a6f4da46dde0e6720941e4a3a98c42a2e",
+    "role": "admin",
     "salt": "bb67424181a9a81c79b7bc09d649f35e"
+  },
+  "testreader": {
+    "created_at": "2026-06-13T10:39:20Z",
+    "password_hash": "e6a30261eb9e98720c63b904fd4c486dc58fede37f90bf6b256bcaf4050e4f60",
+    "role": "reader",
+    "salt": "48d4bee53f8d831505890279ead2b3d5"
   }
 }
