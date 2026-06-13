@@ -4,11 +4,11 @@
   <p class="alert"><strong><%= message %></strong></p>
 <% end %>
 
-<p>
+<div class="toolbar">
   <a href="/admin/articles?action=new">+ New Article</a>
-  |
+  <span class="sep">|</span>
   <a href="/admin/articles">All Articles</a>
-</p>
+</div>
 
 <!-- Create / Edit form -->
 <% if mode == "new" or mode == "edit" then %>
@@ -23,23 +23,25 @@
       <% end %>
 
       <div class="form-row">
-        <label for="title">Title</label><br>
-        <input type="text" id="title" name="title" required
-               value="<%= edit_article and edit_article.title or '' %>" size="60">
+        <label for="title">Title</label>
+        <input type="text" id="title" name="title" required class="input-full"
+               value="<%= edit_article and edit_article.title or '' %>">
       </div>
 
       <div class="form-row">
-        <label for="slug">Slug</label><br>
+        <label for="slug">Slug</label>
         <% if mode == "edit" then %>
           <p><strong><%= edit_article and edit_article.slug or '' %></strong> <em>(cannot be changed)</em></p>
         <% else %>
-          <input type="text" id="slug" name="slug" placeholder="Leave blank to auto-generate" size="40">
+          <input type="text" id="slug" name="slug" class="input-full"
+                 placeholder="Leave blank to auto-generate from title">
         <% end %>
       </div>
 
       <div class="form-row">
-        <label for="tags">Tags (comma-separated)</label><br>
-        <input type="text" id="tags" name="tags" value="<%= edit_tags or '' %>" size="60">
+        <label for="tags">Tags (comma-separated)</label>
+        <input type="text" id="tags" name="tags" class="input-full"
+               value="<%= edit_tags or '' %>">
       </div>
 
       <div class="form-row">
@@ -51,12 +53,12 @@
       </div>
 
       <div class="form-row">
-        <label for="content">Content (Markdown)</label><br>
-        <textarea id="content" name="content" rows="20" cols="80"
-                  class="font-mono"><%= edit_article and edit_article.content or '' %></textarea>
+        <label for="content">Content (Markdown)</label>
+        <textarea id="content" name="content" class="font-mono textarea-content"
+                  ><%= edit_article and edit_article.content or '' %></textarea>
       </div>
 
-      <button type="submit" class="btn-primary"><% if mode == "new" then %>Create<% else %>Save Changes<% end %></button>
+      <button type="submit" class="btn-primary"><% if mode == "new" then %>Create Article<% else %>Save Changes<% end %></button>
     </form>
   </div>
 <% end %>
@@ -104,7 +106,6 @@
   </tbody>
 </table>
 
-<!-- Pagination -->
 <div class="pagination">
   <div>
     <label for="per_page">Show:</label>

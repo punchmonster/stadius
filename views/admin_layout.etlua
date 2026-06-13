@@ -30,7 +30,7 @@
       <li><a href="/admin/events"     class="<% if section == 'events' then %>active<% end %>">Events</a></li>
     </ul>
     <div class="sidebar-footer">
-      <a href="/" style="color: var(--text-muted);">&larr; View site</a>
+      <a href="/" class="text-muted">&larr; View site</a>
     </div>
   </aside>
 

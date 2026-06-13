@@ -138,7 +138,22 @@ button:active, .btn:active { opacity: 0.8; }
 
 /* Form layout */
 .form-row { margin-bottom: 0.8rem; }
+.form-row label { display: block; margin-bottom: 0.25rem; font-weight: 500; }
+.input-full { width: 100%; }
+.textarea-content { width: 100%; min-height: 400px; resize: vertical; }
 .font-mono { font-family: "SF Mono", "Fira Code", "Fira Mono", Menlo, Consolas, monospace; }
+
+/* Toolbar */
+.toolbar {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border);
+}
+.toolbar a { font-size: 0.9rem; }
+.toolbar .sep { color: var(--border); }
 
 /* Table actions cell */
 .actions-cell {
