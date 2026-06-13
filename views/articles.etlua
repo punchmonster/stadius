@@ -1,25 +1,31 @@
 <!--
-  views/articles.etlua — Articles listing page template
-  Rendered by controllers/articles.lua for the "/articles" route.
+  views/articles.etlua — Public article listing page
+  Shows all public articles (or all for admins/editors), newest first.
 -->
 <h1>Articles</h1>
 
-<p class="lead">Read our latest articles and tutorials.</p>
-
 <div class="articles-list">
   <% if articles and #articles > 0 then %>
-    <% for i, article in ipairs(articles) do %>
-      <article class="article-card">
-        <h2><%= article.title %></h2>
-        <div class="article-meta">
-          <span class="article-author">By <%= article.author %></span>
-          <span class="article-date"><%= article.date %></span>
-        </div>
-        <p class="article-summary"><%= article.summary %></p>
-        <a href="#" class="read-more">Read more &rarr;</a>
-      </article>
+    <% for _, a in ipairs(articles) do %>
+      <div style="border: 1px solid #ddd; border-radius: 4px; padding: 1rem; margin-bottom: 1rem; background: #fff;">
+        <h2 style="margin: 0 0 0.3rem 0;">
+          <a href="/articles/<%= a.id %>/<%= a.slug %>"><%= a.title %></a>
+          <% if a.visibility == 'private' then %><span style="color: #c33; font-size: 0.8rem;">[private]</span><% end %>
+        </h2>
+        <p style="color: #888; font-size: 0.85rem; margin: 0 0 0.5rem 0;">
+          By <strong><%= a.author %></strong> on <%= a.created_at %>
+          <% if #(a.tags or {}) > 0 then %>
+            | Tags: <%= table.concat(a.tags, ", ") %>
+          <% end %>
+        </p>
+        <p style="margin: 0;">
+          <a href="/articles/<%= a.id %>/<%= a.slug %>">Read more</a>
+        </p>
+      </div>
     <% end %>
   <% else %>
-    <p class="empty-state">No articles found. Check back soon!</p>
+    <p>No articles yet.</p>
   <% end %>
 </div>
+
+<p><a href="/">Back to home</a></p>

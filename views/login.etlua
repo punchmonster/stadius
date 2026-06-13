@@ -1,6 +1,6 @@
 <!--
   views/login.etlua — Login form template
-  Provides both sign-in and sign-up forms on one page.
+  Provides sign-in and sign-up forms. Signup only requires username + password.
 -->
 <h1>Login</h1>
 
@@ -34,14 +34,6 @@
   <div>
     <label for="signup-password">Password</label>
     <input type="password" id="signup-password" name="password" required minlength="3">
-  </div>
-  <div>
-    <label for="signup-email">Email</label>
-    <input type="email" id="signup-email" name="email">
-  </div>
-  <div>
-    <label for="signup-phone">Phone</label>
-    <input type="text" id="signup-phone" name="phone">
   </div>
   <button type="submit">Sign Up</button>
 </form>

@@ -1,0 +1,122 @@
+<!--
+  views/admin_articles.etlua — Article management page
+  Lists all articles with actions. Create/edit form shown when mode is set.
+  Uses numeric id for operations; slug is aesthetic.
+-->
+<h1>Manage Articles</h1>
+
+<% if message then %>
+  <p style="background: #eef; padding: 8px; border-left: 4px solid #36a;">
+    <strong><%= message %></strong>
+  </p>
+<% end %>
+
+<p>
+  <a href="/admin/articles?action=new">+ New Article</a>
+  |
+  <a href="/admin/articles">All Articles</a>
+  |
+  <a href="/admin">Back to dashboard</a>
+</p>
+
+<!-- Create / Edit form -->
+<% if mode == "new" or mode == "edit" then %>
+  <hr>
+  <h2><% if mode == "new" then %>New Article<% else %>Edit: <%= edit_article and edit_article.title or "" %><% end %></h2>
+
+  <form action="/admin/articles" method="POST">
+    <% if mode == "edit" then %>
+      <input type="hidden" name="action" value="edit">
+      <input type="hidden" name="id" value="<%= edit_article and edit_article.id or '' %>">
+    <% else %>
+      <input type="hidden" name="action" value="create">
+    <% end %>
+
+    <div>
+      <label for="title">Title</label>
+      <input type="text" id="title" name="title" required
+             value="<%= edit_article and edit_article.title or '' %>" size="60">
+    </div>
+
+    <div>
+      <label for="slug">Slug (URL segment, e.g. my-article)</label>
+      <% if mode == "edit" then %>
+        <p><strong><%= edit_article and edit_article.slug or '' %></strong> <em>(cannot be changed)</em></p>
+      <% else %>
+        <input type="text" id="slug" name="slug"
+               placeholder="Leave blank to auto-generate from title" size="40">
+      <% end %>
+    </div>
+
+    <div>
+      <label for="tags">Tags (comma-separated)</label>
+      <input type="text" id="tags" name="tags"
+             value="<%= edit_tags or '' %>" size="60">
+    </div>
+
+    <div>
+      <label for="visibility">Visibility</label>
+      <select id="visibility" name="visibility">
+        <option value="public" <% if not edit_article or edit_article.visibility == 'public' then %>selected<% end %>>Public</option>
+        <option value="private" <% if edit_article and edit_article.visibility == 'private' then %>selected<% end %>>Private</option>
+      </select>
+    </div>
+
+    <div>
+      <label for="content">Content (Markdown)</label><br>
+      <textarea id="content" name="content" rows="20" cols="80"
+                style="font-family: monospace;"><%= edit_article and edit_article.content or '' %></textarea>
+    </div>
+
+    <button type="submit"><% if mode == "new" then %>Create<% else %>Save Changes<% end %></button>
+  </form>
+<% end %>
+
+<!-- Article list -->
+<hr>
+<h2>All Articles</h2>
+
+<table border="1" cellpadding="6" cellspacing="0" style="border-collapse: collapse; width: 100%; font-size: 0.85rem;">
+  <thead>
+    <tr style="background: #f0f0f0;">
+      <th>ID</th>
+      <th>Title</th>
+      <th>Slug</th>
+      <th>Author</th>
+      <th>Views</th>
+      <th>Visibility</th>
+      <th>Tags</th>
+      <th>Created</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% if articles then %>
+      <% for _, a in ipairs(articles) do %>
+        <tr>
+          <td><%= a.id %></td>
+          <td><strong><%= a.title %></strong></td>
+          <td><a href="/articles/<%= a.id %>/<%= a.slug %>"><%= a.slug %></a></td>
+          <td><%= a.author %></td>
+          <td><%= a.view_count or 0 %></td>
+          <td><%= a.visibility %></td>
+          <td><%= table.concat(a.tags or {}, ", ") %></td>
+          <td><%= a.created_at %></td>
+          <td style="white-space: nowrap;">
+            <a href="/admin/articles?action=edit&id=<%= a.id %>">Edit</a>
+
+            <form action="/admin/articles" method="POST" style="display: inline; margin: 0;"
+                  onsubmit="return confirm('Delete <%= a.title %>?')">
+              <input type="hidden" name="action" value="delete">
+              <input type="hidden" name="id" value="<%= a.id %>">
+              <button type="submit" style="background: #c33; color: #fff; border: none; padding: 2px 8px; cursor: pointer;">Del</button>
+            </form>
+          </td>
+        </tr>
+      <% end %>
+    <% end %>
+  </tbody>
+</table>
+
+<hr>
+<p><a href="/admin">Back to dashboard</a></p>

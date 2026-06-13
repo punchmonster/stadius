@@ -14,6 +14,7 @@
 
 <ul>
   <li><a href="/admin/users">Manage Users</a> view, edit, or delete accounts</li>
+  <li><a href="/admin/articles">Manage Articles</a> create and edit articles (Markdown)</li>
 </ul>
 
 <hr>

@@ -1,7 +1,6 @@
 <!--
   views/admin_users.etlua — User management template
-  Lists all users with options to edit or delete each one.
-  Shows subscription status, start date, and end date.
+  Editable fields are inline in the table; each row is its own form.
 -->
 <h1>Manage Users</h1>
 
@@ -17,7 +16,7 @@
 
 <h2>All Users</h2>
 
-<table border="1" cellpadding="6" cellspacing="0" style="border-collapse: collapse; width: 100%; font-size: 0.85rem;">
+<table border="1" cellpadding="4" cellspacing="0" style="border-collapse: collapse; width: 100%; font-size: 0.8rem;">
   <thead>
     <tr style="background: #f0f0f0;">
       <th>Username</th>
@@ -27,6 +26,7 @@
       <th>Sub</th>
       <th>Sub Start</th>
       <th>Sub End</th>
+      <th>Password</th>
       <th>Joined</th>
       <th>Last Login</th>
       <th>Last IP</th>
@@ -41,62 +41,87 @@
       table.sort(keys)
     %>
     <% for _, username in ipairs(keys) do local u = users[username] %>
+      <form action="/admin/users" method="POST">
+      <input type="hidden" name="action" value="edit">
+      <input type="hidden" name="target_user" value="<%= username %>">
       <tr>
         <td><strong><%= username %></strong></td>
-        <td><%= u.role or "reader" %></td>
-        <td><%= u.email or "" %></td>
-        <td><%= u.phone or "" %></td>
-        <td><% if u.subscription_active then %>&#x2713;<% else %><% end %></td>
-        <td><%= u.subscription_start_date or "-" %></td>
-        <td><%= u.subscription_end_date or "-" %></td>
+
+        <!-- Role dropdown -->
+        <td>
+          <select name="new_role">
+            <option value="">(keep)</option>
+            <% for _, r in ipairs(roles) do %>
+              <option value="<%= r %>" <% if u.role == r then %>selected<% end %>><%= r %></option>
+            <% end %>
+          </select>
+        </td>
+
+        <!-- Email -->
+        <td>
+          <input type="email" name="new_email" value="<%= u.email or '' %>" size="16"
+                 style="width: 100%; box-sizing: border-box;">
+        </td>
+
+        <!-- Phone -->
+        <td>
+          <input type="text" name="new_phone" value="<%= u.phone or '' %>" size="12"
+                 style="width: 100%; box-sizing: border-box;">
+        </td>
+
+        <!-- Subscription active -->
+        <td>
+          <select name="sub_active">
+            <option value="">(keep)</option>
+            <option value="true" <% if u.subscription_active then %>selected<% end %>>active</option>
+            <option value="false" <% if not u.subscription_active then %>selected<% end %>>inactive</option>
+          </select>
+        </td>
+
+        <!-- Subscription start -->
+        <td>
+          <input type="text" name="sub_start" value="<%= u.subscription_start_date or '' %>" size="10"
+                 placeholder="YYYY-MM-DD" style="width: 100%; box-sizing: border-box;">
+        </td>
+
+        <!-- Subscription end -->
+        <td>
+          <input type="text" name="sub_end" value="<%= u.subscription_end_date or '' %>" size="10"
+                 placeholder="YYYY-MM-DD" style="width: 100%; box-sizing: border-box;">
+        </td>
+
+        <!-- Password (optional new) -->
+        <td>
+          <input type="password" name="new_password" placeholder="new pw" minlength="3" size="10"
+                 style="width: 100%; box-sizing: border-box;">
+        </td>
+
+        <!-- Read-only fields -->
         <td><%= u.join_date or u.created_at or "-" %></td>
         <td><%= u.last_login or "never" %></td>
         <td><%= u.last_ip or "-" %></td>
         <td><%= u.last_password_change or "-" %></td>
+
+        <!-- Actions -->
         <td style="white-space: nowrap;">
-          <!-- Edit form -->
-          <form action="/admin/users" method="POST" style="margin: 0 0 4px 0;">
-            <input type="hidden" name="action" value="edit">
-            <input type="hidden" name="target_user" value="<%= username %>">
+          <button type="submit">Save</button>
 
-            <select name="new_role">
-              <option value="">(role)</option>
-              <% for _, r in ipairs(roles) do %>
-                <option value="<%= r %>" <% if u.role == r then %>selected<% end %>><%= r %></option>
-              <% end %>
-            </select>
-
-            <input type="password" name="new_password" placeholder="new pw" minlength="3" size="8">
-
-            <input type="text" name="new_email" placeholder="email" value="<%= u.email or '' %>" size="14">
-
-            <input type="text" name="new_phone" placeholder="phone" value="<%= u.phone or '' %>" size="10">
-
-            <select name="sub_active">
-              <option value="">(sub)</option>
-              <option value="true" <% if u.subscription_active then %>selected<% end %>>active</option>
-              <option value="false" <% if not u.subscription_active then %>selected<% end %>>inactive</option>
-            </select>
-
-            <input type="text" name="sub_start" placeholder="start" value="<%= u.subscription_start_date or '' %>" size="10">
-
-            <input type="text" name="sub_end" placeholder="end" value="<%= u.subscription_end_date or '' %>" size="10">
-
-            <button type="submit">Save</button>
-          </form>
-
-          <!-- Delete form -->
           <% if username ~= current_user then %>
-            <form action="/admin/users" method="POST" onsubmit="return confirm('Delete <%= username %>?')" style="margin: 0;">
-              <input type="hidden" name="action" value="delete">
-              <input type="hidden" name="target_user" value="<%= username %>">
-              <button type="submit" style="background: #c33; color: #fff; border: none; padding: 4px 10px; cursor: pointer;">Del</button>
-            </form>
+            <button type="submit" formaction="/admin/users?delete=1"
+                    onclick="event.preventDefault();
+                    if(confirm('Delete <%= username %>?')){
+                      this.form.action.value='delete';
+                      this.form.submit();
+                    }"
+                    style="background: #c33; color: #fff; border: none; padding: 2px 8px; cursor: pointer;">
+              Del
+            </button>
           <% else %>
             <em>(you)</em>
           <% end %>
         </td>
       </tr>
+      </form>
     <% end %>
   </tbody>
 </table>

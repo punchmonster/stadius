@@ -1,0 +1,43 @@
+<!--
+  views/article.etlua — Single article page
+  Renders the markdown content as HTML.
+-->
+<% if not article then %>
+  <h1>Article not found</h1>
+  <p><a href="/articles">Back to articles</a></p>
+<% else %>
+  <h1><%= article.title %></h1>
+
+  <p style="color: #888; font-size: 0.85rem;">
+    By <strong><%= article.author %></strong>
+    on <%= article.created_at %>
+    <% if article.updated_at ~= article.created_at then %>
+      (updated <%= article.updated_at %>)
+    <% end %>
+    <% if #(article.tags or {}) > 0 then %>
+      | Tags: <%= table.concat(article.tags, ", ") %>
+    <% end %>
+    <% if article.visibility == 'private' then %>
+      | <span style="color: #c33;">[private]</span>
+    <% end %>
+  </p>
+
+  <hr>
+
+  <div class="article-content">
+    <%- article_html %>
+  </div>
+
+  <hr>
+
+  <p>
+    <% if can_edit then %>
+      <a href="/admin/articles?action=edit&id=<%= article.id %>"
+         style="background: #36a; color: #fff; padding: 6px 14px; border-radius: 4px; text-decoration: none;">
+        Edit Article
+      </a>
+      |
+    <% end %>
+    <a href="/articles">Back to articles</a>
+  </p>
+<% end %>

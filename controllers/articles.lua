@@ -1,54 +1,70 @@
 --[[
-  controllers/articles.lua — Articles page controller
-  Handles GET requests for the "/articles" route.
-  Displays a list of articles (currently static placeholder data).
+  controllers/articles.lua — Public article listing and viewing
+  Handles GET "/articles" (list) and GET "/articles/:id/:slug" (single article).
+  Article lookup is by numeric id; the slug is purely aesthetic in the URL.
 --]]
+
+local Articles = require("models.articles")
+local Markdown = require("modules.markdown")
 
 return {
 
   --[[
-    before: Runs before every action on this controller.
-    Sets page metadata used by the layout template.
+    Sets page metadata.
+
+    Self contains the request context.
+    Mutates self.page_title. No return value.
   --]]
   before = function(self)
-    -- Page title shown in browser tab / layout header
     self.page_title = "articles"
-
-    -- Build the URL for form submissions / navigation
-    self.submit_url = self:url_for("articles")
   end,
 
   --[[
-    GET: Handles GET requests to the articles page.
-    Builds a list of article data and renders the "articles" template.
+    Lists public articles (newest first) or shows a single article by id.
+    Admins and editors see private articles in the listing and on single view.
+
+    Returns { render = "articles" } for listing, { render = "article" } for single.
   --]]
   GET = function(self)
-    -- Placeholder article data — in production this would come from a database
-    self.articles = {
-      {
-        id = 1,
-        title = "Getting Started with Lapis",
-        author = "Stadius Team",
-        summary = "Learn how to build web applications with the Lapis framework on OpenResty.",
-        date = "2026-06-01"
-      },
-      {
-        id = 2,
-        title = "Lua Web Development Best Practices",
-        author = "Stadius Team",
-        summary = "Tips and patterns for writing clean, maintainable Lua web applications.",
-        date = "2026-06-05"
-      },
-      {
-        id = 3,
-        title = "Understanding MVC in Lapis",
-        author = "Stadius Team",
-        summary = "A deep dive into the Model-View-Controller pattern as implemented in Lapis.",
-        date = "2026-06-10"
-      },
-    }
+    local id = tonumber(self.params.id)
 
-    return { render = "articles" }
+    if id then
+      -- Single article view — lookup by id, slug is ignored
+      local article = Articles.find_by_id(id)
+      if not article then
+        return { render = "article", status = 404 }
+      end
+
+      -- Private articles visible only to author, admins, or editors
+      local role = self.session.role
+      local username = self.session.username
+      if article.visibility == "private"
+         and role ~= "admin"
+         and role ~= "editor"
+         and article.author ~= username then
+        return { render = "article", status = 404 }
+      end
+
+      self.article = article
+      self.article_html = Markdown.to_html(article.content)
+      self.page_title = article.title
+      self.can_edit = (role == "admin" or role == "editor")
+
+      -- Increment view counter
+      Articles.increment_view(id)
+
+      return { render = "article" }
+    else
+      -- List view
+      local role = self.session.role
+      if role == "admin" or role == "editor" then
+        self.articles = Articles.list_all()
+      else
+        self.articles = Articles.list_public()
+      end
+
+      return { render = "articles" }
+    end
   end,
 
 }
