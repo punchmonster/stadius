@@ -38,8 +38,11 @@ app:match("profile", "/profile", respond_to(profile_controller))
 -- Public article listing
 app:match("articles", "/articles", respond_to(articles_controller))
 
--- Single article view — id is the lookup key, slug is aesthetic
-app:match("article", "/articles/:id/:slug", respond_to(articles_controller))
+-- Single article view — lookup by numeric id only
+app:match("article", "/articles/:id", respond_to(articles_controller))
+
+-- Legacy / aesthetic URL with slug — also resolves by id, slug is ignored
+app:match("article_slug", "/articles/:id/:slug", respond_to(articles_controller))
 
 -- Admin dashboard — protected by role check in the controller
 app:match("admin", "/admin", respond_to(admin_controller))

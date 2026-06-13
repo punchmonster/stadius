@@ -64,16 +64,22 @@ end
 -- ---------------------------------------------------------------------------
 
 --[[
-  Converts a markdown string to HTML.
+  Helper: returns true if the line looks like a block-level token start.
+  Used by the paragraph collector to know when to stop.
+--]]
+local function is_block_start(line)
+  return line:match("^%s*$")
+      or line:match("^#")
+      or line:match("^```")
+      or line:match("^%-%-%-+%s*$")
+      or line:match("^%*%*%*+%s*$")
+      or line:match("^>")
+      or line:match("^[%-%*]%s+")
+      or line:match("^%d+%.%s+")
+end
 
-  Handles:
-    # Headings (h1–h6)
-    Blank-line-separated paragraphs
-    ``` fenced code blocks ```
-    --- horizontal rules
-    > blockquotes
-    - / * unordered lists
-    1. ordered lists
+--[[
+  Converts a markdown string to HTML.
 
   Args:
     md — string, the raw markdown content
@@ -93,21 +99,24 @@ local function to_html(md)
 
   local html = {}
   local i = 1
+  local safety = 0  -- prevent infinite loops
 
-  while i <= #lines do
+  while i <= #lines and safety < 10000 do
+    safety = safety + 1
     local line = lines[i]
 
-    -- Blank line: skip
+    -- Blank line
     if line:match("^%s*$") then
       i = i + 1
 
-    -- Fenced code block ```
+    -- Fenced code block
     elseif line:match("^```") then
       local code_lines = {}
       i = i + 1
-      while i <= #lines and not lines[i]:match("^```") do
+      while i <= #lines and not lines[i]:match("^```") and safety < 10000 do
         table.insert(code_lines, escape_html(lines[i]))
         i = i + 1
+        safety = safety + 1
       end
       i = i + 1 -- skip closing ```
       table.insert(html, "<pre><code>" .. table.concat(code_lines, "\n") .. "</code></pre>")
@@ -119,13 +128,8 @@ local function to_html(md)
 
     -- Headings
     elseif line:match("^#%s+") then
-      local level = 0
-      local content = line
-      while content:sub(1, 1) == "#" do
-        level = level + 1
-        content = content:sub(2)
-      end
-      content = content:gsub("^%s+", "")
+      local content = line:gsub("^#+%s*", "")
+      local level = #line:match("^#+")
       level = math.min(level, 6)
       table.insert(html, "<h" .. level .. ">" .. parse_inline(content) .. "</h" .. level .. ">")
       i = i + 1
@@ -133,47 +137,42 @@ local function to_html(md)
     -- Blockquote
     elseif line:match("^>%s?") then
       local quote_lines = {}
-      while i <= #lines and lines[i]:match("^>%s?") do
-        local q = lines[i]:gsub("^>%s?", "")
-        table.insert(quote_lines, q)
+      while i <= #lines and lines[i]:match("^>%s?") and safety < 10000 do
+        table.insert(quote_lines, lines[i]:gsub("^>%s?", ""))
         i = i + 1
+        safety = safety + 1
       end
-      local quote_html = to_html(table.concat(quote_lines, "\n"))
-      table.insert(html, "<blockquote>" .. quote_html .. "</blockquote>")
+      table.insert(html, "<blockquote>" .. to_html(table.concat(quote_lines, "\n")) .. "</blockquote>")
 
     -- Unordered list
     elseif line:match("^[%-%*]%s+") then
       table.insert(html, "<ul>")
-      while i <= #lines and lines[i]:match("^[%-%*]%s+") do
+      while i <= #lines and lines[i]:match("^[%-%*]%s+") and safety < 10000 do
         local item = lines[i]:gsub("^[%-%*]%s+", "")
         table.insert(html, "<li>" .. parse_inline(item) .. "</li>")
         i = i + 1
+        safety = safety + 1
       end
       table.insert(html, "</ul>")
 
     -- Ordered list
     elseif line:match("^%d+%.%s+") then
       table.insert(html, "<ol>")
-      while i <= #lines and lines[i]:match("^%d+%.%s+") do
+      while i <= #lines and lines[i]:match("^%d+%.%s+") and safety < 10000 do
         local item = lines[i]:gsub("^%d+%.%s+", "")
         table.insert(html, "<li>" .. parse_inline(item) .. "</li>")
         i = i + 1
+        safety = safety + 1
       end
       table.insert(html, "</ol>")
 
-    -- Paragraph (collect consecutive non-blank, non-special lines)
+    -- Paragraph
     else
       local para_lines = {}
-      while i <= #lines and not lines[i]:match("^%s*$")
-                         and not lines[i]:match("^#")
-                         and not lines[i]:match("^```")
-                         and not lines[i]:match("^%-%-%-+%s*$")
-                         and not lines[i]:match("^%*%*%*+%s*$")
-                         and not lines[i]:match("^>")
-                         and not lines[i]:match("^[%-%*]%s+")
-                         and not lines[i]:match("^%d+%.%s+") do
+      while i <= #lines and not is_block_start(lines[i]) and safety < 10000 do
         table.insert(para_lines, parse_inline(lines[i]))
         i = i + 1
+        safety = safety + 1
       end
       local paragraph = table.concat(para_lines, " ")
       if paragraph ~= "" then

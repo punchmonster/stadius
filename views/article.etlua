@@ -40,4 +40,17 @@
     <% end %>
     <a href="/articles">Back to articles</a>
   </p>
+
+  <script>
+    // Rewrite URL bar to include the slug for aesthetics, without reloading
+    (function() {
+      var path = window.location.pathname;
+      var slug = '<%= article.slug %>';
+      var id = '<%= article.id %>';
+      // Only rewrite if slug is missing from the URL
+      if (slug && path === '/articles/' + id) {
+        window.history.replaceState(null, '', '/articles/' + id + '/' + slug);
+      }
+    })();
+  </script>
 <% end %>

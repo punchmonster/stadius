@@ -50,8 +50,8 @@ return {
       self.page_title = article.title
       self.can_edit = (role == "admin" or role == "editor")
 
-      -- Increment view counter
-      Articles.increment_view(id)
+      -- View counting disabled pending async implementation
+      -- Articles.increment_view(id)
 
       return { render = "article" }
     else
