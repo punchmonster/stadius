@@ -1,84 +1,71 @@
-<!--
-  views/admin_articles.etlua — Article management page
-  Lists all articles with actions. Create/edit form shown when mode is set.
-  Uses numeric id for operations; slug is aesthetic.
--->
-<h1>Manage Articles</h1>
+<h1>Articles</h1>
 
 <% if message then %>
-  <p style="background: #eef; padding: 8px; border-left: 4px solid #36a;">
-    <strong><%= message %></strong>
-  </p>
+  <p class="alert"><strong><%= message %></strong></p>
 <% end %>
 
 <p>
   <a href="/admin/articles?action=new">+ New Article</a>
   |
   <a href="/admin/articles">All Articles</a>
-  |
-  <a href="/admin">Back to dashboard</a>
 </p>
 
 <!-- Create / Edit form -->
 <% if mode == "new" or mode == "edit" then %>
-  <hr>
-  <h2><% if mode == "new" then %>New Article<% else %>Edit: <%= edit_article and edit_article.title or "" %><% end %></h2>
-
-  <form action="/admin/articles" method="POST">
-    <% if mode == "edit" then %>
-      <input type="hidden" name="action" value="edit">
-      <input type="hidden" name="id" value="<%= edit_article and edit_article.id or '' %>">
-    <% else %>
-      <input type="hidden" name="action" value="create">
-    <% end %>
-
-    <div>
-      <label for="title">Title</label>
-      <input type="text" id="title" name="title" required
-             value="<%= edit_article and edit_article.title or '' %>" size="60">
-    </div>
-
-    <div>
-      <label for="slug">Slug (URL segment, e.g. my-article)</label>
+  <div class="card">
+    <h2><% if mode == "new" then %>New Article<% else %>Edit: <%= edit_article and edit_article.title or "" %><% end %></h2>
+    <form action="/admin/articles" method="POST">
       <% if mode == "edit" then %>
-        <p><strong><%= edit_article and edit_article.slug or '' %></strong> <em>(cannot be changed)</em></p>
+        <input type="hidden" name="action" value="edit">
+        <input type="hidden" name="id" value="<%= edit_article and edit_article.id or '' %>">
       <% else %>
-        <input type="text" id="slug" name="slug"
-               placeholder="Leave blank to auto-generate from title" size="40">
+        <input type="hidden" name="action" value="create">
       <% end %>
-    </div>
 
-    <div>
-      <label for="tags">Tags (comma-separated)</label>
-      <input type="text" id="tags" name="tags"
-             value="<%= edit_tags or '' %>" size="60">
-    </div>
+      <div class="form-row">
+        <label for="title">Title</label><br>
+        <input type="text" id="title" name="title" required
+               value="<%= edit_article and edit_article.title or '' %>" size="60">
+      </div>
 
-    <div>
-      <label for="visibility">Visibility</label>
-      <select id="visibility" name="visibility">
-        <option value="public" <% if not edit_article or edit_article.visibility == 'public' then %>selected<% end %>>Public</option>
-        <option value="private" <% if edit_article and edit_article.visibility == 'private' then %>selected<% end %>>Private</option>
-      </select>
-    </div>
+      <div class="form-row">
+        <label for="slug">Slug</label><br>
+        <% if mode == "edit" then %>
+          <p><strong><%= edit_article and edit_article.slug or '' %></strong> <em>(cannot be changed)</em></p>
+        <% else %>
+          <input type="text" id="slug" name="slug" placeholder="Leave blank to auto-generate" size="40">
+        <% end %>
+      </div>
 
-    <div>
-      <label for="content">Content (Markdown)</label><br>
-      <textarea id="content" name="content" rows="20" cols="80"
-                style="font-family: monospace;"><%= edit_article and edit_article.content or '' %></textarea>
-    </div>
+      <div class="form-row">
+        <label for="tags">Tags (comma-separated)</label><br>
+        <input type="text" id="tags" name="tags" value="<%= edit_tags or '' %>" size="60">
+      </div>
 
-    <button type="submit"><% if mode == "new" then %>Create<% else %>Save Changes<% end %></button>
-  </form>
+      <div class="form-row">
+        <label for="visibility">Visibility</label>
+        <select id="visibility" name="visibility">
+          <option value="public" <% if not edit_article or edit_article.visibility == 'public' then %>selected<% end %>>Public</option>
+          <option value="private" <% if edit_article and edit_article.visibility == 'private' then %>selected<% end %>>Private</option>
+        </select>
+      </div>
+
+      <div class="form-row">
+        <label for="content">Content (Markdown)</label><br>
+        <textarea id="content" name="content" rows="20" cols="80"
+                  class="font-mono"><%= edit_article and edit_article.content or '' %></textarea>
+      </div>
+
+      <button type="submit" class="btn-primary"><% if mode == "new" then %>Create<% else %>Save Changes<% end %></button>
+    </form>
+  </div>
 <% end %>
 
 <!-- Article list -->
-<hr>
 <h2>All Articles</h2>
-
-<table border="1" cellpadding="6" cellspacing="0" style="border-collapse: collapse; width: 100%; font-size: 0.85rem;">
+<table>
   <thead>
-    <tr style="background: #f0f0f0;">
+    <tr>
       <th>ID</th>
       <th>Title</th>
       <th>Slug</th>
@@ -99,17 +86,16 @@
           <td><a href="/articles/<%= a.id %>/<%= a.slug %>"><%= a.slug %></a></td>
           <td><%= a.author %></td>
           <td><%= a.view_count or 0 %></td>
-          <td><%= a.visibility %></td>
+          <td><span class="badge badge-<%= a.visibility %>"><%= a.visibility %></span></td>
           <td><%= table.concat(a.tags or {}, ", ") %></td>
           <td><%= a.created_at %></td>
-          <td style="white-space: nowrap;">
-            <a href="/admin/articles?action=edit&id=<%= a.id %>">Edit</a>
-
-            <form action="/admin/articles" method="POST" style="display: inline; margin: 0;"
+          <td class="actions-cell">
+            <a href="/admin/articles?action=edit&id=<%= a.id %>" class="btn-outline">Edit</a>
+            <form action="/admin/articles" method="POST"
                   onsubmit="return confirm('Delete <%= a.title %>?')">
               <input type="hidden" name="action" value="delete">
               <input type="hidden" name="id" value="<%= a.id %>">
-              <button type="submit" style="background: #c33; color: #fff; border: none; padding: 2px 8px; cursor: pointer;">Del</button>
+              <button type="submit" class="btn-danger">Delete</button>
             </form>
           </td>
         </tr>
@@ -119,7 +105,7 @@
 </table>
 
 <!-- Pagination -->
-<div style="display: flex; justify-content: space-between; align-items: center; margin: 1rem 0; flex-wrap: wrap; gap: 0.5rem;">
+<div class="pagination">
   <div>
     <label for="per_page">Show:</label>
     <select id="per_page" onchange="location.search = updateQuery('per_page', this.value)">
@@ -127,17 +113,16 @@
         <option value="<%= v %>" <% if v == per_page then %>selected<% end %>><%= v %></option>
       <% end %>
     </select>
-    <span style="color: #666;">articles per page</span>
+    articles per page
   </div>
-
-  <div style="display: flex; gap: 0.5rem; align-items: center;">
-    <span style="color: #666;"><%= total_articles %> total</span>
+  <div>
+    <span><%= total_articles %> total</span>
     <% if page > 1 then %>
-      <a href="?page=<%= page - 1 %>&per_page=<%= per_page %>" style="padding: 4px 12px; border: 1px solid #ccc; border-radius: 4px; text-decoration: none;">&larr; Prev</a>
+      <a href="?page=<%= page - 1 %>&per_page=<%= per_page %>">&larr; Prev</a>
     <% end %>
-    <span style="color: #666;">Page <%= page %> of <%= total_pages %></span>
+    <span>Page <%= page %> of <%= total_pages %></span>
     <% if page < total_pages then %>
-      <a href="?page=<%= page + 1 %>&per_page=<%= per_page %>" style="padding: 4px 12px; border: 1px solid #ccc; border-radius: 4px; text-decoration: none;">Next &rarr;</a>
+      <a href="?page=<%= page + 1 %>&per_page=<%= per_page %>">Next &rarr;</a>
     <% end %>
   </div>
 </div>
@@ -150,6 +135,3 @@ function updateQuery(key, value) {
   return '?' + params.toString();
 }
 </script>
-
-<hr>
-<p><a href="/admin">Back to dashboard</a></p>

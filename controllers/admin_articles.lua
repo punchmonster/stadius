@@ -16,7 +16,8 @@ return {
     Returns a redirect if the user lacks permission.
   --]]
   before = function(self)
-    self.page_title = "admin — articles"
+    self.page_title = "admin - articles"
+    self.section = "articles"
 
     local role = self.session.role
     if role ~= "admin" and role ~= "editor" then
@@ -77,7 +78,7 @@ return {
       self.mode = "list"
     end
 
-    return { render = "admin_articles" }
+    return { render = "admin_articles", layout = "admin_layout" }
   end,
 
   --[[
@@ -154,7 +155,7 @@ return {
     self.articles = Articles.list_all()
     self.mode = "list"
 
-    return { render = "admin_articles" }
+    return { render = "admin_articles", layout = "admin_layout" }
   end,
 
 }

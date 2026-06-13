@@ -1,0 +1,155 @@
+<h1>Events</h1>
+
+<% if message then %>
+  <p class="alert"><strong><%= message %></strong></p>
+<% end %>
+
+<p>
+  <a href="/admin/events?action=new">+ New Event</a>
+  |
+  <a href="/admin/events">All Events</a>
+  |
+  <a href="/agenda">Public agenda</a>
+</p>
+
+<!-- Create / Edit form -->
+<% if mode == "new" or mode == "edit" then %>
+  <div class="card">
+    <h2><% if mode == "new" then %>New Event<% else %>Edit: <%= edit_event and edit_event.title or "" %><% end %></h2>
+    <form action="/admin/events" method="POST">
+      <% if mode == "edit" then %>
+        <input type="hidden" name="action" value="edit">
+        <input type="hidden" name="id" value="<%= edit_event and edit_event.id or '' %>">
+      <% else %>
+        <input type="hidden" name="action" value="create">
+      <% end %>
+
+      <div class="form-row">
+        <label for="title">Title</label><br>
+        <input type="text" id="title" name="title" required
+               value="<%= edit_event and edit_event.title or '' %>" size="60">
+      </div>
+
+      <div class="form-row">
+        <label for="event_date">Event Date/Time</label><br>
+        <input type="text" id="event_date" name="event_date" required
+               value="<%= edit_event and edit_event.event_date or '' %>"
+               placeholder="YYYY-MM-DD or YYYY-MM-DDTHH:MM:SSZ" size="30">
+      </div>
+
+      <div class="form-row">
+        <label for="location">Location</label><br>
+        <input type="text" id="location" name="location"
+               value="<%= edit_event and edit_event.location or '' %>"
+               placeholder="Room, address, or URL" size="60">
+      </div>
+
+      <div class="form-row">
+        <label>
+          <input type="checkbox" name="rsvp_enabled" value="true"
+                 <% if edit_event and edit_event.rsvp_enabled then %>checked<% end %>>
+          Enable RSVP
+        </label>
+      </div>
+
+      <% if mode == "edit" and edit_event and edit_event.rsvp_enabled then %>
+        <div class="card form-row">
+          <strong>RSVPs (<%= #(edit_event.rsvps or {}) %>):</strong>
+          <% if edit_event.rsvps and #edit_event.rsvps > 0 then %>
+            <%= table.concat(edit_event.rsvps, ", ") %>
+          <% else %>
+            <em>none yet</em>
+          <% end %>
+        </div>
+      <% end %>
+
+      <div class="form-row">
+        <label for="description">Description (Markdown)</label><br>
+        <textarea id="description" name="description" rows="12" cols="80"
+                  class="font-mono"><%= edit_event and edit_event.description or '' %></textarea>
+      </div>
+
+      <button type="submit" class="btn-primary"><% if mode == "new" then %>Create<% else %>Save Changes<% end %></button>
+    </form>
+  </div>
+<% end %>
+
+<!-- Event list -->
+<h2>All Events</h2>
+<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Title</th>
+      <th>Date</th>
+      <th>Location</th>
+      <th>RSVPs</th>
+      <th>Author</th>
+      <th>Created</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% if events then %>
+      <% for _, e in ipairs(events) do %>
+        <tr>
+          <td><%= e.id %></td>
+          <td><strong><%= e.title %></strong></td>
+          <td><%= e.event_date %></td>
+          <td><%= e.location or "-" %></td>
+          <td><%= e.rsvp_enabled and tostring(#(e.rsvps or {})) or "-" %></td>
+          <td><%= e.author %></td>
+          <td><%= e.created_at %></td>
+          <td class="actions-cell">
+            <a href="/admin/events?action=edit&id=<%= e.id %>" class="btn-outline">Edit</a>
+            <form action="/admin/events" method="POST" 
+                  onsubmit="return confirm('Delete <%= e.title %>?')">
+              <input type="hidden" name="action" value="delete">
+              <input type="hidden" name="id" value="<%= e.id %>">
+              <button type="submit" class="btn-danger">Delete</button>
+            </form>
+            <% if e.rsvp_enabled and #(e.rsvps or {}) > 0 then %>
+              <br><small>Export:</small>
+              <a href="/admin/events?action=export&id=<%= e.id %>&fields=usernames">names</a>
+              <a href="/admin/events?action=export&id=<%= e.id %>&fields=emails">emails</a>
+              <a href="/admin/events?action=export&id=<%= e.id %>&fields=phones">phones</a>
+              <a href="/admin/events?action=export&id=<%= e.id %>&fields=all">all</a>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    <% end %>
+  </tbody>
+</table>
+
+<!-- Pagination -->
+<div class="pagination">
+  <div>
+    <label for="per_page">Show:</label>
+    <select id="per_page" onchange="location.search = updateQuery('per_page', this.value)">
+      <% for _, v in ipairs(valid_steps) do %>
+        <option value="<%= v %>" <% if v == per_page then %>selected<% end %>><%= v %></option>
+      <% end %>
+    </select>
+    events per page
+  </div>
+  <div>
+    <span><%= total_events %> total</span>
+    <% if page > 1 then %>
+      <a href="?page=<%= page - 1 %>&per_page=<%= per_page %>">&larr; Prev</a>
+    <% end %>
+    <span>Page <%= page %> of <%= total_pages %></span>
+    <% if page < total_pages then %>
+      <a href="?page=<%= page + 1 %>&per_page=<%= per_page %>">Next &rarr;</a>
+    <% end %>
+  </div>
+</div>
+
+<script>
+function updateQuery(key, value) {
+  var params = new URLSearchParams(location.search);
+  params.set(key, value);
+  params.set('page', '1');
+  return '?' + params.toString();
+}
+</script>

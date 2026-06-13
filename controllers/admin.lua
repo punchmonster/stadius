@@ -16,6 +16,7 @@ return {
   --]]
   before = function(self)
     self.page_title = "admin"
+    self.section = "dashboard"
   end,
 
   --[[
@@ -54,7 +55,7 @@ return {
     self.user_count = count
     self.current_user = self.session.username
 
-    return { render = "admin" }
+    return { render = "admin", layout = "admin_layout" }
   end,
 
 }

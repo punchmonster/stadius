@@ -19,8 +19,10 @@ local login_controller        = require("controllers.login")
 local admin_controller        = require("controllers.admin")
 local admin_users_controller  = require("controllers.admin_users")
 local admin_articles_controller = require("controllers.admin_articles")
+local admin_events_controller   = require("controllers.admin_events")
 local profile_controller      = require("controllers.profile")
 local articles_controller     = require("controllers.articles")
+local events_controller       = require("controllers.events")
 
 -- ---------------------------------------------------------------------------
 -- Routes
@@ -52,5 +54,14 @@ app:match("admin_users", "/admin/users", respond_to(admin_users_controller))
 
 -- Admin article editor — protected by role check (admin + editor)
 app:match("admin_articles", "/admin/articles", respond_to(admin_articles_controller))
+
+-- Admin event editor — protected by role check (admin + editor)
+app:match("admin_events", "/admin/events", respond_to(admin_events_controller))
+
+-- Public agenda page (listing)
+app:match("agenda", "/agenda", respond_to(events_controller))
+
+-- Single event page
+app:match("event", "/agenda/:id", respond_to(events_controller))
 
 return app

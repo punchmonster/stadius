@@ -1,0 +1,57 @@
+<!--
+  views/event.etlua — Single event page
+  Shows date, time, location, description, and optional RSVP button.
+-->
+<% if not event then %>
+  <h1>Event not found</h1>
+  <p><a href="/agenda">Back to agenda</a></p>
+<% else %>
+  <h1><%= event.title %></h1>
+
+  <p style="color: #888; font-size: 0.85rem;">
+    <strong>Date:</strong> <%= event.event_date %><br>
+    <% if event.location and event.location ~= '' then %>
+      <strong>Location:</strong> <%= event.location %><br>
+    <% end %>
+    Added by <strong><%= event.author %></strong>
+  </p>
+
+  <hr>
+
+  <div><%- event.description_html %></div>
+
+  <% if event.rsvp_enabled then %>
+    <hr>
+    <div style="background: #f8f8f8; border: 1px solid #ddd; border-radius: 4px; padding: 1rem; margin: 1rem 0;">
+      <p>
+        <strong>RSVPs:</strong> <%= #(event.rsvps or {}) %>
+        <% if #(event.rsvps or {}) > 0 then %>
+          (<%= table.concat(event.rsvps, ", ") %>)
+        <% end %>
+      </p>
+
+      <% if is_logged_in then %>
+        <form action="/agenda/<%= event.id %>" method="POST" style="margin: 0;">
+          <% if has_rsvpd then %>
+            <button type="submit" style="background: #c33; color: #fff; border: none; padding: 8px 18px; border-radius: 4px; cursor: pointer; font-size: 1rem;">
+              Cancel RSVP
+            </button>
+          <% else %>
+            <button type="submit" style="background: #3a6; color: #fff; border: none; padding: 8px 18px; border-radius: 4px; cursor: pointer; font-size: 1rem;">
+              RSVP
+            </button>
+          <% end %>
+        </form>
+      <% else %>
+        <p><em><a href="/login">Log in</a> to RSVP.</em></p>
+      <% end %>
+
+      <% if message then %>
+        <p style="color: #36a; margin-top: 0.5rem;"><%= message %></p>
+      <% end %>
+    </div>
+  <% end %>
+
+  <hr>
+  <p><a href="/agenda">Back to agenda</a></p>
+<% end %>

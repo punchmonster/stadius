@@ -1,22 +1,8 @@
-<!--
-  views/admin.etlua — Admin dashboard template
-  Rendered by controllers/admin.lua for the "/admin" route.
-  Shows a summary and links to admin subpages.
--->
-<h1>Admin Dashboard</h1>
+<h1>Dashboard</h1>
 
-<p>Logged in as <strong><%= current_user %></strong> (admin).</p>
+<p>Logged in as <strong><%= current_user %></strong>.</p>
 
-<hr>
-
-<h2>Overview</h2>
-<p>Registered users (non-admin): <strong><%= user_count or 0 %></strong></p>
-
-<ul>
-  <li><a href="/admin/users">Manage Users</a> view, edit, or delete accounts</li>
-  <li><a href="/admin/articles">Manage Articles</a> create and edit articles (Markdown)</li>
-</ul>
-
-<hr>
-
-<p><a href="/">Back to home</a></p>
+<div class="card">
+  <h2>Overview</h2>
+  <p>Registered users (non-admin): <strong><%= user_count or 0 %></strong></p>
+</div>
