@@ -9,6 +9,7 @@ local Events = require("models.events")
 local User = require("models.user")
 local Permissions = require("models.permissions")
 local DF = require("modules.date_format")
+local Image = require("modules.image")
 
 --[[
   Helper: slices event list for pagination and sets context fields on self.
@@ -179,6 +180,29 @@ return {
       else
         local ok, msg = Events.delete(id)
         self.message = msg
+      end
+
+    -- Image actions --
+    elseif action == "upload_image" then
+      local name = Image.save_upload(self.params, self.session.username)
+      local id = tonumber(self.params.id)
+      if name and id then
+        Events.update(id, { header_image = name })
+        self.message = "Image uploaded."
+      elseif not name then
+        self.message = "Upload failed — check file type (JPG/PNG/WebP only)."
+      end
+
+    elseif action == "remove_image" then
+      local id = tonumber(self.params.id)
+      if id then Events.update(id, { header_image = "" }) end
+      self.message = "Image removed."
+
+    elseif action == "select_image" then
+      local id = tonumber(self.params.id)
+      if id and self.params.filename then
+        Events.update(id, { header_image = self.params.filename })
+        self.message = "Header image set from library."
       end
     end
 

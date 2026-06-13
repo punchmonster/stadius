@@ -293,13 +293,32 @@ local function find_by_slug(slug)
   return nil
 end
 
---[[
-  Lists all public articles, newest first.
+local function make_sorter(sort, order)
+  local desc = (order ~= "asc")
+  if sort == "title" then
+    return function(a, b)
+      local ta, tb = (a.title or ""):lower(), (b.title or ""):lower()
+      if desc then return ta > tb else return ta < tb end
+    end
+  elseif sort == "views" then
+    return function(a, b)
+      local va, vb = a.view_count or 0, b.view_count or 0
+      if desc then return va > vb else return va < vb end
+    end
+  elseif sort == "author" then
+    return function(a, b)
+      local aa, ab = (a.author or ""):lower(), (b.author or ""):lower()
+      if desc then return aa > ab else return aa < ab end
+    end
+  else
+    return function(a, b)
+      if desc then return a.created_at > b.created_at else return a.created_at < b.created_at end
+    end
+  end
+end
 
-  Returns:
-    array of article tables
---]]
-local function list_public()
+--[[ Lists all public articles, optionally sorted. ]]
+local function list_public(sort, order)
   local articles = read_articles()
   local result = {}
   for _, a in ipairs(articles) do
@@ -307,20 +326,13 @@ local function list_public()
       table.insert(result, a)
     end
   end
-  -- Sort newest first
-  table.sort(result, function(a, b) return a.created_at > b.created_at end)
+  -- Sort
+  table.sort(result, make_sorter(sort, order))
   return result
 end
 
 --[[
-  Increments the view counter on an article identified by id.
-
-  Args:
-    id — number, the article id
-
-  Returns:
-    true on success, false if the article was not found
---]]
+  Increments the view counter on an article identified by id. ... ]]
 local function increment_view(id)
   local articles = read_articles()
   for i, a in ipairs(articles) do
@@ -340,9 +352,9 @@ end
   Returns:
     array of article tables
 --]]
-local function list_all()
+local function list_all(sort, order)
   local articles = read_articles()
-  table.sort(articles, function(a, b) return a.created_at > b.created_at end)
+  table.sort(articles, make_sorter(sort, order))
   return articles
 end
 

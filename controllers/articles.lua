@@ -61,12 +61,16 @@ return {
     else
       -- List view with pagination (8 per page)
       local role = self.session.role
+      local sort = self.params.sort or "date"
+      local order = self.params.order or "desc"
       local all
       if role == "admin" or role == "editor" then
-        all = Articles.list_all()
+        all = Articles.list_all(sort, order)
       else
-        all = Articles.list_public()
+        all = Articles.list_public(sort, order)
       end
+      self.sort = sort
+      self.order = order
 
       local per_page = 8
       local page = tonumber(self.params.page) or 1

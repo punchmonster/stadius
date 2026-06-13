@@ -92,4 +92,32 @@ local function process(content, filename)
   return out_name, size, nil
 end
 
-return { process = process, is_allowed = is_allowed }
+--[[
+  Saves an uploaded file, creates a media record, and returns the filename.
+  Convenience wrapper used by controllers.
+
+  Args:
+    params — the self.params table from a Lapis request
+
+  Returns:
+    filename (string) on success, or nil on failure / no file
+--]]
+local function save_upload(params, username)
+  local file = params.header_image
+  if not file or not file.content or #file.content == 0 then return nil end
+  local name, size, err = process(file.content, file.filename)
+  if not name then return nil end
+  local Media = require("models.media")
+  local tags = {}
+  if params.image_tags then
+    for tag in params.image_tags:gmatch("[^,]+") do
+      local t = tag:match("^%s*(.-)%s*$")
+      if #t > 0 then table.insert(tags, t) end
+    end
+  end
+  Media.create(name, params.image_title, params.image_alt,
+               params.image_credit, tags, username or "", size)
+  return name
+end
+
+return { process = process, is_allowed = is_allowed, save_upload = save_upload }
