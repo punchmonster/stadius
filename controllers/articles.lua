@@ -6,6 +6,7 @@
 
 local Articles = require("models.articles")
 local Markdown = require("modules.markdown")
+local DF = require("modules.date_format")
 
 return {
 
@@ -45,6 +46,9 @@ return {
         return { render = "article", status = 404 }
       end
 
+      article._created = DF.format(article.created_at)
+      article._updated = DF.format(article.updated_at)
+
       self.article = article
       self.article_html = Markdown.to_html(article.content)
       self.page_title = article.title
@@ -75,7 +79,9 @@ return {
 
       self.articles = {}
       for i = start, finish do
-        table.insert(self.articles, all[i])
+        local a = all[i]
+        a._created = DF.format(a.created_at)
+        table.insert(self.articles, a)
       end
       self.page = page
       self.total_pages = total_pages

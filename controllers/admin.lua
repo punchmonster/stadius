@@ -5,14 +5,14 @@
 --]]
 
 local User = require("models.user")
+local Permissions = require("models.permissions")
 
 return {
 
   --[[
-    Sets page metadata before the admin action.
+    Sets page metadata. Guards access via permissions.
 
     Self contains the request context.
-    Mutates self.page_title in place. No return value.
   --]]
   before = function(self)
     self.page_title = "admin"
@@ -20,18 +20,12 @@ return {
   end,
 
   --[[
-    Renders the admin dashboard if the user is an admin, otherwise redirects
-    to the home page. Shows a summary count of non-admin registered users.
+    Renders the admin dashboard if the user has dashboard permission.
 
-    Self contains the request context with self.session.role.
-    Sets self.user_count (number of registered non-admin users).
-
-    Returns { render = "admin" } or { redirect_to = "/" }.
+    Returns { render = "admin", layout = "admin_layout" } or redirect.
   --]]
   GET = function(self)
-    local role = self.session.role
-
-    if role ~= "admin" then
+    if not Permissions.check(self.db_role, "dashboard") then
       return { redirect_to = self:url_for("index") }
     end
 

@@ -1,7 +1,11 @@
 <!--
   views/admin_layout.etlua — Dark sidebar admin layout
-  Wraps all admin pages with a sidebar nav and dark theme.
 -->
+<%
+  local icon = require("modules.icon").icon
+  local Permissions = require("models.permissions")
+  local nav_links = Permissions.SIDEBAR_LINKS
+%>
 <!DOCTYPE HTML>
 <html lang="en">
 <head>
@@ -17,20 +21,42 @@
   <!-- Mobile top bar -->
   <div class="topbar">
     <span class="topbar-brand">Stadius</span>
-    <button class="menu-toggle" onclick="document.querySelector('.sidebar').classList.toggle('open')">&equiv;</button>
+    <button class="menu-toggle" onclick="toggleSidebar()">&equiv;</button>
   </div>
+
+  <!-- Overlay (closes sidebar when tapped) -->
+  <div class="overlay" onclick="closeSidebar()"></div>
 
   <!-- Sidebar -->
   <aside class="sidebar">
     <div class="sidebar-brand">Stadius</div>
+    <%
+      -- Helper: check if the user has a given permission
+      local function can(perm)
+        if not permissions or type(permissions) ~= "table" then return false end
+        for _, p in ipairs(permissions) do if p == perm then return true end end
+        return false
+      end
+    %>
     <ul class="sidebar-nav">
-      <li><a href="/admin"           class="<% if section == 'dashboard' then %>active<% end %>">Dashboard</a></li>
-      <li><a href="/admin/users"      class="<% if section == 'users' then %>active<% end %>">Users</a></li>
-      <li><a href="/admin/articles"   class="<% if section == 'articles' then %>active<% end %>">Articles</a></li>
-      <li><a href="/admin/events"     class="<% if section == 'events' then %>active<% end %>">Events</a></li>
+      <% for _, link in ipairs(nav_links) do
+           -- Check if user can see this link
+           local show = true
+           if link.perm and not can(link.perm) then show = false end
+           if link.admin_only and not is_admin then show = false end
+           if show then
+      %>
+        <li>
+          <a href="<%= link.href %>" class="<% if section == link.perm then %>active<% end %>">
+            <%- icon(link.icon) %> <%= link.label %>
+          </a>
+        </li>
+      <%   end
+         end %>
     </ul>
     <div class="sidebar-footer">
-      <a href="/" class="text-muted">&larr; View site</a>
+      <a href="/" class="text-muted"><%- icon('globe') %> View site</a>
+      <a href="/logout" style="margin-left: 12px;"><%- icon('log-out') %> Logout</a>
     </div>
   </aside>
 
@@ -40,5 +66,22 @@
   </main>
 
 </div>
+
+<script>
+function toggleSidebar() {
+  document.querySelector('.sidebar').classList.toggle('open');
+  document.querySelector('.overlay').classList.toggle('open');
+}
+function closeSidebar() {
+  document.querySelector('.sidebar').classList.remove('open');
+  document.querySelector('.overlay').classList.remove('open');
+}
+// Close sidebar when a nav link is tapped on mobile
+document.querySelectorAll('.sidebar-nav a').forEach(function(link) {
+  link.addEventListener('click', function() {
+    if (window.innerWidth <= 768) closeSidebar();
+  });
+});
+</script>
 </body>
 </html>

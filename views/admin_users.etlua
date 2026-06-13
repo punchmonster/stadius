@@ -1,4 +1,7 @@
-<h1>Users</h1>
+<%
+  local icon = require("modules.icon").icon
+%>
+<h1><%- icon('users') %> Users</h1>
 
 <p>Logged in as <strong><%= current_user %></strong>.</p>
 
@@ -59,14 +62,14 @@
         </td>
 
         <td>
-          <input type="password" name="password[<%= username %>]" placeholder="new pw" minlength="3" size="10"
+          <input type="password" name="password[<%= username %>]" placeholder="new password" minlength="3" size="10"
                  >
         </td>
 
         <td class="actions-cell">
-          <button type="button" onclick="event.stopPropagation(); toggleDetail(this)" class="btn-icon">+</button>
+          <button type="button" onclick="event.stopPropagation(); toggleDetail(this)" class="btn-icon"><%- icon('chevron-down') %></button>
           <% if username ~= current_user then %>
-            <button type="button" onclick="event.stopPropagation(); deleteUser('<%= username %>')" class="btn-danger">Delete</button>
+            <button type="button" onclick="event.stopPropagation(); deleteUser('<%= username %>')" class="btn-danger"><%- icon('trash-2') %> Delete</button>
           <% else %>
             <span class="text-muted text-sm" style="padding: 6px 10px;">(you)</span>
           <% end %>
@@ -94,7 +97,7 @@
 </table>
 
 <div class="save-bar">
-  <button type="submit" class="btn btn-success">Save All Changes</button>
+  <button type="submit" class="btn btn-success"><%- icon('save') %> Save All Changes</button>
 </div>
 </form>
 
@@ -127,7 +130,7 @@ function toggleDetail(btn) {
   if (detailRow && detailRow.classList.contains('detail')) {
     var visible = detailRow.style.display !== 'none';
     detailRow.style.display = visible ? 'none' : '';
-    btn.textContent = visible ? '+' : '−';
+    btn.classList.toggle('open', !visible);
   }
 }
 function updateQuery(key, value) {

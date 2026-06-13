@@ -17,7 +17,7 @@ return {
   --]]
   before = function(self)
     self.page_title = "profile"
-
+    self.section = "profile"
     if not self.session.username then
       return { redirect_to = self:url_for("login") }
     end
@@ -27,26 +27,23 @@ return {
   end,
 
   --[[
-    Renders the profile page showing the user's role, email, phone, and
-    a form to update those fields plus password.
+    Shows the profile page.
 
-    Returns { render = "profile" }.
+    Returns { render = "profile", layout = "admin_layout" }.
   --]]
   GET = function(self)
-    return { render = "profile" }
+    return { render = "profile", layout = "admin_layout" }
   end,
 
   --[[
-    Processes profile updates. The user can edit their email, phone, and
-    password. Role cannot be changed by the user themselves.
+    Processes profile updates. Email, phone, and password are editable.
 
-    Self.params contains: new_email, new_phone, new_password.
+    Self.params: new_email, new_phone, new_password.
 
     On success or failure: sets self.message, re-loads user_data, re-renders.
-    Returns { render = "profile" }.
+    Returns { render = "profile", layout = "admin_layout" }.
   --]]
   POST = function(self)
-    -- Helper: empty string means "no change"
     local function nil_if_empty(s)
       if s == nil or s == "" then return nil end
       return s
@@ -64,10 +61,9 @@ return {
       self.message = msg
     end
 
-    -- Reload fresh user data
     self.user_data = User.find_by_username(self.session.username)
 
-    return { render = "profile" }
+    return { render = "profile", layout = "admin_layout" }
   end,
 
 }

@@ -1,11 +1,14 @@
-<h1>Events</h1>
+<%
+  local icon = require("modules.icon").icon
+%>
+<h1><%- icon('calendar') %> Events</h1>
 
 <% if message then %>
   <p class="alert"><strong><%= message %></strong></p>
 <% end %>
 
 <div class="toolbar">
-  <a href="/admin/events?action=new">+ New Event</a>
+  <a href="/admin/events?action=new"><%- icon('plus') %> New Event</a>
   <span class="sep">|</span>
   <a href="/admin/events">All Events</a>
   <span class="sep">|</span>
@@ -14,6 +17,50 @@
 
 <!-- Create / Edit form -->
 <% if mode == "new" or mode == "edit" then %>
+  <div class="row">
+  <div class="col-33">
+    <div class="card">
+      <h3><%- icon('image') %> Header Image</h3>
+      <p class="text-muted text-sm">1650 × 1050px recommended</p>
+      <% if edit_event and edit_event.header_image then %>
+        <img src="/static/uploads/media/<%= edit_event.header_image %>"
+             style="width: 100%; border-radius: 4px; margin-bottom: 0.5rem;" alt="">
+        <p class="text-muted text-sm"><%= edit_event.header_image %></p>
+      <% end %>
+      <form action="/admin/events/upload" method="POST" enctype="multipart/form-data"
+            style="margin: 0;">
+        <input type="hidden" name="event_id" value="<%= edit_event and edit_event.id or '' %>">
+        <div class="form-row">
+          <label for="image_title">Title</label>
+          <input type="text" id="image_title" name="image_title" class="input-full">
+        </div>
+        <div class="form-row">
+          <label for="image_alt">Alt Text</label>
+          <input type="text" id="image_alt" name="image_alt" class="input-full">
+        </div>
+        <div class="form-row">
+          <label for="image_credit">Credit</label>
+          <input type="text" id="image_credit" name="image_credit" class="input-full">
+        </div>
+        <div class="form-row">
+          <label for="image_tags">Tags (comma-separated)</label>
+          <input type="text" id="image_tags" name="image_tags" class="input-full">
+        </div>
+        <div class="form-row">
+          <input type="file" name="header_image" accept="image/*" style="width: 100%;">
+        </div>
+        <button type="submit" class="btn-outline"><%- icon('upload') %> Upload</button>
+      </form>
+      <% if edit_event and edit_event.header_image then %>
+        <form action="/admin/events/upload" method="POST" style="margin-top: 0.5rem;">
+          <input type="hidden" name="event_id" value="<%= edit_event.id %>">
+          <input type="hidden" name="action" value="remove">
+          <button type="submit" class="btn-danger" style="width: 100%;">Remove Image</button>
+        </form>
+      <% end %>
+    </div>
+  </div>
+  <div class="col-66">
   <div class="card">
     <h2><% if mode == "new" then %>New Event<% else %>Edit: <%= edit_event and edit_event.title or "" %><% end %></h2>
     <form action="/admin/events" method="POST">
@@ -69,9 +116,11 @@
                   rows="12"><%= edit_event and edit_event.description or '' %></textarea>
       </div>
 
-      <button type="submit" class="btn-primary"><% if mode == "new" then %>Create Event<% else %>Save Changes<% end %></button>
+      <button type="submit" class="btn-primary"><%- icon('save') %> <% if mode == "new" then %>Create Event<% else %>Save Changes<% end %></button>
     </form>
   </div>
+  </div><!-- /col-66 -->
+  </div><!-- /row -->
 <% end %>
 
 <!-- Event list -->
@@ -95,25 +144,29 @@
         <tr>
           <td><%= e.id %></td>
           <td><strong><%= e.title %></strong></td>
-          <td><%= e.event_date %></td>
+          <td><%= e._event_date or e.event_date %></td>
           <td><%= e.location or "-" %></td>
           <td><%= e.rsvp_enabled and tostring(#(e.rsvps or {})) or "-" %></td>
           <td><%= e.author %></td>
-          <td><%= e.created_at %></td>
+          <td><%= e._created or e.created_at %></td>
           <td class="actions-cell">
-            <a href="/admin/events?action=edit&id=<%= e.id %>" class="btn-outline">Edit</a>
+            <a href="/admin/events?action=edit&id=<%= e.id %>" class="btn-outline"><%- icon('edit-2') %> Edit</a>
             <form action="/admin/events" method="POST"
                   onsubmit="return confirm('Delete <%= e.title %>?')">
               <input type="hidden" name="action" value="delete">
               <input type="hidden" name="id" value="<%= e.id %>">
-              <button type="submit" class="btn-danger">Delete</button>
+              <button type="submit" class="btn-danger"><%- icon('trash-2') %> Delete</button>
             </form>
             <% if e.rsvp_enabled and #(e.rsvps or {}) > 0 then %>
-              <br><small>Export:</small>
-              <a href="/admin/events?action=export&id=<%= e.id %>&fields=usernames">names</a>
-              <a href="/admin/events?action=export&id=<%= e.id %>&fields=emails">emails</a>
-              <a href="/admin/events?action=export&id=<%= e.id %>&fields=phones">phones</a>
-              <a href="/admin/events?action=export&id=<%= e.id %>&fields=all">all</a>
+              <details class="export-dropdown">
+                <summary class="btn-outline"><%- icon('download') %> Export</summary>
+                <div class="export-menu">
+                  <a href="/admin/events?action=export&id=<%= e.id %>&fields=usernames">Usernames</a>
+                  <a href="/admin/events?action=export&id=<%= e.id %>&fields=emails">Emails</a>
+                  <a href="/admin/events?action=export&id=<%= e.id %>&fields=phones">Phone numbers</a>
+                  <a href="/admin/events?action=export&id=<%= e.id %>&fields=all">All fields</a>
+                </div>
+              </details>
             <% end %>
           </td>
         </tr>

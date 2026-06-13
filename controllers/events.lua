@@ -5,6 +5,7 @@
 
 local Events = require("models.events")
 local Markdown = require("modules.markdown")
+local DF = require("modules.date_format")
 
 return {
 
@@ -29,6 +30,8 @@ return {
         return { render = "event", status = 404 }
       end
 
+      event._created = DF.format(event.created_at)
+      event._event_date = DF.format(event.event_date)
       event.description_html = Markdown.to_html(event.description)
       self.event = event
       self.page_title = event.title
@@ -48,6 +51,8 @@ return {
       -- Agenda listing
       local events = Events.list_upcoming()
       for _, e in ipairs(events) do
+        e._created = DF.format(e.created_at)
+        e._event_date = DF.format(e.event_date)
         e.description_html = Markdown.to_html(e.description)
       end
       self.events = events

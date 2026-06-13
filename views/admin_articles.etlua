@@ -1,17 +1,64 @@
-<h1>Articles</h1>
+<%
+  local icon = require("modules.icon").icon
+%>
+<h1><%- icon('edit') %> Articles</h1>
 
 <% if message then %>
   <p class="alert"><strong><%= message %></strong></p>
 <% end %>
 
 <div class="toolbar">
-  <a href="/admin/articles?action=new">+ New Article</a>
+  <a href="/admin/articles?action=new"><%- icon('plus') %> New Article</a>
   <span class="sep">|</span>
   <a href="/admin/articles">All Articles</a>
 </div>
 
 <!-- Create / Edit form -->
 <% if mode == "new" or mode == "edit" then %>
+  <div class="row">
+  <div class="col-33">
+    <div class="card">
+      <h3><%- icon('image') %> Header Image</h3>
+      <p class="text-muted text-sm">1650 × 1050px recommended</p>
+      <% if edit_article and edit_article.header_image then %>
+        <img src="/static/uploads/media/<%= edit_article.header_image %>"
+             style="width: 100%; border-radius: 4px; margin-bottom: 0.5rem;" alt="">
+        <p class="text-muted text-sm"><%= edit_article.header_image %></p>
+      <% end %>
+      <form action="/admin/articles/upload" method="POST" enctype="multipart/form-data"
+            style="margin: 0;">
+        <input type="hidden" name="article_id" value="<%= edit_article and edit_article.id or '' %>">
+        <div class="form-row">
+          <label for="image_title">Title</label>
+          <input type="text" id="image_title" name="image_title" class="input-full">
+        </div>
+        <div class="form-row">
+          <label for="image_alt">Alt Text</label>
+          <input type="text" id="image_alt" name="image_alt" class="input-full">
+        </div>
+        <div class="form-row">
+          <label for="image_credit">Credit</label>
+          <input type="text" id="image_credit" name="image_credit" class="input-full">
+        </div>
+        <div class="form-row">
+          <label for="image_tags">Tags (comma-separated)</label>
+          <input type="text" id="image_tags" name="image_tags" class="input-full">
+        </div>
+        <div class="form-row">
+          <input type="file" name="header_image" accept="image/*" style="width: 100%;">
+        </div>
+        <button type="submit" class="btn-outline"><%- icon('upload') %> Upload</button>
+      </form>
+      <% if edit_article and edit_article.header_image then %>
+        <form action="/admin/articles/upload" method="POST" style="margin-top: 0.5rem;">
+          <input type="hidden" name="article_id" value="<%= edit_article.id %>">
+          <input type="hidden" name="action" value="remove">
+          <button type="submit" class="btn-danger" style="width: 100%;">Remove Image</button>
+        </form>
+      <% end %>
+    </div>
+  </div>
+  <div class="col-66">
   <div class="card">
     <h2><% if mode == "new" then %>New Article<% else %>Edit: <%= edit_article and edit_article.title or "" %><% end %></h2>
     <form action="/admin/articles" method="POST">
@@ -29,7 +76,7 @@
       </div>
 
       <div class="form-row">
-        <label for="slug">Slug</label>
+        <label for="slug"><%- icon('edit-3') %> Slug</label>
         <% if mode == "edit" then %>
           <p><strong><%= edit_article and edit_article.slug or '' %></strong> <em>(cannot be changed)</em></p>
         <% else %>
@@ -39,13 +86,13 @@
       </div>
 
       <div class="form-row">
-        <label for="tags">Tags (comma-separated)</label>
+        <label for="tags"><%- icon('tag') %> Tags (comma-separated)</label>
         <input type="text" id="tags" name="tags" class="input-full"
                value="<%= edit_tags or '' %>">
       </div>
 
       <div class="form-row">
-        <label for="visibility">Visibility</label>
+        <label for="visibility"><%- icon('eye') %> Visibility</label>
         <select id="visibility" name="visibility">
           <option value="public" <% if not edit_article or edit_article.visibility == 'public' then %>selected<% end %>>Public</option>
           <option value="private" <% if edit_article and edit_article.visibility == 'private' then %>selected<% end %>>Private</option>
@@ -53,14 +100,16 @@
       </div>
 
       <div class="form-row">
-        <label for="content">Content (Markdown)</label>
+        <label for="content"><%- icon('file-text') %> Content (Markdown)</label>
         <textarea id="content" name="content" class="font-mono textarea-content"
                   ><%= edit_article and edit_article.content or '' %></textarea>
       </div>
 
-      <button type="submit" class="btn-primary"><% if mode == "new" then %>Create Article<% else %>Save Changes<% end %></button>
+      <button type="submit" class="btn-primary"><%- icon('save') %> <% if mode == "new" then %>Create Article<% else %>Save Changes<% end %></button>
     </form>
   </div>
+  </div><!-- /col-66 -->
+  </div><!-- /row -->
 <% end %>
 
 <!-- Article list -->
@@ -90,14 +139,14 @@
           <td><%= a.view_count or 0 %></td>
           <td><span class="badge badge-<%= a.visibility %>"><%= a.visibility %></span></td>
           <td><%= table.concat(a.tags or {}, ", ") %></td>
-          <td><%= a.created_at %></td>
+          <td><%= a._created or a.created_at %></td>
           <td class="actions-cell">
-            <a href="/admin/articles?action=edit&id=<%= a.id %>" class="btn-outline">Edit</a>
+            <a href="/admin/articles?action=edit&id=<%= a.id %>" class="btn-outline"><%- icon('edit-2') %> Edit</a>
             <form action="/admin/articles" method="POST"
                   onsubmit="return confirm('Delete <%= a.title %>?')">
               <input type="hidden" name="action" value="delete">
               <input type="hidden" name="id" value="<%= a.id %>">
-              <button type="submit" class="btn-danger">Delete</button>
+              <button type="submit" class="btn-danger"><%- icon('trash-2') %> Delete</button>
             </form>
           </td>
         </tr>

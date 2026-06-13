@@ -1,0 +1,24 @@
+{
+  "admin": [
+    "users",
+    "events",
+    "articles",
+    "profile",
+    "dashboard",
+    "agenda"
+  ],
+  "editor": [
+    "profile",
+    "articles",
+    "agenda",
+    "events"
+  ],
+  "reader": [
+    "agenda",
+    "profile"
+  ],
+  "subscriber": [
+    "agenda",
+    "profile"
+  ]
+}

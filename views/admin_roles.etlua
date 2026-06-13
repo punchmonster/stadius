@@ -1,0 +1,47 @@
+<%
+  local icon = require("modules.icon").icon
+%>
+<h1><%- icon('shield') %> Role Permissions</h1>
+
+<p>Configure which roles can access which sections of the admin panel.</p>
+
+<% if message then %>
+  <p class="alert"><strong><%= message %></strong></p>
+<% end %>
+
+<% for _, role in ipairs(roles) do %>
+  <div class="card" style="margin-bottom: 1.5rem;">
+    <h2><%= role:sub(1,1):upper() .. role:sub(2) %></h2>
+    <form action="/admin/roles" method="POST">
+      <input type="hidden" name="role" value="<%= role %>">
+      <table>
+        <thead>
+          <tr>
+            <th>Permission</th>
+            <th style="width: 60px; text-align: center;">Access</th>
+          </tr>
+        </thead>
+        <tbody>
+          <%
+            local role_perms = perms_data[role] or {}
+            local function has_perm(key)
+              for _, p in ipairs(role_perms) do if p == key then return true end end
+              return false
+            end
+          %>
+          <% for key, label in pairs(perm_keys) do %>
+            <tr>
+              <td><%= label %></td>
+              <td style="text-align: center;">
+                <input type="checkbox" name="<%= key %>" <% if has_perm(key) then %>checked<% end %>>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+      <div style="text-align: right; margin-top: 0.8rem;">
+        <button type="submit" class="btn-primary"><%- icon('save') %> Save <%= role:sub(1,1):upper() .. role:sub(2) %></button>
+      </div>
+    </form>
+  </div>
+<% end %>

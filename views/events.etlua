@@ -14,7 +14,7 @@
       <div style="border: 1px solid #ddd; border-radius: 4px; padding: 1rem; margin-bottom: 1rem; background: #fff;">
         <h2 style="margin: 0 0 0.2rem 0;"><a href="/agenda/<%= e.id %>"><%= e.title %></a></h2>
         <p style="color: #888; font-size: 0.85rem; margin: 0 0 0.8rem 0;">
-          <strong><%= e.event_date %></strong> — added by <%= e.author %>
+          <strong><%= e._event_date or e.event_date %></strong> — added by <%= e.author %>
         </p>
         <div><%- e.description_html %></div>
       </div>

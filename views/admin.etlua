@@ -1,8 +1,11 @@
-<h1>Dashboard</h1>
+<%
+  local icon = require("modules.icon").icon
+%>
+<h1><%- icon('home') %> Dashboard</h1>
 
 <p>Logged in as <strong><%= current_user %></strong>.</p>
 
 <div class="card">
-  <h2>Overview</h2>
+  <h2><%- icon('users') %> Overview</h2>
   <p>Registered users (non-admin): <strong><%= user_count or 0 %></strong></p>
 </div>

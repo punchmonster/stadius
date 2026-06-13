@@ -56,12 +56,37 @@ h2 { font-size: 1.2rem; }
 }
 .sidebar-nav { list-style: none; padding: 0; flex: 1; }
 .sidebar-nav a {
-  display: block;
+  display: flex;
+  align-items: center;
+  gap: 10px;
   padding: 0.5rem 1.25rem;
   color: var(--text-muted);
   font-size: 0.9rem;
   transition: color 0.15s, background 0.15s;
 }
+.sidebar-nav a svg {
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+}
+.sidebar-footer a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.sidebar-footer a svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* Icons in buttons and links */
+.btn svg, .toolbar a svg {
+  width: 16px;
+  height: 16px;
+  vertical-align: middle;
+}
+.btn { gap: 6px; }
+.toolbar a { display: inline-flex; align-items: center; gap: 5px; }
 .sidebar-nav a:hover { color: #e2e4e9; background: rgba(255,255,255,0.04); text-decoration: none; }
 .sidebar-nav a.active { color: var(--accent); border-right: 3px solid var(--accent); }
 .sidebar-footer { padding: 1rem 1.25rem 0; border-top: 1px solid var(--border); font-size: 0.8rem; color: var(--text-muted); }
@@ -134,7 +159,10 @@ button:active, .btn:active { opacity: 0.8; }
   min-width: 36px; min-height: 36px; padding: 6px 12px;
   border: 1px solid var(--border); background: var(--input-bg);
   color: var(--text); font-size: 1rem; line-height: 1;
+  display: inline-flex; align-items: center; justify-content: center;
 }
+.btn-icon svg { transition: transform 0.2s; width: 18px; height: 18px; }
+.btn-icon.open svg { transform: rotate(180deg); }
 
 /* Form layout */
 .form-row { margin-bottom: 0.8rem; }
@@ -183,6 +211,45 @@ button:active, .btn:active { opacity: 0.8; }
   margin: 1rem 0;
 }
 .save-bar .btn { padding: 10px 28px; font-size: 1rem; }
+
+/* Export dropdown (pure HTML <details>) */
+.export-dropdown {
+  position: relative;
+  display: inline-flex;
+}
+.export-dropdown summary {
+  list-style: none;
+  cursor: pointer;
+}
+.export-dropdown summary::-webkit-details-marker { display: none; }
+.export-dropdown summary::marker { display: none; }
+.export-dropdown[open] summary {
+  background: rgba(255,255,255,0.08);
+}
+.export-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 4px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  min-width: 160px;
+  z-index: 50;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  overflow: hidden;
+}
+.export-menu a {
+  display: block;
+  padding: 8px 14px;
+  color: var(--text);
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
+.export-menu a:hover {
+  background: rgba(255,255,255,0.06);
+  text-decoration: none;
+}
 
 /* Inline sub-date inputs */
 .detail .sub-edit { margin-left: 8px; }
@@ -238,14 +305,56 @@ button:active, .btn:active { opacity: 0.8; }
   padding: 0.75rem 1rem;
   align-items: center;
   justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 99;
 }
 .topbar-brand { font-weight: 700; color: #e2e4e9; }
-.menu-toggle { background: none; border: 1px solid var(--border); color: var(--text); padding: 4px 10px; border-radius: 4px; cursor: pointer; font-size: 1.2rem; }
+.menu-toggle {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1.2rem;
+  min-height: 36px;
+}
+
+/* Overlay */
+.overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 98;
+}
+
+/* Column grid */
+.row { display: flex; flex-wrap: wrap; gap: 1rem; }
+.col { flex: 1; min-width: 0; }
+.col-25 { flex: 0 0 calc(25% - 0.75rem); }
+.col-33 { flex: 0 0 calc(33.333% - 0.67rem); }
+.col-50 { flex: 0 0 calc(50% - 0.5rem); }
+.col-66 { flex: 0 0 calc(66.666% - 0.33rem); }
+.col-75 { flex: 0 0 calc(75% - 0.25rem); }
+.col-100 { flex: 0 0 100%; }
 
 /* Mobile */
 @media (max-width: 768px) {
-  .sidebar { display: none; }
-  .sidebar.open { display: flex; position: fixed; z-index: 100; height: 100vh; width: 240px; }
+  .col-25, .col-33, .col-50, .col-66, .col-75 { flex: 0 0 100%; }
+  .sidebar {
+    display: flex;
+    position: fixed;
+    z-index: 100;
+    height: 100vh;
+    width: 260px;
+    left: -260px;
+    transition: left 0.25s ease;
+    overflow-y: auto;
+  }
+  .sidebar.open { left: 0; }
+  .overlay.open { display: block; }
   .topbar { display: flex; }
   .main-content { padding: 1rem; }
 }

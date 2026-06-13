@@ -102,6 +102,7 @@ local function create(title, description, event_date, author, location, rsvp_ena
     location = location or "",
     rsvp_enabled = rsvp_enabled or false,
     rsvps = {},
+    header_image = nil,
     author = author or "unknown",
     created_at = os.date("!%Y-%m-%dT%H:%M:%SZ"),
   }
@@ -133,6 +134,7 @@ local function update(id, updates)
       if updates.description then e.description = updates.description end
       if updates.event_date then e.event_date = updates.event_date end
       if updates.location then e.location = updates.location end
+      if updates.header_image then e.header_image = updates.header_image end
       if updates.rsvp_enabled ~= nil then
         if updates.rsvp_enabled == true or updates.rsvp_enabled == "true" then
           e.rsvp_enabled = true

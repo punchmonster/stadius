@@ -8,8 +8,21 @@
 <% else %>
   <h1><%= event.title %></h1>
 
+  <% if event.header_image then
+       local Media = require("models.media")
+       local meta = Media.find_by_filename(event.header_image)
+  %>
+    <img src="/static/uploads/media/<%= event.header_image %>"
+         alt="<%= meta and meta.alt_text ~= '' and meta.alt_text or event.title %>"
+         title="<%= meta and meta.title or '' %>"
+         style="width: 100%; max-width: 1650px; border-radius: 4px; margin-bottom: 1rem;">
+    <% if meta and meta.credit ~= '' then %>
+      <p class="text-muted text-sm">Credit: <%= meta.credit %></p>
+    <% end %>
+  <% end %>
+
   <p style="color: #888; font-size: 0.85rem;">
-    <strong>Date:</strong> <%= event.event_date %><br>
+    <strong>Date:</strong> <%= event._event_date or event.event_date %><br>
     <% if event.location and event.location ~= '' then %>
       <strong>Location:</strong> <%= event.location %><br>
     <% end %>

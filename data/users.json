@@ -1,4 +1,17 @@
 {
+  "editortest": {
+    "created_at": "2026-06-13T14:57:52Z",
+    "email": "",
+    "join_date": "2026-06-13T14:57:52Z",
+    "last_ip": "192.168.65.1",
+    "last_login": "2026-06-13T15:11:14Z",
+    "last_password_change": "2026-06-13T14:57:52Z",
+    "password_hash": "e178c1858b5fd3d265bf4c207f1161526375be46f2258b7c73e2820784f886f4",
+    "phone": "",
+    "role": "editor",
+    "salt": "1166b3cdaf421a9b44db533fda188528",
+    "subscription_active": false
+  },
   "newuser": {
     "created_at": "2026-06-13T11:36:20Z",
     "email": "test@test.com",
@@ -28,7 +41,7 @@
     "email": "",
     "join_date": "2026-06-13T10:28:52Z",
     "last_ip": "192.168.65.1",
-    "last_login": "2026-06-13T14:29:24Z",
+    "last_login": "2026-06-13T17:25:58Z",
     "last_password_change": "2026-06-13T10:28:52Z",
     "password_hash": "aa5e6a5155ad3ad04a91f16d41204f0a6f4da46dde0e6720941e4a3a98c42a2e",
     "phone": "",
@@ -55,19 +68,21 @@
     "created_at": "2026-06-13T11:37:15Z",
     "email": "",
     "join_date": "2026-06-13T11:37:15Z",
+    "last_ip": "192.168.65.1",
+    "last_login": "2026-06-13T15:07:30Z",
     "last_password_change": "2026-06-13T11:37:15Z",
     "password_hash": "ebf35f8a80c2401d3936e50b52533b3ca5b094985a6938fa904f93c0a249e8fb",
     "phone": "",
     "role": "editor",
     "salt": "4f5b2d97acbd6ad4f2b41846ccacfd2e",
-    "subscription_active": false
+    "subscription_active": true
   },
   "testreader": {
     "created_at": "2026-06-13T10:39:20Z",
     "email": "",
     "join_date": "2026-06-13T10:39:20Z",
     "last_ip": "192.168.65.1",
-    "last_login": "2026-06-13T12:26:37Z",
+    "last_login": "2026-06-13T14:35:35Z",
     "last_password_change": "2026-06-13T10:39:20Z",
     "password_hash": "e6a30261eb9e98720c63b904fd4c486dc58fede37f90bf6b256bcaf4050e4f60",
     "phone": "",

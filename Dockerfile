@@ -9,6 +9,7 @@ RUN apt-get update && apt-get install -y \
     libpcre3-dev \
     unzip \
     curl \
+    imagemagick \
     && rm -rf /var/lib/apt/lists/*
 
 # Make sure luarocks can write config

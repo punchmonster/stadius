@@ -7,6 +7,8 @@
 
 local Events = require("models.events")
 local User = require("models.user")
+local Permissions = require("models.permissions")
+local DF = require("modules.date_format")
 
 --[[
   Helper: slices event list for pagination and sets context fields on self.
@@ -29,7 +31,10 @@ local function paginate(self)
 
   local paged = {}
   for i = start, finish do
-    table.insert(paged, all[i])
+    local e = all[i]
+    e._created = DF.format(e.created_at)
+    e._event_date = DF.format(e.event_date)
+    table.insert(paged, e)
   end
 
   self.events = paged
@@ -45,21 +50,15 @@ return {
   before = function(self)
     self.page_title = "admin - events"
     self.section = "events"
-    local role = self.session.role
-    if role ~= "admin" and role ~= "editor" then
-      return { redirect_to = self:url_for("index") }
-    end
   end,
 
   --[[
-    Shows event list or create/edit form with pagination.
-
-    Query params:
-      ?page=N&per_page=M
-      ?action=new       — create form
-      ?action=edit&id=X — edit form
+    Shows event list or create/edit form. Requires "events" permission.
   --]]
   GET = function(self)
+    if not Permissions.check(self.db_role, "events") then
+      return { redirect_to = self:url_for("index") }
+    end
     local action = self.params.action
 
     -- Export RSVPs as CSV
@@ -134,8 +133,7 @@ return {
     Handles create, edit, delete. Re-renders list view with pagination.
   --]]
   POST = function(self)
-    local role = self.session.role
-    if role ~= "admin" and role ~= "editor" then
+    if not Permissions.check(self.db_role, "events") then
       return { redirect_to = self:url_for("index") }
     end
 

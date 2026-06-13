@@ -180,6 +180,7 @@ local function create(title, content, author, tags, visibility, slug)
     tags = tags or {},
     visibility = visibility or "public",
     view_count = 0,
+    header_image = nil,
     created_at = now,
     updated_at = now,
   }
@@ -214,6 +215,7 @@ local function update(id, updates)
       if updates.content then a.content = updates.content end
       if updates.tags then a.tags = updates.tags end
       if updates.visibility then a.visibility = updates.visibility end
+      if updates.header_image then a.header_image = updates.header_image end
       if updates.slug then a.slug = updates.slug end
       a.updated_at = os.date("!%Y-%m-%dT%H:%M:%SZ")
       articles[i] = a

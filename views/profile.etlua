@@ -1,48 +1,42 @@
-<!--
-  views/profile.etlua — User profile template
-  Shows role, editable email, phone, and password fields.
--->
-<h1>Profile</h1>
+<%
+  local icon = require("modules.icon").icon
+%>
+<h1><%- icon('user') %> Profile</h1>
 
-<p>Logged in as <strong><%= current_user %></strong></p>
-<p>Role: <strong><%= user_data and user_data.role or "reader" %></strong></p>
+<div class="card">
+  <p>Logged in as <strong><%= current_user %></strong></p>
+  <p>Role: <span class="badge badge-<%= user_data and user_data.role or 'reader' %>"><%= user_data and user_data.role or "reader" %></span></p>
+</div>
 
 <% if message then %>
-  <p style="background: #eef; padding: 8px; border-left: 4px solid #36a;">
-    <strong><%= message %></strong>
-  </p>
+  <p class="alert"><strong><%= message %></strong></p>
 <% end %>
 
-<hr>
+<div class="row">
+<div class="col-66">
+<div class="card">
+  <h2>Edit Details</h2>
+  <form action="/profile" method="POST">
+    <div class="form-row">
+      <label for="email">Email</label>
+      <input type="email" id="email" name="new_email" class="input-full"
+             value="<%= user_data and user_data.email or '' %>">
+    </div>
 
-<h2>Edit Details</h2>
+    <div class="form-row">
+      <label for="phone">Phone</label>
+      <input type="text" id="phone" name="new_phone" class="input-full"
+             value="<%= user_data and user_data.phone or '' %>">
+    </div>
 
-<form action="<%- url_for('profile') %>" method="POST">
-  <div>
-    <label for="email">Email</label>
-    <input type="email" id="email" name="new_email"
-           value="<%= user_data and user_data.email or '' %>" size="30">
-  </div>
+    <div class="form-row">
+      <label for="password">New Password (leave blank to keep current)</label>
+      <input type="password" id="password" name="new_password" minlength="3" class="input-full">
+    </div>
 
-  <div>
-    <label for="phone">Phone</label>
-    <input type="text" id="phone" name="new_phone"
-           value="<%= user_data and user_data.phone or '' %>" size="20">
-  </div>
-
-  <div>
-    <label for="password">New Password (leave blank to keep current)</label>
-    <input type="password" id="password" name="new_password" minlength="3" size="20">
-  </div>
-
-  <button type="submit">Save Changes</button>
-</form>
-
-<hr>
-
-<p>
-  <a href="/">Back to home</a>
-  <% if current_user and user_data and user_data.role == 'admin' then %>
-    | <a href="/admin">Admin dashboard</a>
-  <% end %>
-</p>
+    <button type="submit" class="btn-primary"><%- icon('save') %> Save Changes</button>
+  </form>
+</div>
+</div><!-- /col-66 -->
+<div class="col-33"></div>
+</div><!-- /row -->

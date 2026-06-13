@@ -6,21 +6,8 @@
 --]]
 
 local User = require("models.user")
-
--- Date formatting
-local MONTHS = { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" }
-local function format_date(iso)
-  if not iso or iso == "" then return "-" end
-  local y, m, d, h, min = iso:match("^(%d%d%d%d)%-(%d%d)%-(%d%d)T(%d%d):(%d%d)")
-  if y then
-    return MONTHS[tonumber(m)] .. " " .. tonumber(d) .. ", " .. y .. " " .. h .. ":" .. min .. " UTC"
-  end
-  y, m, d = iso:match("^(%d%d%d%d)%-(%d%d)%-(%d%d)")
-  if y then
-    return MONTHS[tonumber(m)] .. " " .. tonumber(d) .. ", " .. y
-  end
-  return iso
-end
+local Permissions = require("models.permissions")
+local DF = require("modules.date_format")
 
 --[[
   Helper: loads all users, slices for pagination, and sets context fields on self.
@@ -42,11 +29,11 @@ local function load_users(self)
 
   -- Format dates for display
   for _, u in pairs(all) do
-    u._join_date = format_date(u.join_date or u.created_at)
-    u._last_login = format_date(u.last_login)
-    u._last_pw_change = format_date(u.last_password_change)
-    u._sub_start = format_date(u.subscription_start_date)
-    u._sub_end = format_date(u.subscription_end_date)
+    u._join_date = DF.format(u.join_date or u.created_at)
+    u._last_login = DF.format(u.last_login)
+    u._last_pw_change = DF.format(u.last_password_change)
+    u._sub_start = DF.format(u.subscription_start_date)
+    u._sub_end = DF.format(u.subscription_end_date)
   end
 
   -- Sort by username
@@ -97,21 +84,15 @@ return {
   before = function(self)
     self.page_title = "admin - users"
     self.section = "users"
-
-    if self.session.role ~= "admin" then
-      return { redirect_to = self:url_for("index") }
-    end
   end,
 
   --[[
-    Loads paginated users and renders the management table.
-
-    Query params:
-      ?page=N&per_page=M
-
-    Returns { render = "admin_users" }.
+    Loads paginated users. Redirects if lacking "users" permission.
   --]]
   GET = function(self)
+    if not Permissions.check(self.db_role, "users") then
+      return { redirect_to = self:url_for("index") }
+    end
     load_users(self)
     return { render = "admin_users", layout = "admin_layout" }
   end,
@@ -127,7 +108,7 @@ return {
     Returns { render = "admin_users" }.
   --]]
   POST = function(self)
-    if self.session.role ~= "admin" then
+    if not Permissions.check(self.db_role, "users") then
       return { redirect_to = self:url_for("index") }
     end
 

@@ -13,7 +13,7 @@
           <% if a.visibility == 'private' then %><span style="color: #c33; font-size: 0.8rem;">[private]</span><% end %>
         </h2>
         <p style="color: #888; font-size: 0.85rem; margin: 0 0 0.5rem 0;">
-          By <strong><%= a.author %></strong> on <%= a.created_at %>
+          By <strong><%= a.author %></strong> on <%= a._created or a.created_at %>
           <% if #(a.tags or {}) > 0 then %>
             | Tags: <%= table.concat(a.tags, ", ") %>
           <% end %>

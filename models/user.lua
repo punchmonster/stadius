@@ -172,30 +172,13 @@ local function write_users(users)
 end
 
 -- ---------------------------------------------------------------------------
--- Roles
+-- Roles — imported from the central permissions registry
 -- ---------------------------------------------------------------------------
 
--- Ordered from highest to lowest privilege
-local ROLES = { "admin", "editor", "subscriber", "reader" }
-
--- Default role assigned to newly registered users
-local DEFAULT_ROLE = "reader"
-
---[[
-  Returns true if the given role string is a recognised role.
-
-  Args:
-    role — string, the role to check
-
-  Returns:
-    boolean, true if role is valid
---]]
-local function is_valid_role(role)
-  for _, r in ipairs(ROLES) do
-    if r == role then return true end
-  end
-  return false
-end
+local Permissions = require("models.permissions")
+local ROLES = Permissions.ROLES
+local DEFAULT_ROLE = Permissions.DEFAULT_ROLE
+local is_valid_role = Permissions.is_valid_role
 
 -- ---------------------------------------------------------------------------
 -- Public API

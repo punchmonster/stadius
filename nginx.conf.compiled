@@ -10,6 +10,7 @@ events {
 
 http {
   include mime.types;
+  client_max_body_size 50m;
 
   init_by_lua_block {
     require "lpeg"
