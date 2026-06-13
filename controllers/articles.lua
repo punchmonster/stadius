@@ -55,13 +55,32 @@ return {
 
       return { render = "article" }
     else
-      -- List view
+      -- List view with pagination (8 per page)
       local role = self.session.role
+      local all
       if role == "admin" or role == "editor" then
-        self.articles = Articles.list_all()
+        all = Articles.list_all()
       else
-        self.articles = Articles.list_public()
+        all = Articles.list_public()
       end
+
+      local per_page = 8
+      local page = tonumber(self.params.page) or 1
+      local total = #all
+      local total_pages = math.max(1, math.ceil(total / per_page))
+      if page < 1 then page = 1 end
+      if page > total_pages then page = total_pages end
+      local start = (page - 1) * per_page + 1
+      local finish = math.min(start + per_page - 1, total)
+
+      self.articles = {}
+      for i = start, finish do
+        table.insert(self.articles, all[i])
+      end
+      self.page = page
+      self.total_pages = total_pages
+      self.total_articles = total
+      self.per_page = per_page
 
       return { render = "articles" }
     end

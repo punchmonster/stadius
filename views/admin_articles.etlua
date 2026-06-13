@@ -118,5 +118,38 @@
   </tbody>
 </table>
 
+<!-- Pagination -->
+<div style="display: flex; justify-content: space-between; align-items: center; margin: 1rem 0; flex-wrap: wrap; gap: 0.5rem;">
+  <div>
+    <label for="per_page">Show:</label>
+    <select id="per_page" onchange="location.search = updateQuery('per_page', this.value)">
+      <% for _, v in ipairs(valid_steps) do %>
+        <option value="<%= v %>" <% if v == per_page then %>selected<% end %>><%= v %></option>
+      <% end %>
+    </select>
+    <span style="color: #666;">articles per page</span>
+  </div>
+
+  <div style="display: flex; gap: 0.5rem; align-items: center;">
+    <span style="color: #666;"><%= total_articles %> total</span>
+    <% if page > 1 then %>
+      <a href="?page=<%= page - 1 %>&per_page=<%= per_page %>" style="padding: 4px 12px; border: 1px solid #ccc; border-radius: 4px; text-decoration: none;">&larr; Prev</a>
+    <% end %>
+    <span style="color: #666;">Page <%= page %> of <%= total_pages %></span>
+    <% if page < total_pages then %>
+      <a href="?page=<%= page + 1 %>&per_page=<%= per_page %>" style="padding: 4px 12px; border: 1px solid #ccc; border-radius: 4px; text-decoration: none;">Next &rarr;</a>
+    <% end %>
+  </div>
+</div>
+
+<script>
+function updateQuery(key, value) {
+  var params = new URLSearchParams(location.search);
+  params.set(key, value);
+  params.set('page', '1');
+  return '?' + params.toString();
+}
+</script>
+
 <hr>
 <p><a href="/admin">Back to dashboard</a></p>

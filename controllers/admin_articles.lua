@@ -38,7 +38,32 @@ return {
   GET = function(self)
     local action = self.params.action
 
-    self.articles = Articles.list_all()
+    -- Pagination
+    local per_page = tonumber(self.params.per_page) or 10
+    -- Clamp to valid steps
+    local valid_steps = { 5, 10, 20, 30, 40, 50 }
+    local found = false
+    for _, v in ipairs(valid_steps) do if v == per_page then found = true break end end
+    if not found then per_page = 10 end
+
+    local all = Articles.list_all()
+    local total = #all
+    local total_pages = math.max(1, math.ceil(total / per_page))
+    local page = tonumber(self.params.page) or 1
+    if page < 1 then page = 1 end
+    if page > total_pages then page = total_pages end
+    local start = (page - 1) * per_page + 1
+    local finish = math.min(start + per_page - 1, total)
+
+    self.articles = {}
+    for i = start, finish do
+      table.insert(self.articles, all[i])
+    end
+    self.page = page
+    self.total_pages = total_pages
+    self.total_articles = total
+    self.per_page = per_page
+    self.valid_steps = valid_steps
 
     if action == "new" then
       self.mode = "new"

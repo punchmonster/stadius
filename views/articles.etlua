@@ -28,4 +28,16 @@
   <% end %>
 </div>
 
+<% if total_pages and total_pages > 1 then %>
+  <div style="text-align: center; margin: 1.5rem 0; display: flex; gap: 0.5rem; justify-content: center; align-items: center;">
+    <% if page > 1 then %>
+      <a href="/articles?page=<%= page - 1 %>" style="padding: 4px 12px; border: 1px solid #ccc; border-radius: 4px; text-decoration: none;">&larr; Prev</a>
+    <% end %>
+    <span style="color: #666;">Page <%= page %> of <%= total_pages %></span>
+    <% if page < total_pages then %>
+      <a href="/articles?page=<%= page + 1 %>" style="padding: 4px 12px; border: 1px solid #ccc; border-radius: 4px; text-decoration: none;">Next &rarr;</a>
+    <% end %>
+  </div>
+<% end %>
+
 <p><a href="/">Back to home</a></p>
