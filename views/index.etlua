@@ -1,13 +1,9 @@
 <!--
   views/index.etlua — Home page template
-  Rendered by controllers/index.lua for the "/" route.
-  Displays a welcome message and a brief site description.
 -->
-<h1><%= welcome_message or "Welcome to Stadius" %></h1>
+<h1>Welcome to Stadius</h1>
+<p>A Lapis-powered web application.</p>
 
-<p class="lead"><%= description or "" %></p>
+<p>build_url() = <%- build_url() %></p>
 
-<div class="home-links">
-  <a href="<%- build_url() %>/articles" class="btn">Browse Articles</a>
-  <a href="<%- build_url() %>/login" class="btn btn-secondary">Login</a>
-</div>
+<p><a href="<%- url_for('login') %>">Login</a></p>

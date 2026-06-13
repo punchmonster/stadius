@@ -1,8 +1,9 @@
 <!--
   views/layout.etlua — Global layout template
   Wraps every page with the HTML document structure.
-  Uses etlua templating syntax: <%- %> escaped, <%= %> raw, <% %> control flow.
-  This is the base template that all other views render within.
+  Uses etlua templating: <%- %> escaped, <%= %> raw, <% %> control flow.
+  Helper functions like build_url() and url_for() are available directly
+  through Lapis's etlua helper chain (exposed via the request object).
 -->
 <!DOCTYPE HTML>
 <html lang="en">
@@ -11,9 +12,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title><%= page_title or "Stadius" %></title>
 
-  <!-- Stylesheets loaded from the /static/ directory -->
-  <link rel="stylesheet" href="<%- build_url() %>/static/css/normalize.css">
-  <link rel="stylesheet" href="<%- build_url() %>/static/css/style.css">
+  <!-- Stylesheets — served from nginx /static/ location -->
+  <link rel="stylesheet" href="/static/css/normalize.css">
+  <link rel="stylesheet" href="/static/css/style.css">
 </head>
 <body>
 

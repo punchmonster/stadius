@@ -14,6 +14,7 @@
 - Never commit broken code to main.
 - Keep components small and functional.
 - Write clear human readable code with plenty of comments.
-- leave comments above every function you write describing what it does and what it does succinctly and what arguments it takes and what data it returns
+- leave comments above every function starting with its name, describing what it does and what it does succinctly. List what arguments it takes and what data it returns in what format
 - keep variables consistent.
 - look at this project: https://github.com/punchmonster/anzu-git for strcuctural guidance
+- use flex box for html layout

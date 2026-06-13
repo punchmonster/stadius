@@ -1,16 +1,16 @@
 <!--
   views/header.etlua — Global navigation header partial
   Included by layout.etlua on pages that have header_vis enabled.
-  Provides site-wide navigation links.
+  Uses req:build_url() for URL path resolution.
 -->
 <header class="site-header">
   <nav class="nav-bar">
-    <a href="<%- build_url() %>/" class="nav-brand">Stadius</a>
+    <a href="<%- req:build_url() %>" class="nav-brand">Stadius</a>
 
     <ul class="nav-links">
-      <li><a href="<%- build_url() %>/">Home</a></li>
-      <li><a href="<%- build_url() %>/articles">Articles</a></li>
-      <li><a href="<%- build_url() %>/login">Login</a></li>
+      <li><a href="<%- req:build_url() %>">Home</a></li>
+      <li><a href="<%- req:build_url('articles') %>">Articles</a></li>
+      <li><a href="<%- req:build_url('login') %>">Login</a></li>
     </ul>
   </nav>
 </header>

@@ -1,7 +1,6 @@
 <!--
   views/articles.etlua — Articles listing page template
   Rendered by controllers/articles.lua for the "/articles" route.
-  Iterates over the articles table and renders each one as a card.
 -->
 <h1>Articles</h1>
 

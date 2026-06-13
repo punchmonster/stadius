@@ -1,7 +1,7 @@
 <!--
   views/error.etlua — Error page template
   Rendered by controllers/error.lua for the "/error" route.
-  Displays an error code and a user-friendly message.
+  Safe fallback for error_code if not provided.
 -->
 <div class="error-container">
   <h1>Oops!</h1>
@@ -10,5 +10,5 @@
 
   <p class="error-description">Something went wrong. Please try again or return to the home page.</p>
 
-  <a href="<%- build_url() %>/" class="btn">&larr; Back to Home</a>
+  <a href="<%- req:build_url() %>" class="btn">&larr; Back to Home</a>
 </div>
