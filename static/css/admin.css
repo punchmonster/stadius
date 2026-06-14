@@ -125,6 +125,16 @@ input[type="url"], select, textarea {
   transition: border-color 0.15s;
 }
 input:focus, select:focus, textarea:focus { border-color: var(--accent); }
+
+/* Date/time inputs */
+input[type="datetime-local"] {
+  color-scheme: dark;
+  min-height: 36px;
+}
+input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+  filter: invert(0.8);
+  cursor: pointer;
+}
 textarea { resize: vertical; }
 
 button, .btn {

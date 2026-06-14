@@ -1,0 +1,60 @@
+<%
+  local icon = require("modules.icon").icon
+%>
+<h1><%- icon('settings') %> Site Settings</h1>
+
+<% if message then %>
+  <p class="alert"><strong><%= message %></strong></p>
+<% end %>
+
+<div class="row">
+  <div class="col-66">
+    <div class="card">
+      <form action="/admin/settings" method="POST" enctype="multipart/form-data">
+
+        <div class="form-row">
+          <label for="site_name">Site Name</label>
+          <input type="text" id="site_name" name="site_name" class="input-full"
+                 value="<%= settings.site_name or 'Stadius' %>">
+        </div>
+
+        <div class="form-row">
+          <label for="timezone">Timezone</label>
+          <select id="timezone" name="timezone">
+            <% local zones = { "UTC", "Europe/Amsterdam", "Europe/London", "Europe/Berlin", "Europe/Paris",
+                               "America/New_York", "America/Chicago", "America/Denver", "America/Los_Angeles",
+                               "Asia/Tokyo", "Asia/Shanghai", "Australia/Sydney" } %>
+            <% for _, z in ipairs(zones) do %>
+              <option value="<%= z %>" <% if settings.timezone == z then %>selected<% end %>><%= z %></option>
+            <% end %>
+          </select>
+        </div>
+
+        <div class="form-row">
+          <label for="favicon">Favicon (PNG or JPG, square recommended)</label>
+          <% if settings.favicon and settings.favicon ~= '' then %>
+            <p style="margin: 0 0 0.3rem;">
+              <img src="/static/uploads/media/<%= settings.favicon %>" style="height: 24px; vertical-align: middle;">
+              <span class="text-muted text-sm"><%= settings.favicon %></span>
+            </p>
+          <% end %>
+          <input type="file" id="favicon" name="favicon" accept="image/*">
+        </div>
+
+        <div class="form-row">
+          <label for="logo">Site Logo (appears in header)</label>
+          <% if settings.logo and settings.logo ~= '' then %>
+            <p style="margin: 0 0 0.3rem;">
+              <img src="/static/uploads/media/<%= settings.logo %>" style="max-height: 40px;">
+              <span class="text-muted text-sm"><%= settings.logo %></span>
+            </p>
+          <% end %>
+          <input type="file" id="logo" name="logo" accept="image/*">
+        </div>
+
+        <button type="submit" class="btn-primary"><%- icon('save') %> Save Settings</button>
+      </form>
+    </div>
+  </div>
+  <div class="col-33"></div>
+</div>

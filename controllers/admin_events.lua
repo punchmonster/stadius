@@ -141,10 +141,12 @@ return {
     local action = self.params.action
 
     if action == "create" then
+      local edate = self.params.event_date or ""
+      if edate ~= "" and not edate:match("Z$") then edate = edate .. ":00Z" end
       local ok, result = Events.create(
         self.params.title,
         self.params.description or "",
-        self.params.event_date or "",
+        edate,
         self.session.username,
         self.params.location or "",
         self.params.rsvp_enabled or false
@@ -165,7 +167,9 @@ return {
           updates.title = self.params.title
         end
         updates.description = self.params.description or ""
-        updates.event_date = self.params.event_date or ""
+        local edate = self.params.event_date or ""
+        if edate ~= "" and not edate:match("Z$") then edate = edate .. ":00Z" end
+        updates.event_date = edate
         updates.location = self.params.location or ""
         updates.rsvp_enabled = self.params.rsvp_enabled or false
 

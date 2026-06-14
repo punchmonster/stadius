@@ -27,6 +27,7 @@ local PERMISSION_KEYS = {
   articles  = "Articles Editor",
   events    = "Events Editor",
   media     = "Media Library",
+  settings  = "Site Settings",
   agenda    = "Public Agenda",
   profile   = "Profile",
 }
@@ -34,7 +35,7 @@ local PERMISSION_KEYS = {
 -- Default permissions assigned to each role (arrays of permission-key strings).
 -- Roles not listed here get an empty set.
 local DEFAULTS = {
-  admin      = { "dashboard", "users", "articles", "events", "media", "agenda", "profile" },
+  admin      = { "dashboard", "users", "articles", "events", "media", "settings", "agenda", "profile" },
   editor     = { "articles", "events", "media", "agenda", "profile" },
   subscriber = { "agenda", "profile" },
   reader     = { "agenda", "profile" },
@@ -52,6 +53,7 @@ local SIDEBAR_LINKS = {
   { perm = "events",    href = "/admin/events",    icon = "calendar", label = "Events" },
   { perm = "media",     href = "/admin/media",     icon = "image",    label = "Media" },
   { perm = nil,         href = "/admin/roles",     icon = "shield",   label = "Roles",    admin_only = true },
+  { perm = nil,         href = "/admin/settings",  icon = "settings", label = "Settings", admin_only = true },
 }
 
 -- =========================================================================

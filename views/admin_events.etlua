@@ -105,16 +105,21 @@
 
       <div class="form-row">
         <label for="event_date">Event Date/Time</label>
-        <input type="text" id="event_date" name="event_date" required
-               value="<%= edit_event and edit_event.event_date or '' %>"
-               placeholder="YYYY-MM-DD or YYYY-MM-DDTHH:MM:SSZ">
+        <%
+          local dv = ""
+          if edit_event and edit_event.event_date then
+            dv = edit_event.event_date:gsub("Z$", ""):sub(1, 16)
+          end
+        %>
+        <input type="datetime-local" id="event_date" name="event_date" required
+               value="<%= dv %>" class="input-full" style="max-width: 50%;">
       </div>
 
       <div class="form-row">
         <label for="location">Location</label>
         <input type="text" id="location" name="location"
                value="<%= edit_event and edit_event.location or '' %>"
-               placeholder="Room, address, or URL">
+               placeholder="Room, address, or URL" style="max-width: 50%;">
       </div>
 
       <div class="form-row">

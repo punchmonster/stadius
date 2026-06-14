@@ -1,10 +1,17 @@
 <!-- views/header.etlua — sticky public header, nav right, active page underlined -->
 <%
   local icon = require("modules.icon").icon
+  local Settings = require("models.settings")
+  local site = Settings.get()
 %>
 <header class="site-header">
   <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
-    <a href="/" class="site-title">Stadius</a>
+    <a href="/" class="site-title">
+      <% if site.logo and site.logo ~= '' then %>
+        <img src="/static/uploads/media/<%= site.logo %>" alt="<%= site.site_name %>" style="height: 1.1rem; vertical-align: middle; margin-right: 0.3rem;">
+      <% end %>
+      <%= site.site_name %>
+    </a>
     <nav class="site-nav">
       <a href="/"         class="<% if section == 'home'     then %>active<% end %>">Home</a>
       <a href="/articles" class="<% if section == 'articles' then %>active<% end %>">Articles</a>

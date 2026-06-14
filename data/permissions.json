@@ -1,12 +1,13 @@
 {
   "admin": [
-    "dashboard",
-    "users",
-    "articles",
+    "profile",
     "events",
+    "users",
     "media",
     "agenda",
-    "profile"
+    "dashboard",
+    "settings",
+    "articles"
   ],
   "editor": [
     "articles",

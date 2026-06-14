@@ -1,32 +1,176 @@
 [
   {
-    "author": "stadius-admin",
-    "created_at": "2026-06-13T13:39:14Z",
-    "description": "Daily standup meeting.",
-    "event_date": "2026-06-15T09:00:00Z",
     "id": 1,
-    "title": "Team Standup"
+    "title": "Summer Solstice Gathering",
+    "slug": "summer-solstice-gathering",
+    "description": "Join us for an evening of music, food, and conversation as we celebrate the longest day of the year.\n\n## What to expect\n\n- Live acoustic music from local artists\n- Seasonal food and drinks\n- Outdoor seating under string lights\n- A bonfire at dusk\n\nBring a blanket and your favourite summer story.",
+    "event_date": "2026-06-21T18:00:00Z",
+    "location": "Riverside Park, North Meadow",
+    "rsvp_enabled": true,
+    "rsvps": [
+      "stadius-admin"
+    ],
+    "author": "stadius-admin",
+    "header_image": "_default_green.jpg",
+    "created_at": "2026-05-15T00:00:00Z"
   },
   {
-    "author": "stadius-admin",
-    "created_at": "2026-06-13T13:39:14Z",
-    "description": "End of sprint review.",
-    "event_date": "2026-06-20T14:00:00Z",
     "id": 2,
-    "title": "Sprint Review"
-  },
-  {
-    "author": "stadius-admin",
-    "created_at": "2026-06-13T13:45:38Z",
-    "description": "Annual company picnic",
-    "event_date": "2026-07-01T12:00:00Z",
-    "id": 3,
-    "location": "Central Park",
-    "rsvp_enabled": "true",
+    "title": "Independent Film Screening: The Quiet City",
+    "slug": "film-screening-quiet-city",
+    "description": "A one-night screening of the award-winning documentary *The Quiet City*, followed by a Q&A with the director.\n\n## About the film\n\nShot over three years, this film explores the hidden corners of urban life \u2014 the people, the stories, and the spaces we overlook.\n\n## Details\n\nDoors open at 19:00. Screening begins at 19:30. The Q&A runs until approximately 21:30. Popcorn and drinks provided.",
+    "event_date": "2026-07-08T19:00:00Z",
+    "location": "The Old Cinema, 42 Dock Road",
+    "rsvp_enabled": true,
     "rsvps": [
       "stadius-admin",
       "editor1"
     ],
-    "title": "Company Picnic"
+    "author": "editor1",
+    "header_image": "_default_blue.jpg",
+    "created_at": "2026-05-17T00:00:00Z"
+  },
+  {
+    "id": 3,
+    "title": "Neighbourhood Street Festival",
+    "slug": "neighbourhood-street-festival",
+    "description": "Our annual street festival returns with food stalls, craft markets, live performances, and activities for all ages.\n\n## Highlights\n\n- 30+ food and craft vendors\n- Kids' corner with face painting and puppet shows\n- Two live music stages\n- Evening dance floor\n\nThe street will be closed to traffic from 10:00 to 22:00. Free entry for all.",
+    "event_date": "2026-07-18T10:00:00Z",
+    "location": "High Street (between 2nd and 5th Avenue)",
+    "rsvp_enabled": false,
+    "rsvps": [],
+    "author": "stadius-admin",
+    "header_image": "_default_red.jpg",
+    "created_at": "2026-05-19T00:00:00Z"
+  },
+  {
+    "id": 4,
+    "title": "Poetry Night Under the Stars",
+    "slug": "poetry-night-under-stars",
+    "description": "An open-mic poetry night in the community garden. Bring your own work or a favourite piece by someone else to share.\n\n## The vibe\n\nCandlelit tables, quiet applause, and the sound of wind through the trees. All styles welcome \u2014 from sonnets to spoken word.\n\nTea and biscuits provided. This is a sober, all-ages event.",
+    "event_date": "2026-08-01T20:00:00Z",
+    "location": "Greenwich Community Garden",
+    "rsvp_enabled": true,
+    "rsvps": [],
+    "author": "editor1",
+    "header_image": "_default_yellow.jpg",
+    "created_at": "2026-05-21T00:00:00Z"
+  },
+  {
+    "id": 5,
+    "title": "Weekend Book Swap",
+    "slug": "weekend-book-swap",
+    "description": "Bring up to five books you have loved and swap them for something new. Fiction, non-fiction, poetry, graphic novels \u2014 all genres welcome.\n\n## How it works\n\n1. Drop off your books at the check-in table\n2. Browse the collection\n3. Take home as many as you brought\n\nLeftover books are donated to the public library. Coffee and pastries available.",
+    "event_date": "2026-08-15T09:00:00Z",
+    "location": "Stadius Reading Room, 18 Paper Lane",
+    "rsvp_enabled": false,
+    "rsvps": [],
+    "author": "stadius-admin",
+    "header_image": "_default_orange.jpg",
+    "created_at": "2026-05-23T00:00:00Z"
+  },
+  {
+    "id": 6,
+    "title": "Late Summer Jazz Picnic",
+    "slug": "late-summer-jazz-picnic",
+    "description": "A relaxed afternoon of live jazz in the park. Bring a picnic, a blanket, and someone you like.\n\n## Line-up\n\n- 14:00 \u2014 The Riverside Trio\n- 15:30 \u2014 Ella & The Afternoon Band\n- 17:00 \u2014 Late Set with the Monday Quartet\n\nFood trucks on site. No glass bottles please.",
+    "event_date": "2026-08-30T14:00:00Z",
+    "location": "Queen's Park, Bandstand Lawn",
+    "rsvp_enabled": true,
+    "rsvps": [
+      "stadius-admin"
+    ],
+    "author": "editor1",
+    "header_image": "_default_brown.jpg",
+    "created_at": "2026-05-25T00:00:00Z"
+  },
+  {
+    "id": 7,
+    "title": "Autumn Equinox Potluck",
+    "slug": "autumn-equinox-potluck",
+    "description": "Celebrate the turning of the season with a community potluck dinner. Everyone brings a dish to share.\n\n## What to bring\n\n- A savoury or sweet dish (label allergens please)\n- Your own plate and cutlery (we are reducing waste)\n- A candle for the communal table\n\nWe will set up long tables in the hall. All ages welcome.",
+    "event_date": "2026-09-22T18:00:00Z",
+    "location": "St. Martin's Community Hall",
+    "rsvp_enabled": true,
+    "rsvps": [],
+    "author": "stadius-admin",
+    "header_image": "_default_green.jpg",
+    "created_at": "2026-05-27T00:00:00Z"
+  },
+  {
+    "id": 8,
+    "title": "Printmaking Workshop",
+    "slug": "printmaking-workshop",
+    "description": "Learn the basics of linocut printmaking in this hands-on workshop. You will carve your own block, ink it, and take home a small edition of prints.\n\n## What is provided\n\n- All materials (linoleum blocks, carving tools, ink, paper)\n- Instruction from a working printmaker\n- Tea and biscuits\n\nNo experience necessary. Limited to 12 participants.",
+    "event_date": "2026-10-03T10:00:00Z",
+    "location": "The Workshop Space, 7 Canal Basin",
+    "rsvp_enabled": true,
+    "rsvps": [
+      "stadius-admin",
+      "editor1",
+      "testreader"
+    ],
+    "author": "editor1",
+    "header_image": "_default_blue.jpg",
+    "created_at": "2026-05-29T00:00:00Z"
+  },
+  {
+    "id": 9,
+    "title": "Harvest Market & Cider Tasting",
+    "slug": "harvest-market-cider-tasting",
+    "description": "A celebration of the autumn harvest with local producers, fresh produce, and a curated cider tasting.\n\n## At the market\n\n- Seasonal fruit and vegetables from regional farms\n- Artisan bread, cheese, honey, and preserves\n- Cider tasting flights (alcoholic and non-alcoholic)\n- Live folk music\n\nEntry is free. Cider tasting tickets are available at the door.",
+    "event_date": "2026-10-17T11:00:00Z",
+    "location": "Town Square & Market Hall",
+    "rsvp_enabled": false,
+    "rsvps": [],
+    "author": "stadius-admin",
+    "header_image": "_default_red.jpg",
+    "created_at": "2026-05-31T00:00:00Z"
+  },
+  {
+    "id": 10,
+    "title": "Board Game Night",
+    "slug": "board-game-night",
+    "description": "An evening of board games, card games, and friendly competition. Bring your own favourites or pick from our library of over 100 games.\n\n## The details\n\n- Games for all skill levels available\n- Staff on hand to teach unfamiliar games\n- Hot food and drinks served until 22:00\n- Teams and solo players welcome\n\nPrizes for the last table standing.",
+    "event_date": "2026-11-07T18:00:00Z",
+    "location": "The Dice Cup, 55 Merchant Street",
+    "rsvp_enabled": true,
+    "rsvps": [
+      "editor1"
+    ],
+    "author": "editor1",
+    "header_image": "_default_yellow.jpg",
+    "created_at": "2026-06-02T00:00:00Z"
+  },
+  {
+    "id": 11,
+    "title": "Winter Lantern Parade",
+    "slug": "winter-lantern-parade",
+    "description": "As the nights draw in, we gather with handmade lanterns and walk through the city together. A quiet, beautiful tradition.\n\n## How to join\n\n- Lantern-making workshops run the week before the parade\n- Bring your lantern to the starting point by 17:30\n- The parade sets off at dusk and walks a 2 km route\n\nHot chocolate and mulled cider served at the end point. All ages welcome.",
+    "event_date": "2026-11-28T17:00:00Z",
+    "location": "Starting at City Hall steps, ending at Riverside Park",
+    "rsvp_enabled": true,
+    "rsvps": [],
+    "author": "stadius-admin",
+    "header_image": "_default_orange.jpg",
+    "created_at": "2026-06-04T00:00:00Z"
+  },
+  {
+    "id": 12,
+    "title": "End of Year Celebration",
+    "slug": "end-of-year-celebration",
+    "description": "Raise a glass to the year gone by. A warm, informal evening of food, drink, and looking back at what we have built together.\n\n## The evening\n\n- A short retrospective of Stadius highlights from the year\n- Dinner served family-style\n- Dancing until midnight\n\nDress warmly \u2014 there will be a fire pit outside for quiet conversations. Partners and friends welcome.",
+    "event_date": "2026-12-30T19:00:00Z",
+    "location": "The Great Hall, 1 Foundry Place",
+    "rsvp_enabled": true,
+    "rsvps": [
+      "stadius-admin",
+      "editor1",
+      "testreader",
+      "reader2"
+    ],
+    "author": "editor1",
+    "header_image": "_default_brown.jpg",
+    "created_at": "2026-06-06T00:00:00Z"
   }
 ]

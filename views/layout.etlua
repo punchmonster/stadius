@@ -4,7 +4,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title><%= page_title or "Stadius" %> — Stadius</title>
+  <%
+    local Settings = require("models.settings")
+    local site = Settings.get()
+  %>
+  <title><%= page_title or site.site_name %> — <%= site.site_name %></title>
+  <% if site.favicon and site.favicon ~= '' then %>
+    <link rel="icon" href="/static/uploads/media/<%= site.favicon %>" type="image/x-icon">
+  <% end %>
   <link rel="stylesheet" href="/static/css/normalize.css">
   <link rel="stylesheet" href="/static/css/public.css">
 </head>
