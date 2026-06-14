@@ -1,13 +1,9 @@
-<!--
-  views/article.etlua — Single article page
-  Renders the markdown content as HTML.
--->
+<!-- views/article.etlua — single article page, serif framework -->
 <% if not article then %>
   <h1>Article not found</h1>
   <p><a href="/articles">Back to articles</a></p>
 <% else %>
-  <h1><%= article.title %></h1>
-
+  <!-- Header image -->
   <% if article.header_image and article.header_image ~= '' then
        local Media = require("models.media")
        local meta = Media.find_by_filename(article.header_image)
@@ -15,24 +11,22 @@
     <img src="/static/uploads/media/<%= article.header_image %>"
          alt="<%= meta and meta.alt_text ~= '' and meta.alt_text or article.title %>"
          title="<%= meta and meta.title or '' %>"
-         style="width: 100%; max-width: 1650px; border-radius: 4px; margin-bottom: 1rem;">
+         class="hero-image">
     <% if meta and meta.credit ~= '' then %>
-      <p class="text-muted text-sm">Credit: <%= meta.credit %></p>
+      <p class="card__meta">Credit: <%= meta.credit %></p>
     <% end %>
   <% end %>
 
-  <p style="color: #888; font-size: 0.85rem;">
+  <h1><%= article.title %></h1>
+
+  <p class="card__meta">
     By <strong><%= article.author %></strong>
     on <%= article._created or article.created_at %>
     <% if article.updated_at ~= article.created_at then %>
       (updated <%= article._updated or article.updated_at %>)
     <% end %>
-    <% if #(article.tags or {}) > 0 then %>
-      | Tags: <%= table.concat(article.tags, ", ") %>
-    <% end %>
-    <% if article.visibility == 'private' then %>
-      | <span style="color: #c33;">[private]</span>
-    <% end %>
+    <% if #(article.tags or {}) > 0 then %> &middot; <%= table.concat(article.tags, ", ") %><% end %>
+    <% if article.visibility == 'private' then %><span style="color: #a33;">[private]</span><% end %>
   </p>
 
   <hr>
@@ -45,22 +39,16 @@
 
   <p>
     <% if can_edit then %>
-      <a href="/admin/articles?action=edit&id=<%= article.id %>"
-         style="background: #36a; color: #fff; padding: 6px 14px; border-radius: 4px; text-decoration: none;">
-        Edit Article
-      </a>
-      |
+      <a href="/admin/articles?action=edit&id=<%= article.id %>" class="btn btn--outline">Edit Article</a>
     <% end %>
     <a href="/articles">Back to articles</a>
   </p>
 
   <script>
-    // Rewrite URL bar to include the slug for aesthetics, without reloading
     (function() {
       var path = window.location.pathname;
       var slug = '<%= article.slug %>';
       var id = '<%= article.id %>';
-      // Only rewrite if slug is missing from the URL
       if (slug && path === '/articles/' + id) {
         window.history.replaceState(null, '', '/articles/' + id + '/' + slug);
       }

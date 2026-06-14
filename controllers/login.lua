@@ -35,7 +35,7 @@ return {
         return { redirect_to = self:url_for("profile") }
       end
     end
-    return { render = "login" }
+    return { render = "login", layout = "public_layout" }
   end,
 
   --[[
@@ -64,7 +64,7 @@ return {
         return { redirect_to = self:url_for("profile") }
       else
         self.error_message = msg
-        return { render = "login" }
+        return { render = "login", layout = "public_layout" }
       end
     else
       local ok, user_or_msg = User.login(username, password)
@@ -84,7 +84,7 @@ return {
         end
       else
         self.error_message = user_or_msg
-        return { render = "login" }
+        return { render = "login", layout = "public_layout" }
       end
     end
   end,

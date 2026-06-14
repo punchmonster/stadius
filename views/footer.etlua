@@ -1,0 +1,6 @@
+<!-- views/footer.etlua — public site footer, serif framework -->
+<footer class="site-footer">
+  <div class="container">
+    <p>Stadius &mdash; built with Lapis &amp; OpenResty.</p>
+  </div>
+</footer>

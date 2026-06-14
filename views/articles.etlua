@@ -1,66 +1,59 @@
-<!--
-  views/articles.etlua — Public article listing page
-  Shows all public articles (or all for admins/editors), newest first.
--->
+<!-- views/articles.etlua — article listing, serif framework -->
 <h1>Articles</h1>
 
-<div style="display: flex; gap: 0.5rem; align-items: center; margin-bottom: 1rem; font-size: 0.85rem; color: #666;">
+<!-- Sort bar -->
+<div class="sort-bar">
   <span>Sort by:</span>
   <a href="?sort=date&order=<%= sort=='date' and order~='asc' and 'asc' or 'desc' %>"
-     style="<%= (not sort or sort=='date') and 'font-weight: 600; color: #333;' or '' %>">Date</a>
+     class="<%= (not sort or sort=='date') and 'active' or '' %>">Date</a>
   <a href="?sort=title&order=<%= sort=='title' and order~='asc' and 'desc' or 'asc' %>"
-     style="<%= sort=='title' and 'font-weight: 600; color: #333;' or '' %>">Title</a>
+     class="<%= sort=='title' and 'active' or '' %>">Title</a>
   <a href="?sort=views&order=<%= sort=='views' and order~='asc' and 'desc' or 'asc' %>"
-     style="<%= sort=='views' and 'font-weight: 600; color: #333;' or '' %>">Views</a>
+     class="<%= sort=='views' and 'active' or '' %>">Views</a>
   <a href="?sort=author&order=<%= sort=='author' and order~='asc' and 'desc' or 'asc' %>"
-     style="<%= sort=='author' and 'font-weight: 600; color: #333;' or '' %>">Author</a>
+     class="<%= sort=='author' and 'active' or '' %>">Author</a>
   <% if sort then %>
-    <span style="color: #999;"><%= order=='asc' and '&#x25B2;' or '&#x25BC;' %></span>
+    <span class="dir"><%= order=='asc' and '&#x25B2;' or '&#x25BC;' %></span>
   <% end %>
 </div>
 
-<div class="articles-list">
-  <% if articles and #articles > 0 then %>
-    <% for _, a in ipairs(articles) do %>
-      <div style="border: 1px solid #ddd; border-radius: 4px; margin-bottom: 1rem; background: #fff; display: flex; gap: 1rem; overflow: hidden;">
-        <% if a.header_image and a.header_image ~= '' then %>
-          <a href="/articles/<%= a.id %>/<%= a.slug %>" style="flex-shrink: 0; width: 200px; min-height: 120px;">
-            <img src="/static/uploads/media/<%= a.header_image %>" alt="<%= a.title %>"
-                 style="width: 100%; height: 100%; object-fit: cover;">
-          </a>
-        <% end %>
-        <div style="padding: 1rem; flex: 1;">
-        <h2 style="margin: 0 0 0.3rem 0;">
+<!-- Article cards -->
+<% if articles and #articles > 0 then %>
+  <% for _, a in ipairs(articles) do %>
+    <div class="card card--flex">
+      <% if a.header_image and a.header_image ~= '' then %>
+        <a href="/articles/<%= a.id %>/<%= a.slug %>" class="card__thumb">
+          <img src="/static/uploads/media/<%= a.header_image %>" alt="<%= a.title %>">
+        </a>
+      <% end %>
+      <div class="card__body">
+        <h2 class="card__title">
           <a href="/articles/<%= a.id %>/<%= a.slug %>"><%= a.title %></a>
-          <% if a.visibility == 'private' then %><span style="color: #c33; font-size: 0.8rem;">[private]</span><% end %>
+          <% if a.visibility == 'private' then %><span style="color: #a33; font-size: 0.8rem;">[private]</span><% end %>
         </h2>
-        <p style="color: #888; font-size: 0.85rem; margin: 0 0 0.5rem 0;">
+        <p class="card__meta">
           By <strong><%= a.author %></strong> on <%= a._created or a.created_at %>
-          <% if #(a.tags or {}) > 0 then %>
-            | Tags: <%= table.concat(a.tags, ", ") %>
-          <% end %>
+          <% if #(a.tags or {}) > 0 then %> &middot; <%= table.concat(a.tags, ", ") %><% end %>
         </p>
-        <p style="margin: 0;">
+        <p class="card__summary">
           <a href="/articles/<%= a.id %>/<%= a.slug %>">Read more</a>
         </p>
-        </div>
       </div>
-    <% end %>
-  <% else %>
-    <p>No articles yet.</p>
+    </div>
   <% end %>
-</div>
+<% else %>
+  <p>No articles yet.</p>
+<% end %>
 
+<!-- Pagination -->
 <% if total_pages and total_pages > 1 then %>
-  <div style="text-align: center; margin: 1.5rem 0; display: flex; gap: 0.5rem; justify-content: center; align-items: center;">
+  <div class="pagination">
     <% if page > 1 then %>
-      <a href="/articles?page=<%= page - 1 %>" style="padding: 4px 12px; border: 1px solid #ccc; border-radius: 4px; text-decoration: none;">&larr; Prev</a>
+      <a href="/articles?page=<%= page - 1 %>&sort=<%= sort or 'date' %>&order=<%= order or 'desc' %>">&larr; Prev</a>
     <% end %>
-    <span style="color: #666;">Page <%= page %> of <%= total_pages %></span>
+    <span>Page <%= page %> of <%= total_pages %></span>
     <% if page < total_pages then %>
-      <a href="/articles?page=<%= page + 1 %>" style="padding: 4px 12px; border: 1px solid #ccc; border-radius: 4px; text-decoration: none;">Next &rarr;</a>
+      <a href="/articles?page=<%= page + 1 %>&sort=<%= sort or 'date' %>&order=<%= order or 'desc' %>">Next &rarr;</a>
     <% end %>
   </div>
 <% end %>
-
-<p><a href="/">Back to home</a></p>

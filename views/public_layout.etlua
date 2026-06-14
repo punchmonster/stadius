@@ -1,0 +1,22 @@
+<!-- views/public_layout.etlua — shell that includes reusable header/footer partials -->
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= page_title or "Stadius" %> — Stadius</title>
+  <link rel="stylesheet" href="/static/css/normalize.css">
+  <link rel="stylesheet" href="/static/css/public.css">
+</head>
+<body>
+
+  <% render("views.header") %>
+
+  <main class="container">
+    <% content_for("inner") %>
+  </main>
+
+  <% render("views.footer") %>
+
+</body>
+</html>

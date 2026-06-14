@@ -1,9 +1,9 @@
-<!--
-  views/index.etlua — Home page template
--->
+<!-- views/index.etlua — home page, serif framework -->
 <h1>Welcome to Stadius</h1>
-<p>A Lapis-powered web application.</p>
 
-<p>build_url() = <%- build_url() %></p>
+<p class="card__meta">A Lapis-powered publication.</p>
 
-<p><a href="<%- url_for('login') %>">Login</a></p>
+<div style="display: flex; gap: 1rem; margin-top: 1.5rem;">
+  <a href="/articles" class="btn">Browse Articles</a>
+  <a href="/login" class="btn btn--outline">Login</a>
+</div>

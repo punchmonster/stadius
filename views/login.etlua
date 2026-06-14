@@ -1,41 +1,44 @@
-<!--
-  views/login.etlua — Login form template
-  Provides sign-in and sign-up forms. Signup only requires username + password.
--->
-<h1>Login</h1>
-
+<!-- views/login.etlua — side-by-side login / signup on desktop -->
 <% if error_message then %>
-  <p style="color: red;"><%= error_message %></p>
+  <div class="alert alert--error"><%= error_message %></div>
 <% end %>
 
-<h2>Sign In</h2>
-<form action="<%- submit_url %>" method="POST">
-  <input type="hidden" name="action" value="login">
-  <div>
-    <label for="login-username">Username</label>
-    <input type="text" id="login-username" name="username" required minlength="3">
+<div class="login-split">
+  <!-- Sign In -->
+  <div class="login-pane">
+    <h1>Sign in</h1>
+    <p class="card__meta">Welcome back.</p>
+    <form action="<%- submit_url %>" method="POST">
+      <input type="hidden" name="action" value="login">
+      <div class="form-group">
+        <label for="login-username">Username</label>
+        <input type="text" id="login-username" name="username" required minlength="3">
+      </div>
+      <div class="form-group">
+        <label for="login-password">Password</label>
+        <input type="password" id="login-password" name="password" required minlength="3">
+      </div>
+      <button type="submit" class="btn">Sign in</button>
+    </form>
   </div>
-  <div>
-    <label for="login-password">Password</label>
-    <input type="password" id="login-password" name="password" required minlength="3">
-  </div>
-  <button type="submit">Sign In</button>
-</form>
 
-<hr>
-
-<h2>Sign Up</h2>
-<form action="<%- submit_url %>" method="POST">
-  <input type="hidden" name="action" value="signup">
-  <div>
-    <label for="signup-username">Username</label>
-    <input type="text" id="signup-username" name="username" required minlength="3">
+  <!-- Sign Up -->
+  <div class="signup-pane">
+    <div class="signup-inner">
+      <h1>Join us</h1>
+      <p>A reader account lets you RSVP to events and manage your profile. It&rsquo;s free and takes only a moment.</p>
+      <form action="<%- submit_url %>" method="POST">
+        <input type="hidden" name="action" value="signup">
+        <div class="form-group">
+          <label for="signup-username">Username</label>
+          <input type="text" id="signup-username" name="username" required minlength="3">
+        </div>
+        <div class="form-group">
+          <label for="signup-password">Password</label>
+          <input type="password" id="signup-password" name="password" required minlength="3">
+        </div>
+        <button type="submit" class="btn">Create account</button>
+      </form>
+    </div>
   </div>
-  <div>
-    <label for="signup-password">Password</label>
-    <input type="password" id="signup-password" name="password" required minlength="3">
-  </div>
-  <button type="submit">Sign Up</button>
-</form>
-
-<p><a href="/">Back to home</a></p>
+</div>

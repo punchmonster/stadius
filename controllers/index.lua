@@ -23,7 +23,7 @@ return {
     Returns { render = "index" } to render views/index.etlua.
   --]]
   GET = function(self)
-    return { render = "index" }
+    return { render = "index", layout = "public_layout" }
   end,
 
 }

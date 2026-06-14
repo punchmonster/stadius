@@ -1,16 +1,19 @@
-<!--
-  views/header.etlua — Global navigation header partial
-  Included by layout.etlua on pages that have header_vis enabled.
-  Uses req:build_url() for URL path resolution.
--->
+<!-- views/header.etlua — sticky public header, nav right, login/username conditional -->
+<%
+  local icon = require("modules.icon").icon
+%>
 <header class="site-header">
-  <nav class="nav-bar">
-    <a href="<%- req:build_url() %>" class="nav-brand">Stadius</a>
-
-    <ul class="nav-links">
-      <li><a href="<%- req:build_url() %>">Home</a></li>
-      <li><a href="<%- req:build_url('articles') %>">Articles</a></li>
-      <li><a href="<%- req:build_url('login') %>">Login</a></li>
-    </ul>
-  </nav>
+  <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
+    <a href="/" class="site-title">Stadius</a>
+    <nav class="site-nav">
+      <a href="/">Home</a>
+      <a href="/articles">Articles</a>
+      <a href="/agenda">Agenda</a>
+      <% if session and session.username then %>
+        <a href="/profile" class="nav-user"><%- icon('user') %> <%= session.username %></a>
+      <% else %>
+        <a href="/login" class="nav-login">Login</a>
+      <% end %>
+    </nav>
+  </div>
 </header>
