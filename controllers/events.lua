@@ -11,6 +11,7 @@ return {
 
   before = function(self)
     self.page_title = "agenda"
+    self.section = "agenda"
   end,
 
   --[[
@@ -27,7 +28,7 @@ return {
       -- Single event view
       local event = Events.find_by_id(id)
       if not event then
-        return { render = "event", layout = "public_layout", status = 404 }
+        return { render = "event", status = 404 }
       end
 
       event._created = DF.format(event.created_at)
@@ -46,7 +47,7 @@ return {
         end
       end
 
-      return { render = "event", layout = "public_layout" }
+      return { render = "event" }
     else
       -- Agenda listing
       local events = Events.list_upcoming()
@@ -56,7 +57,7 @@ return {
         e.description_html = Markdown.to_html(e.description)
       end
       self.events = events
-      return { render = "events", layout = "public_layout" }
+      return { render = "events" }
     end
   end,
 
@@ -101,7 +102,7 @@ return {
       end
     end
 
-    return { render = "event", layout = "public_layout" }
+    return { render = "event" }
   end,
 
 }

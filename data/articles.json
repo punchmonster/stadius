@@ -1,201 +1,206 @@
 [
   {
-    "author": "stadius-admin",
-    "content": "it works",
-    "created_at": "2026-06-13T11:51:14Z",
-    "header_image": "",
-    "id": 1,
-    "slug": "getting-started-with-lua",
-    "tags": {},
-    "title": "Test",
-    "updated_at": "2026-06-13T18:31:15Z",
-    "view_count": 11,
-    "visibility": "public"
-  },
-  {
-    "author": "stadius-admin",
-    "content": "# Building Web Apps with OpenResty\n\nOpenResty is a **full-fledged web platform** built on top of Nginx and LuaJIT.\n\n## Why OpenResty?\n\n- Non-blocking I/O\n- Built-in Lua scripting\n- Excellent performance\n\n## Getting Started\n\n```lua\nlocal lapis = require(\"lapis\")\nlocal app = lapis.Application()\n\napp:get(\"/\", function()\n  return \"Hello from Lapis!\"\nend)\n\nreturn app\n```\n\nOpenResty powers some of the largest sites on the internet today.",
-    "created_at": "2026-06-02T00:00:00Z",
-    "id": 2,
-    "slug": "openresty-web-apps",
+    "title": "Role-Based Permissions",
+    "slug": "role-based-permissions",
     "tags": [
-      "openresty",
-      "nginx",
-      "web"
+      "permissions",
+      "security",
+      "admin"
     ],
-    "title": "Building Web Apps with OpenResty",
-    "updated_at": "2026-06-02T00:00:00Z",
+    "content": "Stadius includes a **flexible permissions system** that lets you control exactly who can access each part of the site.\n\n## How it works\n\nEvery user has a role \u2014 Admin, Editor, Subscriber, or Reader. Each role gets a set of permissions that determine which pages and features they can see.\n\n## The admin panel\n\nAdmins can visit the Roles page to toggle permissions per role. Changes take effect **immediately** \u2014 no re-login required.\n\n```\nAdmin      \u2014 Dashboard, Users, Articles, Events, Media, Roles\nEditor     \u2014 Articles, Events, Media\nSubscriber \u2014 Agenda, Profile\nReader     \u2014 Agenda, Profile\n```\n\nThis means you can bring on editors without worrying about them changing user accounts or site settings.",
+    "author": "stadius-admin",
+    "visibility": "public",
     "view_count": 0,
-    "visibility": "public"
+    "header_image": "_default_green.jpg",
+    "id": 1,
+    "created_at": "2026-06-14T00:00:00Z",
+    "updated_at": "2026-06-14T00:00:00Z"
   },
   {
-    "author": "editor1",
-    "content": "# Understanding Lua Metatables\n\nMetatables are Lua's primary mechanism for **object-oriented programming**.\n\n## Basic Syntax\n\n```lua\nlocal t = {}\nlocal mt = { __index = function(t, k) return \"default\" end }\nsetmetatable(t, mt)\n```\n\n## Common Metamethods\n\n- `__index` — controls table lookups\n- `__newindex` — controls table assignments\n- `__add` — overloads the `+` operator\n- `__tostring` — defines string conversion\n\nMetatables make Lua incredibly flexible.",
-    "created_at": "2026-06-03T00:00:00Z",
-    "id": 3,
-    "slug": "lua-metatables-guide",
+    "title": "Flat-File Data Storage",
+    "slug": "flat-file-data-storage",
     "tags": [
-      "lua",
-      "programming",
+      "architecture",
+      "data",
+      "design"
+    ],
+    "content": "Stadius stores everything in **human-readable JSON files** \u2014 no database required.\n\n## Why flat files\n\n- Zero configuration. Just clone and run.\n- All data is version-controllable with git\n- Easy to back up \u2014 copy the data folder\n- Human-readable \u2014 open any file and understand it\n\n## What gets stored\n\nEvery piece of content lives in `data/`:\n\n- `users.json` \u2014 accounts, roles, subscriptions\n- `articles.json` \u2014 articles, tags, visibility\n- `events.json` \u2014 agenda, RSVPs, locations\n- `permissions.json` \u2014 role access rules\n- `media.json` \u2014 image metadata\n\nNo database server, no migrations, no ORM. Just files.",
+    "author": "stadius-admin",
+    "visibility": "public",
+    "view_count": 0,
+    "header_image": "_default_blue.jpg",
+    "id": 2,
+    "created_at": "2026-06-14T01:00:00Z",
+    "updated_at": "2026-06-14T01:00:00Z"
+  },
+  {
+    "title": "Markdown Article Editor",
+    "slug": "markdown-article-editor",
+    "tags": [
+      "editor",
+      "markdown",
+      "writing"
+    ],
+    "content": "Write and edit articles using **Markdown** \u2014 a simple, readable formatting syntax.\n\n## Supported syntax\n\n- Headings (#, ##, ###)\n- Bold, italic, inline code\n- Fenced code blocks with syntax highlighting\n- Blockquotes and horizontal rules\n- Ordered and unordered lists\n- Links and images\n\n## Live preview\n\nThe editor is a split layout on desktop \u2014 your content on the left, image upload and media library on the right. Edit, upload a header image, pick from the media library, or copy markdown snippets for inline images \u2014 all from one screen.\n\n## Why Markdown\n\nIt keeps your content portable. Export your articles anywhere that understands Markdown \u2014 which is everywhere.",
+    "author": "editor1",
+    "visibility": "public",
+    "view_count": 0,
+    "header_image": "_default_red.jpg",
+    "id": 3,
+    "created_at": "2026-06-14T02:00:00Z",
+    "updated_at": "2026-06-14T02:00:00Z"
+  },
+  {
+    "title": "Image Media Library",
+    "slug": "image-media-library",
+    "tags": [
+      "media",
+      "images",
+      "uploads"
+    ],
+    "content": "Every uploaded image is tracked in a **searchable media library** with full metadata.\n\n## What gets stored\n\n- Title and alt text for accessibility\n- Credit line for attribution\n- Tags for organisation\n- Upload date and file size\n- Who uploaded it\n\n## Processing\n\nImages are automatically **resized** (max 3000\u00d73000), **compressed** (quality 85), and **converted to JPG** on upload. Only JPG, PNG, and WebP are accepted.\n\n## Using images\n\nPick from the library when editing an article or event. Set an image as the header, or copy the markdown to embed it in the body. The grid view lets you browse, search, and delete images.",
+    "author": "stadius-admin",
+    "visibility": "public",
+    "view_count": 0,
+    "header_image": "_default_yellow.jpg",
+    "id": 4,
+    "created_at": "2026-06-14T03:00:00Z",
+    "updated_at": "2026-06-14T03:00:00Z"
+  },
+  {
+    "title": "Event Agenda with RSVP",
+    "slug": "event-agenda-rsvp",
+    "tags": [
+      "events",
+      "agenda",
+      "rsvp"
+    ],
+    "content": "Plan and share events with a **public agenda** and built-in RSVP tracking.\n\n## Creating events\n\nAdd a title, date, location, and description in Markdown. Toggle RSVP on, and logged-in users can confirm attendance with one click.\n\n## The agenda page\n\nUpcoming events are listed chronologically. Past events drop off automatically. Each event gets its own page with full details, a header image, and the RSVP button.\n\n## For organisers\n\nThe admin panel shows who has RSVP'd, and you can export the list as CSV \u2014 usernames, emails, phone numbers, or all three.",
+    "author": "stadius-admin",
+    "visibility": "public",
+    "view_count": 0,
+    "header_image": "_default_orange.jpg",
+    "id": 5,
+    "created_at": "2026-06-14T04:00:00Z",
+    "updated_at": "2026-06-14T04:00:00Z"
+  },
+  {
+    "title": "User Management Dashboard",
+    "slug": "user-management-dashboard",
+    "tags": [
+      "users",
+      "admin",
+      "management"
+    ],
+    "content": "Manage every account from a **single table** with inline editing.\n\n## What you can do\n\n- Change roles (Admin, Editor, Subscriber, Reader)\n- Edit email and phone\n- Toggle subscription status\n- Set subscription start and end dates\n- Reset passwords\n- Delete accounts (with confirmation)\n\n## Detail rows\n\nClick the expand button on any user to see join date, last login, last IP, last password change, and subscription dates \u2014 all formatted for readability.\n\n## Bulk save\n\nEdit multiple users at once and press one **Save All Changes** button. Pagination handles large user lists with configurable page sizes.",
+    "author": "stadius-admin",
+    "visibility": "public",
+    "view_count": 0,
+    "header_image": "_default_brown.jpg",
+    "id": 6,
+    "created_at": "2026-06-14T05:00:00Z",
+    "updated_at": "2026-06-14T05:00:00Z"
+  },
+  {
+    "title": "Dark Admin Interface",
+    "slug": "dark-admin-interface",
+    "tags": [
+      "ui",
+      "design",
+      "admin"
+    ],
+    "content": "The entire backend uses a **dark theme with sidebar navigation** \u2014 built for long editing sessions.\n\n## Design principles\n\n- Dark background (`#1a1d23`) reduces eye strain\n- Sidebar with Feather icons for every section\n- Minimal JavaScript \u2014 most interactions use plain HTML\n- Flexbox grid system with reusable column classes\n- Mobile-responsive with a collapsible sidebar\n\n## Customisation\n\nAll styles live in `static/css/admin.css`. The grid columns (`.col-25`, `.col-33`, `.col-50`, `.col-66`) are ready to use. Form elements, buttons, badges, alerts, and tables all follow the same design language.",
+    "author": "editor1",
+    "visibility": "public",
+    "view_count": 0,
+    "header_image": "_default_green.jpg",
+    "id": 7,
+    "created_at": "2026-06-14T06:00:00Z",
+    "updated_at": "2026-06-14T06:00:00Z"
+  },
+  {
+    "title": "Public Serif Typography",
+    "slug": "public-serif-typography",
+    "tags": [
+      "typography",
+      "design",
+      "frontend"
+    ],
+    "content": "The reader-facing side uses a **warm, minimalist serif design** with carefully chosen typefaces.\n\n## Fonts\n\n- **Fanwood** \u2014 the body text serif, warm and readable\n- **M Plus 2** \u2014 accent typeface for metadata, navigation, and labels\n\n## Layout\n\n- 960px max-width content column, centred\n- Sticky header with active-page indicator\n- Cards without borders or rounded corners for a flat, modern feel\n- Responsive: stacks vertically on mobile\n\n## The goal\n\nA reading experience that feels like print \u2014 clean, undistracted, focused on the words.",
+    "author": "editor1",
+    "visibility": "public",
+    "view_count": 0,
+    "header_image": "_default_blue.jpg",
+    "id": 8,
+    "created_at": "2026-06-14T07:00:00Z",
+    "updated_at": "2026-06-14T07:00:00Z"
+  },
+  {
+    "title": "Article Sorting and Pagination",
+    "slug": "article-sorting-pagination",
+    "tags": [
+      "articles",
+      "sorting",
+      "pagination"
+    ],
+    "content": "Browse articles your way with **sortable, paginated listings**.\n\n## Sort options\n\nClick to sort by date, title, views, or author. An arrow button toggles ascending or descending order. The sort state stays in the URL so you can share or bookmark it.\n\n## Pagination\n\nPublic pages show 8 articles at a time. The admin panel offers a dropdown to choose 5, 10, 20, 30, 40, or 50 per page. Prev and Next links navigate between pages.\n\n## Private articles\n\nArticles marked as private only appear for logged-in admins, editors, and the original author. Everyone else sees only public content.",
+    "author": "stadius-admin",
+    "visibility": "public",
+    "view_count": 0,
+    "header_image": "_default_red.jpg",
+    "id": 9,
+    "created_at": "2026-06-14T08:00:00Z",
+    "updated_at": "2026-06-14T08:00:00Z"
+  },
+  {
+    "title": "Feather Icon Integration",
+    "slug": "feather-icon-integration",
+    "tags": [
+      "icons",
+      "design",
+      "ui"
+    ],
+    "content": "Over 280 Feather icons are available as **inline SVGs** throughout the admin interface.\n\n## How they work\n\nA small Lua module reads the SVG file and embeds it directly in the HTML. Icons inherit the current text colour, so they match links, buttons, and hover states automatically.\n\n## Where they appear\n\n- Sidebar navigation (every section)\n- Action buttons (Edit, Delete, Save, Export)\n- Form labels (Slug, Tags, Visibility)\n- The media library grid\n- Public header (user icon when logged in)\n\nThe `icon()` helper is available in any etlua template \u2014 just pass the icon name.",
+    "author": "stadius-admin",
+    "visibility": "public",
+    "view_count": 0,
+    "header_image": "_default_yellow.jpg",
+    "id": 10,
+    "created_at": "2026-06-14T09:00:00Z",
+    "updated_at": "2026-06-14T09:00:00Z"
+  },
+  {
+    "title": "Automatic Image Processing",
+    "slug": "automatic-image-processing",
+    "tags": [
+      "images",
+      "processing",
+      "performance"
+    ],
+    "content": "Every uploaded image goes through a **processing pipeline** before it hits the library.\n\n## What happens\n\n1. **Validation** \u2014 only JPG, PNG, and WebP are accepted\n2. **Resizing** \u2014 images larger than 3000\u00d73000 are scaled down\n3. **Auto-orient** \u2014 EXIF rotation is respected\n4. **Conversion** \u2014 everything becomes a compressed JPG\n5. **Storage** \u2014 saved to the media folder with a unique name\n\n## Why it matters\n\nNo more 15MB PNGs slowing down your pages. Every image is optimised for the web before anyone sees it. ImageMagick does the heavy lifting.\n\n## Limits\n\nUpload size is capped at 50MB. The processing pipeline has a safety counter to prevent infinite loops.",
+    "author": "editor1",
+    "visibility": "public",
+    "view_count": 0,
+    "header_image": "_default_orange.jpg",
+    "id": 11,
+    "created_at": "2026-06-14T10:00:00Z",
+    "updated_at": "2026-06-14T10:00:00Z"
+  },
+  {
+    "title": "Getting Started with Stadius",
+    "slug": "getting-started-stadius",
+    "tags": [
+      "guide",
+      "getting-started",
       "tutorial"
     ],
-    "title": "Understanding Lua Metatables",
-    "updated_at": "2026-06-03T00:00:00Z",
-    "view_count": 0,
-    "visibility": "public"
-  },
-  {
+    "content": "Welcome to Stadius \u2014 a **self-contained CMS** built with Lapis and OpenResty.\n\n## First steps\n\n1. **Sign up** for an account at `/login`\n2. An admin promotes you to Editor at `/admin/users`\n3. **Write articles** at `/admin/articles`\n4. **Create events** at `/admin/events`\n5. **Upload images** from the article or event editor\n\n## The admin panel\n\nVisit `/admin` to see the dashboard. The sidebar links to every section. Permissions are configured at `/admin/roles`.\n\n## Public site\n\nReaders visit `/articles` and `/agenda`. The homepage is at `/`. Everything is styled with the public serif theme.\n\n## Under the hood\n\nBuilt on OpenResty (nginx + LuaJIT), Lapis framework, flat JSON files, ImageMagick for images, and Feather icons. Docker-ready with a single-container setup.",
     "author": "stadius-admin",
-    "content": "# A Guide to Lapis Routing\n\nLapis provides a **powerful routing system** that maps URLs to controller actions.\n\n## Basic Routes\n\n```lua\napp:match(\"index\", \"/\", respond_to(index_controller))\napp:match(\"login\", \"/login\", respond_to(login_controller))\n```\n\n## Named Routes\n\nNamed routes let you use `url_for(\"name\")` throughout your application. This keeps URLs DRY.\n\n## Parameterized Routes\n\n```lua\napp:match(\"article\", \"/articles/:slug\", respond_to(articles_controller))\n```\n\nRoute parameters are available in `self.params`.",
-    "created_at": "2026-06-04T00:00:00Z",
-    "id": 4,
-    "slug": "lapis-routing",
-    "tags": [
-      "lapis",
-      "routing",
-      "web"
-    ],
-    "title": "A Guide to Lapis Routing",
-    "updated_at": "2026-06-04T00:00:00Z",
+    "visibility": "public",
     "view_count": 0,
-    "visibility": "public"
-  },
-  {
-    "author": "editor1",
-    "content": "# Security Best Practices\n\nSecurity is **not optional** when building web applications.\n\n## Key Principles\n\n1. Always hash passwords with salt\n2. Validate all user input\n3. Use CSRF tokens for state-changing requests\n4. Set proper Content Security Policy headers\n\n## SQL Injection Prevention\n\nUse parameterized queries. Never concatenate user input into SQL strings.\n\n## XSS Prevention\n\nEscape HTML output. Lapis etlua provides `<%- %>` for raw and `<%= %>` for escaped output.",
-    "created_at": "2026-06-05T00:00:00Z",
-    "id": 5,
-    "slug": "lua-security",
-    "tags": [
-      "security",
-      "lua",
-      "best-practices"
-    ],
-    "title": "Security Best Practices for Lua Web Apps",
-    "updated_at": "2026-06-05T00:00:00Z",
-    "view_count": 0,
-    "visibility": "public"
-  },
-  {
-    "author": "editor1",
-    "content": "# Markdown Syntax Cheat Sheet\n\n## Headings\n\n```\n# H1\n## H2\n### H3\n```\n\n## Emphasis\n\n- **bold**\n- *italic*\n- `code`\n\n## Lists\n\n- Item 1\n- Item 2\n- Item 3\n\n## Links\n\n[Link text](https://example.com)\n\n## Images\n\n![Alt text](https://example.com/image.png)\n\n## Blockquotes\n\n> This is a blockquote.",
-    "created_at": "2026-06-06T00:00:00Z",
-    "id": 6,
-    "slug": "markdown-cheatsheet",
-    "tags": [
-      "markdown",
-      "reference"
-    ],
-    "title": "Markdown Syntax Cheat Sheet",
-    "updated_at": "2026-06-06T00:00:00Z",
-    "view_count": 0,
-    "visibility": "public"
-  },
-  {
-    "author": "stadius-admin",
-    "content": "# Q3 Roadmap\n\nThis is an **internal document** for the team.\n\n## Planned Features\n\n- User profile avatars\n- Email notifications\n- Two-factor authentication\n- API rate limiting\n\n## Timeline\n\n| Feature | Target |\n|---------|--------|\n| Avatars | July |\n| Email | August |\n| 2FA | September |\n| Rate Limiting | September |\n\nContact the admin team with questions.",
-    "created_at": "2026-06-07T00:00:00Z",
-    "id": 7,
-    "slug": "q3-roadmap-internal",
-    "tags": [
-      "internal",
-      "planning"
-    ],
-    "title": "Team Update: Q3 Roadmap",
-    "updated_at": "2026-06-07T00:00:00Z",
-    "view_count": 0,
-    "visibility": "private"
-  },
-  {
-    "author": "stadius-admin",
-    "content": "# Deploying Lapis with Docker\n\nDocker makes Lapis deployment **consistent and repeatable**.\n\n## Dockerfile\n\n```dockerfile\nFROM openresty/openresty:bookworm\n\nRUN apt-get update && apt-get install -y luarocks\nRUN luarocks install lapis\n\nWORKDIR /app\nEXPOSE 8080\n```\n\n## Running\n\n```bash\ndocker run -d -p 8080:8080 -v $(pwd):/app my-lapis-app\n```\n\n## Benefits\n\n- Identical environments across dev and prod\n- Easy scaling\n- Simple rollbacks",
-    "created_at": "2026-06-08T00:00:00Z",
-    "id": 8,
-    "slug": "docker-lapis-deploy",
-    "tags": [
-      "docker",
-      "devops",
-      "lapis"
-    ],
-    "title": "Deploying Lapis with Docker",
-    "updated_at": "2026-06-08T00:00:00Z",
-    "view_count": 0,
-    "visibility": "public"
-  },
-  {
-    "author": "editor1",
-    "content": "# Introduction to Lua Tables\n\nTables are Lua's **only data structuring mechanism**.\n\n## Arrays\n\n```lua\nlocal arr = { \"a\", \"b\", \"c\" }\nprint(arr[1])  -- \"a\" (1-indexed!)\n```\n\n## Dictionaries\n\n```lua\nlocal dict = { name = \"Lua\", year = 1993 }\nprint(dict.name)  -- \"Lua\"\n```\n\n## Mixed\n\nTables can be both array and dictionary simultaneously.",
-    "created_at": "2026-06-09T00:00:00Z",
-    "id": 9,
-    "slug": "lua-tables-intro",
-    "tags": [
-      "lua",
-      "tutorial",
-      "beginner"
-    ],
-    "title": "Introduction to Lua Tables",
-    "updated_at": "2026-06-09T00:00:00Z",
-    "view_count": 0,
-    "visibility": "public"
-  },
-  {
-    "author": "stadius-admin",
-    "content": "# Performance Tuning OpenResty\n\nOpenResty is already fast, but you can **squeeze out even more**.\n\n## Lua Code Cache\n\nEnable `lua_code_cache on` in production:\n\n```nginx\nlua_code_cache on;\n```\n\n## Connection Pooling\n\nReuse database connections instead of creating new ones per request.\n\n## Worker Tuning\n\nSet `worker_processes` to match your CPU cores.\n\n## Benchmarking\n\nUse `wrk` or `ab` to measure throughput. Profile Lua code with `ngx.now()`.",
-    "created_at": "2026-06-10T00:00:00Z",
-    "id": 10,
-    "slug": "openresty-performance",
-    "tags": [
-      "openresty",
-      "performance",
-      "nginx"
-    ],
-    "title": "Performance Tuning OpenResty",
-    "updated_at": "2026-06-10T00:00:00Z",
-    "view_count": 0,
-    "visibility": "public"
-  },
-  {
-    "author": "editor1",
-    "content": "# Working with JSON in Lua\n\nJSON is the **universal data format** of the web.\n\n## Encoding\n\n```lua\nlocal json = require(\"cjson\")\nlocal data = { name = \"Lua\", version = \"5.1\" }\nlocal encoded = json.encode(data)\n-- {\"name\":\"Lua\",\"version\":\"5.1\"}\n```\n\n## Decoding\n\n```lua\nlocal decoded = json.decode('{\"key\":\"value\"}')\nprint(decoded.key)  -- \"value\"\n```\n\n## Lapis Utilities\n\nLapis wraps cjson in `lapis.util`:\n\n```lua\nlocal util = require(\"lapis.util\")\nlocal json_str = util.to_json(my_table)\nlocal my_table = util.from_json(json_str)\n```",
-    "created_at": "2026-06-11T00:00:00Z",
-    "id": 11,
-    "slug": "lua-json-guide",
-    "tags": [
-      "lua",
-      "json",
-      "data"
-    ],
-    "title": "Working with JSON in Lua",
-    "updated_at": "2026-06-11T00:00:00Z",
-    "view_count": 0,
-    "visibility": "public"
-  },
-  {
-    "author": "stadius-admin",
-    "content": "# Community Guidelines\n\nWelcome to the Stadius community.\n\n## Be Respectful\n\nTreat others with **kindness and respect**. Disagreement is fine, personal attacks are not.\n\n## Stay On Topic\n\nKeep discussions relevant to the project.\n\n## Share Knowledge\n\nHelp others learn. If you solved a problem, share your solution.\n\n## Report Issues\n\nIf you see something that violates these guidelines, let the admin team know.\n\n> \"The strength of the community is each individual member. The strength of each member is the community.\"",
-    "created_at": "2026-06-12T00:00:00Z",
+    "header_image": "_default_brown.jpg",
     "id": 12,
-    "slug": "community-guidelines",
-    "tags": [
-      "community",
-      "guidelines"
-    ],
-    "title": "Community Guidelines",
-    "updated_at": "2026-06-12T00:00:00Z",
-    "view_count": 0,
-    "visibility": "public"
-  },
-  {
-    "author": "stadius-admin",
-    "content": "test",
-    "created_at": "2026-06-13T17:04:52Z",
-    "header_image": "_default_green.jpg",
-    "id": 13,
-    "slug": "test",
-    "tags": {},
-    "title": "Test",
-    "updated_at": "2026-06-13T18:42:40Z",
-    "view_count": 0,
-    "visibility": "public"
+    "created_at": "2026-06-14T11:00:00Z",
+    "updated_at": "2026-06-14T11:00:00Z"
   }
 ]

@@ -13,7 +13,7 @@
   <a href="?sort=author&order=<%= sort=='author' and order~='asc' and 'desc' or 'asc' %>"
      class="<%= sort=='author' and 'active' or '' %>">Author</a>
   <% if sort then %>
-    <span class="dir"><%= order=='asc' and '&#x25B2;' or '&#x25BC;' %></span>
+    <a href="?sort=<%= sort %>&order=<%= order=='asc' and 'desc' or 'asc' %>" class="dir" title="Toggle order"><%= order=='asc' and '▲' or '▼' %></a>
   <% end %>
 </div>
 

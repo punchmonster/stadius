@@ -8,7 +8,8 @@ local digest = require("openssl.digest")
 local rand = require("openssl.rand")
 
 -- Path to the JSON user store, relative to the app root
-local DATA_FILE = "data/users.json"
+local DB = "data/users.json"
+local J = require("modules.json_util")
 
 -- ---------------------------------------------------------------------------
 -- Internal helpers
@@ -72,104 +73,8 @@ end
   Returns:
     table, keyed by username → { password_hash, salt, created_at }
 --]]
-local function read_users()
-  local file = io.open(DATA_FILE, "r")
-  if not file then
-    return {}
-  end
-  local content = file:read("*a")
-  file:close()
-  if not content or content == "" then
-    return {}
-  end
-  return require("lapis.util").from_json(content) or {}
-end
-
---[[
-  Recursively serialises a Lua value to pretty-printed JSON with 2-space
-  indentation. Keys are sorted alphabetically. Handles tables (objects and
-  arrays), strings, booleans, numbers, and nil/null.
-
-  Args:
-    value  — any Lua value (table, string, number, boolean, nil)
-    indent — integer, current nesting depth (0 for the top-level call)
-
-  Returns:
-    string, the formatted JSON representation of value
---]]
-local function json_encode_pretty(value, indent)
-  indent = indent or 0
-  local pad = string.rep("  ", indent)
-  local pad_inner = string.rep("  ", indent + 1)
-
-  if type(value) == "table" then
-    -- Detect whether this table is an array (consecutive integer keys from 1)
-    local is_array = true
-    local max_key = 0
-    for k in pairs(value) do
-      if type(k) ~= "number" or k < 1 or k ~= math.floor(k) then
-        is_array = false
-        break
-      end
-      if k > max_key then max_key = k end
-    end
-    if max_key == 0 then is_array = false end
-
-    if is_array then
-      if max_key == 0 then
-        return "[]"
-      end
-      local parts = {}
-      for i = 1, max_key do
-        table.insert(parts, pad_inner .. json_encode_pretty(value[i], indent + 1))
-      end
-      return "[\n" .. table.concat(parts, ",\n") .. "\n" .. pad .. "]"
-    else
-      local keys = {}
-      for k in pairs(value) do
-        table.insert(keys, k)
-      end
-      table.sort(keys)
-      if #keys == 0 then
-        return "{}"
-      end
-      local parts = {}
-      for _, k in ipairs(keys) do
-        local v = value[k]
-        table.insert(parts, pad_inner .. '"' .. tostring(k) .. '": ' .. json_encode_pretty(v, indent + 1))
-      end
-      return "{\n" .. table.concat(parts, ",\n") .. "\n" .. pad .. "}"
-    end
-  elseif type(value) == "string" then
-    return '"' .. value:gsub('\\', '\\\\'):gsub('"', '\\"'):gsub('\n', '\\n'):gsub('\r', '\\r'):gsub('\t', '\\t') .. '"'
-  elseif type(value) == "boolean" then
-    return value and "true" or "false"
-  elseif type(value) == "number" then
-    return tostring(value)
-  else
-    return "null"
-  end
-end
-
---[[
-  Writes a users table to the JSON data file with human-readable formatting.
-  Overwrites any existing file at DATA_FILE. Creates the file if missing.
-
-  Args:
-    users — table, keyed by username → { password_hash, salt, created_at }
-
-  Returns:
-    true on success, or false, error_message on failure
---]]
-local function write_users(users)
-  local file = io.open(DATA_FILE, "w")
-  if not file then
-    return false, "Cannot open user data file for writing"
-  end
-  file:write(json_encode_pretty(users))
-  file:close()
-  return true
-end
+local read_users = function() return J.read(DB) end
+local write_users = function(data) return J.write(DB, data) end
 
 -- ---------------------------------------------------------------------------
 -- Roles — imported from the central permissions registry

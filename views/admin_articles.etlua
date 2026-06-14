@@ -21,7 +21,7 @@
        style="<%= sort=='views' and 'font-weight:600;' or '' %>">Views</a>
     <a href="?sort=author&order=<%= sort=='author' and order~='asc' and 'desc' or 'asc' %>&per_page=<%= per_page %>"
        style="<%= sort=='author' and 'font-weight:600;' or '' %>">Author</a>
-    <% if sort then %><%= order=='asc' and '&#x25B2;' or '&#x25BC;' %><% end %>
+    <% if sort then %><a href="?sort=<%= sort %>&order=<%= order=='asc' and 'desc' or 'asc' %>&per_page=<%= per_page %>" title="Toggle order"><%= order=='asc' and '▲' or '▼' %></a><% end %>
   </span>
 </div>
 

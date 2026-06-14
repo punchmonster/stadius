@@ -10,6 +10,7 @@ local app = lapis.Application()
 
 -- Enable etlua templating
 app:enable("etlua")
+app.layout = require("views.layout")
 
 -- Global before_filter: refresh role and permissions from DB on every request.
 -- This ensures role changes take effect immediately without re-login.

@@ -18,6 +18,7 @@ return {
   --]]
   before = function(self)
     self.page_title = "articles"
+    self.section = "articles"
   end,
 
   --[[
@@ -33,7 +34,7 @@ return {
       -- Single article view — lookup by id, slug is ignored
       local article = Articles.find_by_id(id)
       if not article then
-        return { render = "article", layout = "public_layout", status = 404 }
+        return { render = "article", status = 404 }
       end
 
       -- Private articles visible only to author, admins, or editors
@@ -43,7 +44,7 @@ return {
          and role ~= "admin"
          and role ~= "editor"
          and article.author ~= username then
-        return { render = "article", layout = "public_layout", status = 404 }
+        return { render = "article", status = 404 }
       end
 
       article._created = DF.format(article.created_at)
@@ -57,7 +58,7 @@ return {
       -- View counting disabled pending async implementation
       -- Articles.increment_view(id)
 
-      return { render = "article", layout = "public_layout" }
+      return { render = "article" }
     else
       -- List view with pagination (8 per page)
       local role = self.session.role
@@ -92,7 +93,7 @@ return {
       self.total_articles = total
       self.per_page = per_page
 
-      return { render = "articles", layout = "public_layout" }
+      return { render = "articles" }
     end
   end,
 

@@ -1,9 +1,75 @@
-<!-- views/index.etlua — home page, serif framework -->
-<h1>Welcome to Stadius</h1>
+<!-- views/index.etlua — home page with article highlights -->
+<h1>Stadius</h1>
+<p class="card__meta">A self-contained CMS built with Lapis &amp; OpenResty.</p>
 
-<p class="card__meta">A Lapis-powered publication.</p>
+<% if not articles or #articles == 0 then %>
+  <p>No articles yet.</p>
+<% else %>
+  <%
+    local hero = articles[1]
+    local trio = {}
+    local rest = {}
+    for i = 2, #articles do
+      if i <= 4 then table.insert(trio, articles[i])
+      elseif i <= 9 then table.insert(rest, articles[i])
+      end
+    end
+  %>
 
-<div style="display: flex; gap: 1rem; margin-top: 1.5rem;">
-  <a href="/articles" class="btn">Browse Articles</a>
-  <a href="/login" class="btn btn--outline">Login</a>
-</div>
+  <!-- Hero: latest article -->
+  <div style="margin: 2rem 0;">
+    <% if hero.header_image and hero.header_image ~= '' then %>
+      <a href="/articles/<%= hero.id %>/<%= hero.slug %>">
+        <img src="/static/uploads/media/<%= hero.header_image %>" alt="<%= hero.title %>" class="hero-image" style="max-height: 350px;">
+      </a>
+    <% end %>
+    <h2><a href="/articles/<%= hero.id %>/<%= hero.slug %>"><%= hero.title %></a></h2>
+    <p class="card__meta">
+      By <strong><%= hero.author %></strong> on <%= hero._created or hero.created_at %>
+      &middot; <%= table.concat(hero.tags or {}, ", ") %>
+    </p>
+    <p><a href="/articles/<%= hero.id %>/<%= hero.slug %>">Read this article</a></p>
+  </div>
+
+  <hr>
+
+  <!-- Three-card row -->
+  <% if #trio > 0 then %>
+    <div style="display: flex; gap: 1.25rem; margin-bottom: 1rem;">
+      <% for _, a in ipairs(trio) do %>
+        <div class="card" style="flex: 1; min-width: 0; padding: 0 0 1rem 0;">
+          <% if a.header_image and a.header_image ~= '' then %>
+            <a href="/articles/<%= a.id %>/<%= a.slug %>">
+              <img src="/static/uploads/media/<%= a.header_image %>" alt="<%= a.title %>"
+                   style="width: 100%; height: 140px; object-fit: cover;">
+            </a>
+          <% end %>
+          <div style="padding: 0.5rem 0 0;">
+            <h3 style="margin: 0; font-size: 1.05rem;">
+              <a href="/articles/<%= a.id %>/<%= a.slug %>"><%= a.title %></a>
+            </h3>
+            <p class="card__meta"><%= a._created or a.created_at %></p>
+          </div>
+        </div>
+      <% end %>
+      <% for i = #trio + 1, 3 do %><div style="flex: 1;"></div><% end %>
+    </div>
+  <% end %>
+
+  <!-- Remaining rows -->
+  <% if #rest > 0 then %>
+    <% for _, a in ipairs(rest) do %>
+      <div style="display: flex; gap: 1rem; align-items: center; border-top: 1px solid var(--color-border); padding: 0.75rem 0;">
+        <div style="flex: 1; min-width: 0;">
+          <a href="/articles/<%= a.id %>/<%= a.slug %>" style="font-weight: 600; text-decoration: none;"><%= a.title %></a>
+          <span class="card__meta" style="margin-left: 0.5rem;"><%= a._created or a.created_at %></span>
+        </div>
+        <span class="card__meta"><%= a.author %></span>
+      </div>
+    <% end %>
+  <% end %>
+
+  <hr>
+
+  <p><a href="/articles">All articles</a></p>
+<% end %>

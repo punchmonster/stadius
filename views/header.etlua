@@ -1,4 +1,4 @@
-<!-- views/header.etlua — sticky public header, nav right, login/username conditional -->
+<!-- views/header.etlua — sticky public header, nav right, active page underlined -->
 <%
   local icon = require("modules.icon").icon
 %>
@@ -6,13 +6,13 @@
   <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
     <a href="/" class="site-title">Stadius</a>
     <nav class="site-nav">
-      <a href="/">Home</a>
-      <a href="/articles">Articles</a>
-      <a href="/agenda">Agenda</a>
+      <a href="/"         class="<% if section == 'home'     then %>active<% end %>">Home</a>
+      <a href="/articles" class="<% if section == 'articles' then %>active<% end %>">Articles</a>
+      <a href="/agenda"   class="<% if section == 'agenda'   then %>active<% end %>">Agenda</a>
       <% if session and session.username then %>
-        <a href="/profile" class="nav-user"><%- icon('user') %> <%= session.username %></a>
+        <a href="/profile" class="nav-user <% if section == 'profile' then %>active<% end %>"><%- icon('user') %> <%= session.username %></a>
       <% else %>
-        <a href="/login" class="nav-login">Login</a>
+        <a href="/login" class="nav-login <% if section == 'login' then %>active<% end %>">Login</a>
       <% end %>
     </nav>
   </div>

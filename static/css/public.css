@@ -7,12 +7,30 @@
    Fonts
    -------------------------------------------------------------------------- */
 @font-face {
-  font-family: "Goudy Bookletter 1911";
-  src: url("/static/fonts/goudy-bookletter/goudy_bookletter_1911-webfont.woff") format("woff"),
-       url("/static/fonts/goudy-bookletter/goudy_bookletter_1911-webfont.ttf") format("truetype"),
-       url("/static/fonts/goudy-bookletter/goudy_bookletter_1911-webfont.eot") format("embedded-opentype"),
-       url("/static/fonts/goudy-bookletter/goudy_bookletter_1911-webfont.svg") format("svg");
+  font-family: "Fanwood";
+  src: url("/static/fonts/fanwood/fanwood_text-webfont.woff") format("woff"),
+       url("/static/fonts/fanwood/fanwood_text-webfont.ttf") format("truetype");
   font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Fanwood";
+  src: url("/static/fonts/fanwood/fanwood_italic-webfont.woff") format("woff"),
+       url("/static/fonts/fanwood/fanwood_italic-webfont.ttf") format("truetype");
+  font-weight: normal;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "M Plus 2";
+  src: url("/static/fonts/M2PLUS/MPLUS2-Regular.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "M Plus 2";
+  src: url("/static/fonts/M2PLUS/MPLUS2-SemiBold.woff2") format("woff2");
+  font-weight: 600;
   font-style: normal;
 }
 
@@ -20,16 +38,17 @@
    Variables
    -------------------------------------------------------------------------- */
 :root {
-  --color-bg:    #fdfcf9;
+  --color-bg:    #fff;
   --color-text:  #2c2c2c;
   --color-muted: #6b6b6b;
-  --color-link:  #8b4513;
-  --color-link-h: #5c2e0a;
+  --color-link:  #1a2744;
+  --color-link-h: #0d1525;
   --color-border:#d9d5cd;
   --color-card:  #f8f6f0;
   --max-width:   960px;
-  --font-serif:  "Goudy Bookletter 1911", "Georgia", "Times New Roman", Times, serif;
+  --font-serif:  "Fanwood", "Georgia", "Times New Roman", Times, serif;
   --font-mono:   "SF Mono", "Fira Code", Menlo, Consolas, monospace;
+  --font-display:"M Plus 2", "SF Mono", "Fira Code", Menlo, Consolas, monospace;
 }
 
 /* --------------------------------------------------------------------------
@@ -171,25 +190,29 @@ hr {
   top: 0;
   z-index: 10;
   padding: 0.35rem 0;
-  border-bottom: 1px solid var(--color-border);
   background: var(--color-bg);
   margin-bottom: 2rem;
 }
 .site-title {
+  font-family: var(--font-display);
   font-size: 1rem;
-  font-weight: 700;
+  font-weight: 600;
   color: var(--color-text);
   text-decoration: none;
   flex-shrink: 0;
+  letter-spacing: -0.02em;
 }
 .site-title:hover { text-decoration: none; }
 .site-nav {
   display: flex;
   gap: 1.25rem;
-  font-size: 0.95rem;
+  font-size: 1.13rem;
   align-items: center;
 }
 .site-nav a { text-decoration: none; }
+.site-nav a.active {
+  border-bottom: 2px solid #a8c8e8;
+}
 .site-nav .nav-login {
   border: 1px solid var(--color-link);
   padding: 4px 14px;
@@ -227,9 +250,11 @@ hr {
 }
 .card__title a { text-decoration: none; }
 .card__meta {
-  font-size: 0.85rem;
+  font-family: var(--font-display);
+  font-size: 0.7rem;
   color: var(--color-muted);
   margin: 0 0 0.5rem;
+  letter-spacing: 0.02em;
 }
 .card__summary { margin: 0; font-size: 0.95rem; }
 
@@ -334,7 +359,9 @@ input:focus, textarea:focus, select:focus {
   display: flex;
   gap: 1rem;
   align-items: center;
-  font-size: 0.85rem;
+  justify-content: flex-end;
+  font-family: var(--font-display);
+  font-size: 0.7rem;
   color: var(--color-muted);
   margin-bottom: 1.5rem;
 }

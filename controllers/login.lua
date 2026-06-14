@@ -16,6 +16,7 @@ return {
   --]]
   before = function(self)
     self.page_title = "login"
+    self.section = "login"
     self.submit_url = self:url_for("login")
   end,
 
@@ -35,7 +36,7 @@ return {
         return { redirect_to = self:url_for("profile") }
       end
     end
-    return { render = "login", layout = "public_layout" }
+    return { render = "login" }
   end,
 
   --[[
@@ -64,7 +65,7 @@ return {
         return { redirect_to = self:url_for("profile") }
       else
         self.error_message = msg
-        return { render = "login", layout = "public_layout" }
+        return { render = "login" }
       end
     else
       local ok, user_or_msg = User.login(username, password)
@@ -84,7 +85,7 @@ return {
         end
       else
         self.error_message = user_or_msg
-        return { render = "login", layout = "public_layout" }
+        return { render = "login" }
       end
     end
   end,

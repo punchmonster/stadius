@@ -1,29 +1,21 @@
---[[
-  controllers/index.lua — Home page controller
-  Handles GET requests for the "/" route.
---]]
+--[[ controllers/index.lua — Home page with article highlights ]]
+local Articles = require("models.articles")
+local DF = require("modules.date_format")
 
 return {
-
-  --[[
-    Sets page metadata before every action on this controller.
-
-    Self contains the request context (params, session, url_for, etc.).
-    Mutates self.page_title and self.submit_url in place. No return value.
-  --]]
   before = function(self)
     self.page_title = "home"
+    self.section = "home"
     self.submit_url = self:url_for("index")
   end,
 
-  --[[
-    Handles GET requests to the home page.
-
-    Self contains the request context.
-    Returns { render = "index" } to render views/index.etlua.
-  --]]
   GET = function(self)
-    return { render = "index", layout = "public_layout" }
+    local all = Articles.list_public("date", "desc")
+    -- Format dates
+    for _, a in ipairs(all) do
+      a._created = DF.format(a.created_at)
+    end
+    self.articles = all
+    return { render = "index" }
   end,
-
 }
