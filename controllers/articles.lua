@@ -64,14 +64,16 @@ return {
       local role = self.session.role
       local sort = self.params.sort or "date"
       local order = self.params.order or "desc"
+      local tag = self.params.tag
       local all
       if role == "admin" or role == "editor" then
-        all = Articles.list_all(sort, order)
+        all = Articles.list_all(sort, order, tag)
       else
-        all = Articles.list_public(sort, order)
+        all = Articles.list_public(sort, order, tag)
       end
       self.sort = sort
       self.order = order
+      self.tag_filter = tag
 
       local per_page = 8
       local page = tonumber(self.params.page) or 1

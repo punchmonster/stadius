@@ -176,7 +176,7 @@
           <td><%= a.author %></td>
           <td><%= a.view_count or 0 %></td>
           <td><span class="badge badge-<%= a.visibility %>"><%= a.visibility %></span></td>
-          <td><%= table.concat(a.tags or {}, ", ") %></td>
+          <td><% for i, t in ipairs(a.tags or {}) do %><a href="?tag=<%= t %>&per_page=<%= per_page %>"><%= t %></a><% if i < #(a.tags or {}) then %>, <% end %><% end %></td>
           <td><%= a._created or a.created_at %></td>
           <td class="actions-cell">
             <a href="/admin/articles?action=edit&id=<%= a.id %>" class="btn-outline"><%- icon('edit-2') %> Edit</a>

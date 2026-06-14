@@ -239,15 +239,22 @@ local function make_sorter(sort, order)
 end
 
 --[[ Lists all public articles, optionally sorted. ]]
-local function list_public(sort, order)
+local function list_public(sort, order, tag)
   local articles = read_articles()
   local result = {}
   for _, a in ipairs(articles) do
     if a.visibility == "public" then
+      if tag then
+        local found = false
+        for _, t in ipairs(a.tags or {}) do
+          if t:lower() == tag:lower() then found = true break end
+        end
+        if not found then goto continue end
+      end
       table.insert(result, a)
     end
+    ::continue::
   end
-  -- Sort
   table.sort(result, make_sorter(sort, order))
   return result
 end
@@ -273,8 +280,17 @@ end
   Returns:
     array of article tables
 --]]
-local function list_all(sort, order)
+local function list_all(sort, order, tag)
   local articles = read_articles()
+  if tag then
+    local filtered = {}
+    for _, a in ipairs(articles) do
+      for _, t in ipairs(a.tags or {}) do
+        if t:lower() == tag:lower() then table.insert(filtered, a) break end
+      end
+    end
+    articles = filtered
+  end
   table.sort(articles, make_sorter(sort, order))
   return articles
 end

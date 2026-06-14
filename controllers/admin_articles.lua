@@ -21,9 +21,10 @@ local function paginate(self)
   local found = false
   for _, v in ipairs(valid_steps) do if v == per_page then found = true break end end
   if not found then per_page = 10 end
-  local all = Articles.list_all(self.params.sort, self.params.order)
+  local all = Articles.list_all(self.params.sort, self.params.order, self.params.tag)
   self.sort = self.params.sort or "date"
   self.order = self.params.order or "desc"
+  self.tag_filter = self.params.tag
   local total = #all
   local total_pages = math.max(1, math.ceil(total / per_page))
   local page = tonumber(self.params.page) or 1

@@ -1,6 +1,13 @@
 <!-- views/articles.etlua — article listing, serif framework -->
 <h1>Articles</h1>
 
+<% if tag_filter then %>
+  <p class="card__meta" style="margin-bottom: 1rem;">
+    Tagged: <strong><%= tag_filter %></strong>
+    &mdash; <a href="?sort=<%= sort or 'date' %>&order=<%= order or 'desc' %>">clear filter</a>
+  </p>
+<% end %>
+
 <!-- Sort bar -->
 <div class="sort-bar">
   <span>Sort by:</span>
@@ -33,7 +40,11 @@
         </h2>
         <p class="card__meta">
           By <strong><%= a.author %></strong> on <%= a._created or a.created_at %>
-          <% if #(a.tags or {}) > 0 then %> &middot; <%= table.concat(a.tags, ", ") %><% end %>
+          <% if #(a.tags or {}) > 0 then %> &middot;
+    <% for i, t in ipairs(a.tags) do %>
+      <a href="?tag=<%= t %><% if sort then %>&sort=<%= sort %><% end %><% if order then %>&order=<%= order %><% end %>"><%= t %></a><% if i < #a.tags then %>, <% end %>
+    <% end %>
+  <% end %>
         </p>
         <p class="card__summary">
           <a href="/articles/<%= a.id %>/<%= a.slug %>">Read more</a>
