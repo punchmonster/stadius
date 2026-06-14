@@ -3,17 +3,7 @@ local Articles = require("models.articles")
 local Permissions = require("models.permissions")
 local DF = require("modules.date_format")
 local Image = require("modules.image")
-
-local function parse_tags(tags_str)
-  local tags = {}
-  if tags_str then
-    for tag in tags_str:gmatch("[^,]+") do
-      local t = tag:match("^%s*(.-)%s*$")
-      if #t > 0 then table.insert(tags, t) end
-    end
-  end
-  return tags
-end
+local H = require("modules.helpers")
 
 local function paginate(self)
   local per_page = tonumber(self.params.per_page) or 10
@@ -80,7 +70,7 @@ return {
     if action == "create" then
       local ok, result = Articles.create(
         self.params.title, self.params.content or "",
-        self.session.username, parse_tags(self.params.tags),
+        self.session.username, H.parse_tags(self.params.tags),
         self.params.visibility or "public", self.params.slug
       )
       self.message = ok and ("Article created: #" .. tostring(result.id)) or ("Error: " .. result)
@@ -90,7 +80,7 @@ return {
       if id then
         local updates = { content = self.params.content or "" }
         if self.params.title and #self.params.title > 0 then updates.title = self.params.title end
-        updates.tags = parse_tags(self.params.tags)
+        updates.tags = H.parse_tags(self.params.tags)
         updates.visibility = self.params.visibility or "public"
         local _, msg = Articles.update(id, updates)
         self.message = msg

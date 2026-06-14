@@ -9,7 +9,7 @@ return {
   end,
 
   GET = function(self)
-    if self.session.role ~= "admin" then
+    if self.db_role ~= "admin" then
       return { redirect_to = self:url_for("index") }
     end
     self.settings = Settings.get()
@@ -17,7 +17,7 @@ return {
   end,
 
   POST = function(self)
-    if self.session.role ~= "admin" then
+    if self.db_role ~= "admin" then
       return { redirect_to = self:url_for("index") }
     end
 

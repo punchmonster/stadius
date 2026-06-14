@@ -1,206 +1,206 @@
 [
   {
-    "title": "Role-Based Permissions",
+    "author": "stadius-admin",
+    "content": "Stadius includes a **flexible permissions system** that lets you control exactly who can access each part of the site.\n\n## How it works\n\nEvery user has a role — Admin, Editor, Subscriber, or Reader. Each role gets a set of permissions that determine which pages and features they can see.\n\n## The admin panel\n\nAdmins can visit the Roles page to toggle permissions per role. Changes take effect **immediately** — no re-login required.\n\n```\nAdmin      — Dashboard, Users, Articles, Events, Media, Roles\nEditor     — Articles, Events, Media\nSubscriber — Agenda, Profile\nReader     — Agenda, Profile\n```\n\nThis means you can bring on editors without worrying about them changing user accounts or site settings.",
+    "created_at": "2026-06-14T00:00:00Z",
+    "header_image": "_default_green.jpg",
+    "id": 1,
     "slug": "role-based-permissions",
     "tags": [
       "permissions",
       "security",
       "admin"
     ],
-    "content": "Stadius includes a **flexible permissions system** that lets you control exactly who can access each part of the site.\n\n## How it works\n\nEvery user has a role \u2014 Admin, Editor, Subscriber, or Reader. Each role gets a set of permissions that determine which pages and features they can see.\n\n## The admin panel\n\nAdmins can visit the Roles page to toggle permissions per role. Changes take effect **immediately** \u2014 no re-login required.\n\n```\nAdmin      \u2014 Dashboard, Users, Articles, Events, Media, Roles\nEditor     \u2014 Articles, Events, Media\nSubscriber \u2014 Agenda, Profile\nReader     \u2014 Agenda, Profile\n```\n\nThis means you can bring on editors without worrying about them changing user accounts or site settings.",
-    "author": "stadius-admin",
-    "visibility": "public",
+    "title": "Role-Based Permissions",
+    "updated_at": "2026-06-14T00:00:00Z",
     "view_count": 0,
-    "header_image": "_default_green.jpg",
-    "id": 1,
-    "created_at": "2026-06-14T00:00:00Z",
-    "updated_at": "2026-06-14T00:00:00Z"
+    "visibility": "public"
   },
   {
-    "title": "Flat-File Data Storage",
+    "author": "stadius-admin",
+    "content": "Stadius stores everything in **human-readable JSON files** — no database required.\n\n## Why flat files\n\n- Zero configuration. Just clone and run.\n- All data is version-controllable with git\n- Easy to back up — copy the data folder\n- Human-readable — open any file and understand it\n\n## What gets stored\n\nEvery piece of content lives in `data/`:\n\n- `users.json` — accounts, roles, subscriptions\n- `articles.json` — articles, tags, visibility\n- `events.json` — agenda, RSVPs, locations\n- `permissions.json` — role access rules\n- `media.json` — image metadata\n\nNo database server, no migrations, no ORM. Just files.",
+    "created_at": "2026-06-14T01:00:00Z",
+    "header_image": "_default_blue.jpg",
+    "id": 2,
     "slug": "flat-file-data-storage",
     "tags": [
       "architecture",
       "data",
       "design"
     ],
-    "content": "Stadius stores everything in **human-readable JSON files** \u2014 no database required.\n\n## Why flat files\n\n- Zero configuration. Just clone and run.\n- All data is version-controllable with git\n- Easy to back up \u2014 copy the data folder\n- Human-readable \u2014 open any file and understand it\n\n## What gets stored\n\nEvery piece of content lives in `data/`:\n\n- `users.json` \u2014 accounts, roles, subscriptions\n- `articles.json` \u2014 articles, tags, visibility\n- `events.json` \u2014 agenda, RSVPs, locations\n- `permissions.json` \u2014 role access rules\n- `media.json` \u2014 image metadata\n\nNo database server, no migrations, no ORM. Just files.",
-    "author": "stadius-admin",
-    "visibility": "public",
+    "title": "Flat-File Data Storage",
+    "updated_at": "2026-06-14T01:00:00Z",
     "view_count": 0,
-    "header_image": "_default_blue.jpg",
-    "id": 2,
-    "created_at": "2026-06-14T01:00:00Z",
-    "updated_at": "2026-06-14T01:00:00Z"
+    "visibility": "public"
   },
   {
-    "title": "Markdown Article Editor",
+    "author": "editor1",
+    "content": "Write and edit articles using **Markdown** — a simple, readable formatting syntax.\n\n## Supported syntax\n\n- Headings (#, ##, ###)\n- Bold, italic, inline code\n- Fenced code blocks with syntax highlighting\n- Blockquotes and horizontal rules\n- Ordered and unordered lists\n- Links and images\n\n## Live preview\n\nThe editor is a split layout on desktop — your content on the left, image upload and media library on the right. Edit, upload a header image, pick from the media library, or copy markdown snippets for inline images — all from one screen.\n\n## Why Markdown\n\nIt keeps your content portable. Export your articles anywhere that understands Markdown — which is everywhere.",
+    "created_at": "2026-06-14T02:00:00Z",
+    "header_image": "_default_red.jpg",
+    "id": 3,
     "slug": "markdown-article-editor",
     "tags": [
       "editor",
       "markdown",
       "writing"
     ],
-    "content": "Write and edit articles using **Markdown** \u2014 a simple, readable formatting syntax.\n\n## Supported syntax\n\n- Headings (#, ##, ###)\n- Bold, italic, inline code\n- Fenced code blocks with syntax highlighting\n- Blockquotes and horizontal rules\n- Ordered and unordered lists\n- Links and images\n\n## Live preview\n\nThe editor is a split layout on desktop \u2014 your content on the left, image upload and media library on the right. Edit, upload a header image, pick from the media library, or copy markdown snippets for inline images \u2014 all from one screen.\n\n## Why Markdown\n\nIt keeps your content portable. Export your articles anywhere that understands Markdown \u2014 which is everywhere.",
-    "author": "editor1",
-    "visibility": "public",
+    "title": "Markdown Article Editor",
+    "updated_at": "2026-06-14T02:00:00Z",
     "view_count": 0,
-    "header_image": "_default_red.jpg",
-    "id": 3,
-    "created_at": "2026-06-14T02:00:00Z",
-    "updated_at": "2026-06-14T02:00:00Z"
+    "visibility": "public"
   },
   {
-    "title": "Image Media Library",
+    "author": "stadius-admin",
+    "content": "Every uploaded image is tracked in a **searchable media library** with full metadata.\n\n## What gets stored\n\n- Title and alt text for accessibility\n- Credit line for attribution\n- Tags for organisation\n- Upload date and file size\n- Who uploaded it\n\n## Processing\n\nImages are automatically **resized** (max 3000×3000), **compressed** (quality 85), and **converted to JPG** on upload. Only JPG, PNG, and WebP are accepted.\n\n## Using images\n\nPick from the library when editing an article or event. Set an image as the header, or copy the markdown to embed it in the body. The grid view lets you browse, search, and delete images.",
+    "created_at": "2026-06-14T03:00:00Z",
+    "header_image": "_default_yellow.jpg",
+    "id": 4,
     "slug": "image-media-library",
     "tags": [
       "media",
       "images",
       "uploads"
     ],
-    "content": "Every uploaded image is tracked in a **searchable media library** with full metadata.\n\n## What gets stored\n\n- Title and alt text for accessibility\n- Credit line for attribution\n- Tags for organisation\n- Upload date and file size\n- Who uploaded it\n\n## Processing\n\nImages are automatically **resized** (max 3000\u00d73000), **compressed** (quality 85), and **converted to JPG** on upload. Only JPG, PNG, and WebP are accepted.\n\n## Using images\n\nPick from the library when editing an article or event. Set an image as the header, or copy the markdown to embed it in the body. The grid view lets you browse, search, and delete images.",
-    "author": "stadius-admin",
-    "visibility": "public",
+    "title": "Image Media Library",
+    "updated_at": "2026-06-14T03:00:00Z",
     "view_count": 0,
-    "header_image": "_default_yellow.jpg",
-    "id": 4,
-    "created_at": "2026-06-14T03:00:00Z",
-    "updated_at": "2026-06-14T03:00:00Z"
+    "visibility": "public"
   },
   {
-    "title": "Event Agenda with RSVP",
+    "author": "stadius-admin",
+    "content": "Plan and share events with a **public agenda** and built-in RSVP tracking.\n\n## Creating events\n\nAdd a title, date, location, and description in Markdown. Toggle RSVP on, and logged-in users can confirm attendance with one click.\n\n## The agenda page\n\nUpcoming events are listed chronologically. Past events drop off automatically. Each event gets its own page with full details, a header image, and the RSVP button.\n\n## For organisers\n\nThe admin panel shows who has RSVP'd, and you can export the list as CSV — usernames, emails, phone numbers, or all three.",
+    "created_at": "2026-06-14T04:00:00Z",
+    "header_image": "_default_orange.jpg",
+    "id": 5,
     "slug": "event-agenda-rsvp",
     "tags": [
       "events",
       "agenda",
       "rsvp"
     ],
-    "content": "Plan and share events with a **public agenda** and built-in RSVP tracking.\n\n## Creating events\n\nAdd a title, date, location, and description in Markdown. Toggle RSVP on, and logged-in users can confirm attendance with one click.\n\n## The agenda page\n\nUpcoming events are listed chronologically. Past events drop off automatically. Each event gets its own page with full details, a header image, and the RSVP button.\n\n## For organisers\n\nThe admin panel shows who has RSVP'd, and you can export the list as CSV \u2014 usernames, emails, phone numbers, or all three.",
-    "author": "stadius-admin",
-    "visibility": "public",
+    "title": "Event Agenda with RSVP",
+    "updated_at": "2026-06-14T04:00:00Z",
     "view_count": 0,
-    "header_image": "_default_orange.jpg",
-    "id": 5,
-    "created_at": "2026-06-14T04:00:00Z",
-    "updated_at": "2026-06-14T04:00:00Z"
+    "visibility": "public"
   },
   {
-    "title": "User Management Dashboard",
+    "author": "stadius-admin",
+    "content": "Manage every account from a **single table** with inline editing.\n\n## What you can do\n\n- Change roles (Admin, Editor, Subscriber, Reader)\n- Edit email and phone\n- Toggle subscription status\n- Set subscription start and end dates\n- Reset passwords\n- Delete accounts (with confirmation)\n\n## Detail rows\n\nClick the expand button on any user to see join date, last login, last IP, last password change, and subscription dates — all formatted for readability.\n\n## Bulk save\n\nEdit multiple users at once and press one **Save All Changes** button. Pagination handles large user lists with configurable page sizes.",
+    "created_at": "2026-06-14T05:00:00Z",
+    "header_image": "_default_brown.jpg",
+    "id": 6,
     "slug": "user-management-dashboard",
     "tags": [
       "users",
       "admin",
       "management"
     ],
-    "content": "Manage every account from a **single table** with inline editing.\n\n## What you can do\n\n- Change roles (Admin, Editor, Subscriber, Reader)\n- Edit email and phone\n- Toggle subscription status\n- Set subscription start and end dates\n- Reset passwords\n- Delete accounts (with confirmation)\n\n## Detail rows\n\nClick the expand button on any user to see join date, last login, last IP, last password change, and subscription dates \u2014 all formatted for readability.\n\n## Bulk save\n\nEdit multiple users at once and press one **Save All Changes** button. Pagination handles large user lists with configurable page sizes.",
-    "author": "stadius-admin",
-    "visibility": "public",
+    "title": "User Management Dashboard",
+    "updated_at": "2026-06-14T05:00:00Z",
     "view_count": 0,
-    "header_image": "_default_brown.jpg",
-    "id": 6,
-    "created_at": "2026-06-14T05:00:00Z",
-    "updated_at": "2026-06-14T05:00:00Z"
+    "visibility": "public"
   },
   {
-    "title": "Dark Admin Interface",
+    "author": "editor1",
+    "content": "The entire backend uses a **dark theme with sidebar navigation** — built for long editing sessions.\n\n## Design principles\n\n- Dark background (`#1a1d23`) reduces eye strain\n- Sidebar with Feather icons for every section\n- Minimal JavaScript — most interactions use plain HTML\n- Flexbox grid system with reusable column classes\n- Mobile-responsive with a collapsible sidebar\n\n## Customisation\n\nAll styles live in `static/css/admin.css`. The grid columns (`.col-25`, `.col-33`, `.col-50`, `.col-66`) are ready to use. Form elements, buttons, badges, alerts, and tables all follow the same design language.",
+    "created_at": "2026-06-14T06:00:00Z",
+    "header_image": "_default_green.jpg",
+    "id": 7,
     "slug": "dark-admin-interface",
     "tags": [
       "ui",
       "design",
       "admin"
     ],
-    "content": "The entire backend uses a **dark theme with sidebar navigation** \u2014 built for long editing sessions.\n\n## Design principles\n\n- Dark background (`#1a1d23`) reduces eye strain\n- Sidebar with Feather icons for every section\n- Minimal JavaScript \u2014 most interactions use plain HTML\n- Flexbox grid system with reusable column classes\n- Mobile-responsive with a collapsible sidebar\n\n## Customisation\n\nAll styles live in `static/css/admin.css`. The grid columns (`.col-25`, `.col-33`, `.col-50`, `.col-66`) are ready to use. Form elements, buttons, badges, alerts, and tables all follow the same design language.",
-    "author": "editor1",
-    "visibility": "public",
+    "title": "Dark Admin Interface",
+    "updated_at": "2026-06-14T06:00:00Z",
     "view_count": 0,
-    "header_image": "_default_green.jpg",
-    "id": 7,
-    "created_at": "2026-06-14T06:00:00Z",
-    "updated_at": "2026-06-14T06:00:00Z"
+    "visibility": "public"
   },
   {
-    "title": "Public Serif Typography",
+    "author": "editor1",
+    "content": "The reader-facing side uses a **warm, minimalist serif design** with carefully chosen typefaces.\n\n## Fonts\n\n- **Fanwood** — the body text serif, warm and readable\n- **M Plus 2** — accent typeface for metadata, navigation, and labels\n\n## Layout\n\n- 960px max-width content column, centred\n- Sticky header with active-page indicator\n- Cards without borders or rounded corners for a flat, modern feel\n- Responsive: stacks vertically on mobile\n\n## The goal\n\nA reading experience that feels like print — clean, undistracted, focused on the words.",
+    "created_at": "2026-06-14T07:00:00Z",
+    "header_image": "_default_blue.jpg",
+    "id": 8,
     "slug": "public-serif-typography",
     "tags": [
       "typography",
       "design",
       "frontend"
     ],
-    "content": "The reader-facing side uses a **warm, minimalist serif design** with carefully chosen typefaces.\n\n## Fonts\n\n- **Fanwood** \u2014 the body text serif, warm and readable\n- **M Plus 2** \u2014 accent typeface for metadata, navigation, and labels\n\n## Layout\n\n- 960px max-width content column, centred\n- Sticky header with active-page indicator\n- Cards without borders or rounded corners for a flat, modern feel\n- Responsive: stacks vertically on mobile\n\n## The goal\n\nA reading experience that feels like print \u2014 clean, undistracted, focused on the words.",
-    "author": "editor1",
-    "visibility": "public",
+    "title": "Public Serif Typography",
+    "updated_at": "2026-06-14T07:00:00Z",
     "view_count": 0,
-    "header_image": "_default_blue.jpg",
-    "id": 8,
-    "created_at": "2026-06-14T07:00:00Z",
-    "updated_at": "2026-06-14T07:00:00Z"
+    "visibility": "public"
   },
   {
-    "title": "Article Sorting and Pagination",
+    "author": "stadius-admin",
+    "content": "Browse articles your way with **sortable, paginated listings**.\n\n## Sort options\n\nClick to sort by date, title, views, or author. An arrow button toggles ascending or descending order. The sort state stays in the URL so you can share or bookmark it.\n\n## Pagination\n\nPublic pages show 8 articles at a time. The admin panel offers a dropdown to choose 5, 10, 20, 30, 40, or 50 per page. Prev and Next links navigate between pages.\n\n## Private articles\n\nArticles marked as private only appear for logged-in admins, editors, and the original author. Everyone else sees only public content.",
+    "created_at": "2026-06-14T08:00:00Z",
+    "header_image": "_default_red.jpg",
+    "id": 9,
     "slug": "article-sorting-pagination",
     "tags": [
       "articles",
       "sorting",
       "pagination"
     ],
-    "content": "Browse articles your way with **sortable, paginated listings**.\n\n## Sort options\n\nClick to sort by date, title, views, or author. An arrow button toggles ascending or descending order. The sort state stays in the URL so you can share or bookmark it.\n\n## Pagination\n\nPublic pages show 8 articles at a time. The admin panel offers a dropdown to choose 5, 10, 20, 30, 40, or 50 per page. Prev and Next links navigate between pages.\n\n## Private articles\n\nArticles marked as private only appear for logged-in admins, editors, and the original author. Everyone else sees only public content.",
-    "author": "stadius-admin",
-    "visibility": "public",
+    "title": "Article Sorting and Pagination",
+    "updated_at": "2026-06-14T08:00:00Z",
     "view_count": 0,
-    "header_image": "_default_red.jpg",
-    "id": 9,
-    "created_at": "2026-06-14T08:00:00Z",
-    "updated_at": "2026-06-14T08:00:00Z"
+    "visibility": "public"
   },
   {
-    "title": "Feather Icon Integration",
+    "author": "stadius-admin",
+    "content": "Over 280 Feather icons are available as **inline SVGs** throughout the admin interface.\n\n## How they work\n\nA small Lua module reads the SVG file and embeds it directly in the HTML. Icons inherit the current text colour, so they match links, buttons, and hover states automatically.\n\n## Where they appear\n\n- Sidebar navigation (every section)\n- Action buttons (Edit, Delete, Save, Export)\n- Form labels (Slug, Tags, Visibility)\n- The media library grid\n- Public header (user icon when logged in)\n\nThe `icon()` helper is available in any etlua template — just pass the icon name.",
+    "created_at": "2026-06-14T09:00:00Z",
+    "header_image": "_default_yellow.jpg",
+    "id": 10,
     "slug": "feather-icon-integration",
     "tags": [
       "icons",
       "design",
       "ui"
     ],
-    "content": "Over 280 Feather icons are available as **inline SVGs** throughout the admin interface.\n\n## How they work\n\nA small Lua module reads the SVG file and embeds it directly in the HTML. Icons inherit the current text colour, so they match links, buttons, and hover states automatically.\n\n## Where they appear\n\n- Sidebar navigation (every section)\n- Action buttons (Edit, Delete, Save, Export)\n- Form labels (Slug, Tags, Visibility)\n- The media library grid\n- Public header (user icon when logged in)\n\nThe `icon()` helper is available in any etlua template \u2014 just pass the icon name.",
-    "author": "stadius-admin",
-    "visibility": "public",
+    "title": "Feather Icon Integration",
+    "updated_at": "2026-06-14T09:00:00Z",
     "view_count": 0,
-    "header_image": "_default_yellow.jpg",
-    "id": 10,
-    "created_at": "2026-06-14T09:00:00Z",
-    "updated_at": "2026-06-14T09:00:00Z"
+    "visibility": "public"
   },
   {
-    "title": "Automatic Image Processing",
+    "author": "editor1",
+    "content": "Every uploaded image goes through a **processing pipeline** before it hits the library.\n\n## What happens\n\n1. **Validation** — only JPG, PNG, and WebP are accepted\n2. **Resizing** — images larger than 3000×3000 are scaled down\n3. **Auto-orient** — EXIF rotation is respected\n4. **Conversion** — everything becomes a compressed JPG\n5. **Storage** — saved to the media folder with a unique name\n\n## Why it matters\n\nNo more 15MB PNGs slowing down your pages. Every image is optimised for the web before anyone sees it. ImageMagick does the heavy lifting.\n\n## Limits\n\nUpload size is capped at 50MB. The processing pipeline has a safety counter to prevent infinite loops.",
+    "created_at": "2026-06-14T10:00:00Z",
+    "header_image": "_default_orange.jpg",
+    "id": 11,
     "slug": "automatic-image-processing",
     "tags": [
       "images",
       "processing",
       "performance"
     ],
-    "content": "Every uploaded image goes through a **processing pipeline** before it hits the library.\n\n## What happens\n\n1. **Validation** \u2014 only JPG, PNG, and WebP are accepted\n2. **Resizing** \u2014 images larger than 3000\u00d73000 are scaled down\n3. **Auto-orient** \u2014 EXIF rotation is respected\n4. **Conversion** \u2014 everything becomes a compressed JPG\n5. **Storage** \u2014 saved to the media folder with a unique name\n\n## Why it matters\n\nNo more 15MB PNGs slowing down your pages. Every image is optimised for the web before anyone sees it. ImageMagick does the heavy lifting.\n\n## Limits\n\nUpload size is capped at 50MB. The processing pipeline has a safety counter to prevent infinite loops.",
-    "author": "editor1",
-    "visibility": "public",
+    "title": "Automatic Image Processing",
+    "updated_at": "2026-06-14T10:00:00Z",
     "view_count": 0,
-    "header_image": "_default_orange.jpg",
-    "id": 11,
-    "created_at": "2026-06-14T10:00:00Z",
-    "updated_at": "2026-06-14T10:00:00Z"
+    "visibility": "public"
   },
   {
-    "title": "Getting Started with Stadius",
+    "author": "stadius-admin",
+    "content": "Welcome to Stadius — a **self-contained CMS** built with Lapis and OpenResty.\n\n## First steps\n\n1. **Sign up** for an account at `/login`\n2. An admin promotes you to Editor at `/admin/users`\n3. **Write articles** at `/admin/articles`\n4. **Create events** at `/admin/events`\n5. **Upload images** from the article or event editor\n\n## The admin panel\n\nVisit `/admin` to see the dashboard. The sidebar links to every section. Permissions are configured at `/admin/roles`. Poke around to see all the features!\n\n## Public site\n\nReaders visit `/articles` and `/agenda`. The homepage is at `/`. Everything is styled with the public serif theme.\n\n## Under the hood\n\nBuilt on OpenResty (nginx + LuaJIT), Lapis framework, flat JSON files, ImageMagick for images, and Feather icons. Docker-ready with a single-container setup.",
+    "created_at": "2026-06-14T11:00:00Z",
+    "header_image": "_default_brown.jpg",
+    "id": 12,
     "slug": "getting-started-stadius",
     "tags": [
       "guide",
       "getting-started",
       "tutorial"
     ],
-    "content": "Welcome to Stadius \u2014 a **self-contained CMS** built with Lapis and OpenResty.\n\n## First steps\n\n1. **Sign up** for an account at `/login`\n2. An admin promotes you to Editor at `/admin/users`\n3. **Write articles** at `/admin/articles`\n4. **Create events** at `/admin/events`\n5. **Upload images** from the article or event editor\n\n## The admin panel\n\nVisit `/admin` to see the dashboard. The sidebar links to every section. Permissions are configured at `/admin/roles`.\n\n## Public site\n\nReaders visit `/articles` and `/agenda`. The homepage is at `/`. Everything is styled with the public serif theme.\n\n## Under the hood\n\nBuilt on OpenResty (nginx + LuaJIT), Lapis framework, flat JSON files, ImageMagick for images, and Feather icons. Docker-ready with a single-container setup.",
-    "author": "stadius-admin",
-    "visibility": "public",
+    "title": "Getting Started with Stadius",
+    "updated_at": "2026-06-14T15:40:28Z",
     "view_count": 0,
-    "header_image": "_default_brown.jpg",
-    "id": 12,
-    "created_at": "2026-06-14T11:00:00Z",
-    "updated_at": "2026-06-14T11:00:00Z"
+    "visibility": "public"
   }
 ]

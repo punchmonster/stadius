@@ -5,6 +5,7 @@
 --]]
 
 local User = require("models.user")
+local H = require("modules.helpers")
 
 return {
 
@@ -44,14 +45,9 @@ return {
     Returns { render = "profile", layout = "admin_layout" }.
   --]]
   POST = function(self)
-    local function nil_if_empty(s)
-      if s == nil or s == "" then return nil end
-      return s
-    end
-
-    local new_email    = nil_if_empty(self.params.new_email)
-    local new_phone    = nil_if_empty(self.params.new_phone)
-    local new_password = nil_if_empty(self.params.new_password)
+    local new_email    = H.nil_if_empty(self.params.new_email)
+    local new_phone    = H.nil_if_empty(self.params.new_phone)
+    local new_password = H.nil_if_empty(self.params.new_password)
 
     local ok, msg = User.update_user(self.session.username, nil, new_password,
                                       new_email, new_phone)

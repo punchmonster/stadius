@@ -8,6 +8,7 @@
 local User = require("models.user")
 local Permissions = require("models.permissions")
 local DF = require("modules.date_format")
+local H = require("modules.helpers")
 
 --[[
   Helper: loads all users, slices for pagination, and sets context fields on self.
@@ -146,15 +147,10 @@ return {
 
       local updated = 0
       for username in pairs(usernames) do
-        local function nil_if_empty(s)
-          if s == nil or s == "" then return nil end
-          return s
-        end
+        local role_val = H.H.nil_if_empty(roles[username])
+        local pw_val   = H.nil_if_empty(passwords[username])
 
-        local role_val = nil_if_empty(roles[username])
-        local pw_val   = nil_if_empty(passwords[username])
-
-        local sub_active = nil_if_empty(sub_actives[username])
+        local sub_active = H.nil_if_empty(sub_actives[username])
         if sub_active == "true" then
           sub_active = true
         elseif sub_active == "false" then
@@ -165,19 +161,19 @@ return {
 
         -- Only call update if at least one field changed
         local has_change = role_val or pw_val or
-                           nil_if_empty(emails[username]) or
-                           nil_if_empty(phones[username]) or
+                           H.nil_if_empty(emails[username]) or
+                           H.nil_if_empty(phones[username]) or
                            sub_active or
-                           nil_if_empty(sub_starts[username]) or
-                           nil_if_empty(sub_ends[username])
+                           H.nil_if_empty(sub_starts[username]) or
+                           H.nil_if_empty(sub_ends[username])
 
         if has_change then
           User.update_user(username, role_val, pw_val,
-                           nil_if_empty(emails[username]),
-                           nil_if_empty(phones[username]),
+                           H.nil_if_empty(emails[username]),
+                           H.nil_if_empty(phones[username]),
                            sub_active,
-                           nil_if_empty(sub_starts[username]),
-                           nil_if_empty(sub_ends[username]))
+                           H.nil_if_empty(sub_starts[username]),
+                           H.nil_if_empty(sub_ends[username]))
           updated = updated + 1
         end
       end

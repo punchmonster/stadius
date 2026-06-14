@@ -38,7 +38,7 @@ return {
       end
 
       -- Private articles visible only to author, admins, or editors
-      local role = self.session.role
+      local role = self.db_role
       local username = self.session.username
       if article.visibility == "private"
          and role ~= "admin"
@@ -61,7 +61,7 @@ return {
       return { render = "article" }
     else
       -- List view with pagination (8 per page)
-      local role = self.session.role
+      local role = self.db_role
       local sort = self.params.sort or "date"
       local order = self.params.order or "desc"
       local tag = self.params.tag
