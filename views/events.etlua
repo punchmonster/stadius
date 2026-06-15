@@ -3,7 +3,6 @@
 
 <p>Upcoming events.</p>
 
-<hr>
 
 <% if events and #events > 0 then %>
   <%
@@ -35,9 +34,15 @@
         <p class="card__meta">
           <strong><%= e._event_date or e.event_date %></strong> &mdash; by <%= e.author %>
         </p>
-        <div class="article-content" style="font-size: 0.95rem;">
-          <%- e.description_html %>
+        <div style="font-size: 0.9rem;">
+          <%
+            local first_para = e.description:match("^([^\n]+)")
+            local plain = first_para and first_para:gsub("#+%s*", ""):gsub("%*%*?", ""):gsub("%[([^%]]*)%]%([^%)]*%)", "%1") or ""
+          %>
+          <%= plain %>
+          <% if #e.description > #(first_para or "") then %>...<% end %>
         </div>
+        <p><a href="/agenda/<%= e.id %>">Read more</a></p>
       </div>
     </div>
   <% end %>

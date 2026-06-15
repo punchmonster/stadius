@@ -64,9 +64,6 @@ return {
         self.meta_image = article.header_image
       end
 
-      -- View counting disabled pending async implementation
-      -- Articles.increment_view(id)
-
       return { render = "article" }
     else
       -- List view with pagination (8 per page)
