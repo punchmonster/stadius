@@ -2,13 +2,13 @@
 local DB = "data/campaigns.json"
 local J = require("modules.json_util")
 
-local function create(title, description, goal_type, goal_target, goal_current)
+local function create(title, tagline, description, goal_type, goal_target, goal_current)
   local all = J.read(DB)
   local max_id = 0
   for _, c in ipairs(all) do if c.id and c.id > max_id then max_id = c.id end end
   local c = {
     id = max_id + 1,
-    title = title, description = description or "",
+    title = title, tagline = tagline or "", description = description or "",
     goal_type = goal_type or "percent",
     goal_target = tonumber(goal_target) or 100,
     goal_current = tonumber(goal_current) or 0,
@@ -24,6 +24,7 @@ local function update(id, updates)
   for i, c in ipairs(all) do
     if c.id == id then
       if updates.title          then c.title          = updates.title end
+      if updates.tagline        then c.tagline        = updates.tagline end
       if updates.description    then c.description    = updates.description end
       if updates.goal_type      then c.goal_type      = updates.goal_type end
       if updates.goal_target    then c.goal_target    = tonumber(updates.goal_target) or c.goal_target end

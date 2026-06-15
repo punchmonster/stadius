@@ -6,7 +6,9 @@
     "goal_target": 200,
     "goal_type": "count",
     "id": 1,
-    "title": "Community Fundraiser"
+    "title": "Community Fundraiser",
+    "header_image": "_default_green.jpg",
+    "tagline": "Support local artists and makers"
   },
   {
     "created_at": "2026-06-15T10:08:06Z",
@@ -15,6 +17,7 @@
     "goal_target": 100,
     "goal_type": "percent",
     "id": 2,
-    "title": "New Members Drive"
+    "title": "New Members Drive",
+    "tagline": "Help us grow to 100 members"
   }
 ]

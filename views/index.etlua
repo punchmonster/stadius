@@ -94,9 +94,9 @@
                local pct = target > 0 and math.min(100, math.floor((current / target) * 100)) or 0
           %>
             <div class="card" style="padding: 0.75rem; margin-bottom: 0.75rem;">
-              <p style="margin: 0 0 0.3rem; font-weight: 600; font-size: 0.9rem;"><%= c.title %></p>
-              <% if c.description and c.description ~= '' then %>
-                <p style="margin: 0 0 0.5rem; font-size: 0.8rem; color: var(--color-muted);"><%= c.description %></p>
+              <p style="margin: 0 0 0.3rem; font-weight: 600; font-size: 0.9rem;"><a href="/campaigns/<%= c.id %>"><%= c.title %></a></p>
+              <% if c.tagline and c.tagline ~= '' then %>
+                <p style="margin: 0 0 0.5rem; font-size: 0.8rem; color: var(--color-muted);"><%= c.tagline %></p>
               <% end %>
               <div style="display: flex; justify-content: space-between; margin-bottom: 0.2rem; font-family: var(--font-display); font-size: 0.65rem; color: var(--color-muted);">
                 <span><%= pct %>%</span>

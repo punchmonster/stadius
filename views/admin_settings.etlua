@@ -143,13 +143,6 @@
             Show newsletter signup on the home page
           </label>
         </div>
-        <div class="form-row">
-          <label class="toggle-label">
-            <input type="checkbox" class="toggle" name="show_campaigns_footer" value="true"
-                   <% if settings.show_campaigns_footer then %>checked<% end %>>
-            Show campaigns link in the site footer
-          </label>
-        </div>
         <button type="submit" class="btn-primary"><%- icon('save') %> Save</button>
       </form>
 
@@ -166,4 +159,27 @@
   </div>
   <div class="col-33"></div>
 </div>
+
+<!-- Footer Links -->
+<div class="row" style="margin-top: 2rem;">
+  <div class="col-66">
+    <div class="card">
+      <h3><%- icon('link') %> Footer Links</h3>
+      <p class="text-muted text-sm">One link per line: <code>Label | URL</code></p>
+      <form action="/admin/settings" method="POST">
+        <input type="hidden" name="form_id" value="footer_links">
+        <%
+          local util = require("lapis.util")
+          local raw = util.from_json(settings.footer_links or "[]") or {}
+          local text = ""
+          if raw[1] then for _, l in ipairs(raw) do text = text .. l.label .. " | " .. l.url .. "\n" end end
+        %>
+        <textarea name="fl_raw" rows="6" class="input-full font-mono" placeholder="About | /page/about\nContact | /contact"><%= text %></textarea>
+        <button type="submit" class="btn-primary" style="margin-top: 0.5rem;"><%- icon('save') %> Save Footer Links</button>
+      </form>
+    </div>
+  </div>
+  <div class="col-33"></div>
+</div>
+
 

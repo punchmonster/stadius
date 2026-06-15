@@ -114,38 +114,14 @@ app:match("contact", "/contact", respond_to(contact_controller))
 -- Campaigns listing
 app:match("campaigns", "/campaigns", respond_to(campaigns_controller))
 
--- Newsletter CSV export (admin only)
-app:match("newsletter_export", "/admin/newsletter-export", respond_to({
-  before = function(self)
-    if self.session.role ~= "admin" then return { redirect_to = "/" } end
-  end,
-  GET = function(self)
-    local J = require("modules.json_util")
-    local subs = J.read("data/newsletter.json")
-    local csv = "Email,Signed Up\n"
-    for _, s in ipairs(subs) do
-      csv = csv .. s.email .. "," .. (s.signed_up or "") .. "\n"
-    end
-    ngx.header["Content-Type"] = "text/csv; charset=utf-8"
-    ngx.header["Content-Disposition"] = "attachment; filename=\"newsletter_subscribers.csv\""
-    ngx.say(csv)
-    return ngx.exit(ngx.HTTP_OK)
-  end
-}))
+-- Single campaign
+app:match("campaign", "/campaigns/:id", respond_to(campaigns_controller))
 
 -- Newsletter signup
-app:match("newsletter", "/newsletter", respond_to({
-  POST = function(self)
-    local email = self.params.email
-    if email and #email > 5 and email:match("@") then
-      local J = require("modules.json_util")
-      local list = J.read("data/newsletter.json")
-      table.insert(list, { email = email, signed_up = os.date("!%Y-%m-%dT%H:%M:%SZ") })
-      J.write("data/newsletter.json", list)
-    end
-    return { redirect_to = "/?signed_up=1" }
-  end
-}))
+app:match("newsletter", "/newsletter", respond_to(require("controllers.newsletter")))
+
+-- Newsletter CSV export (admin only)
+app:match("newsletter_export", "/admin/newsletter-export", respond_to(require("controllers.admin_newsletter_export")))
 
 -- Logout — expires the session cookie and redirects home
 app:match("logout", "/logout", respond_to({

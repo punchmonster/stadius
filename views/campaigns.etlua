@@ -12,11 +12,11 @@
     <div class="card">
       <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem;">
         <div style="flex: 1; min-width: 200px;">
-          <h2 class="card__title"><%= c.title %></h2>
-          <p class="card__meta"><%= c.goal_type == 'count' and 'Count' or 'Percentage' %> &mdash; <%= c.goal_current %> of <%= c.goal_target %></p>
-          <% if c.description and c.description ~= '' then %>
-            <p style="font-size: 0.9rem;"><%= c.description %></p>
+          <h2 class="card__title"><a href="/campaigns/<%= c.id %>"><%= c.title %></a></h2>
+          <% if c.tagline and c.tagline ~= '' then %>
+            <p class="card__meta" style="font-size: 0.85rem;"><%= c.tagline %></p>
           <% end %>
+          <p class="card__meta"><%= c.goal_type == 'count' and 'Count' or 'Percentage' %> &mdash; <%= c.goal_current %> of <%= c.goal_target %></p>
         </div>
         <div style="flex: 1; min-width: 200px; max-width: 300px;">
           <div style="display: flex; justify-content: space-between; margin-bottom: 0.25rem; font-family: var(--font-display); font-size: 0.7rem; color: var(--color-muted);">

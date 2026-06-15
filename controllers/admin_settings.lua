@@ -35,7 +35,17 @@ return {
       updates.show_contact_footer = (self.params.show_contact_footer == "true")
     elseif form == "newsletter" then
       updates.show_newsletter_home = (self.params.show_newsletter_home == "true")
-      updates.show_campaigns_footer = (self.params.show_campaigns_footer == "true")
+    elseif form == "footer_links" then
+      local raw = self.params.fl_raw or ""
+      local links = {}
+      for line in raw:gmatch("[^\r\n]+") do
+        local label, url = line:match("^%s*(.-)%s*|%s*(.-)%s*$")
+        if label and url and label ~= "" then
+          table.insert(links, {label = label, url = url})
+        end
+      end
+      if #links == 0 then updates.footer_links = "[]"
+      else updates.footer_links = require("lapis.util").to_json(links) end
     end
 
     -- Handle favicon upload

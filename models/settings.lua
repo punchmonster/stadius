@@ -19,7 +19,7 @@ local DEFAULTS = {
   show_contact_footer = false,
   show_campaigns_home = false,
   show_newsletter_home = false,
-  show_campaigns_footer = false,
+  footer_links = "[]",
 }
 
 local function get()

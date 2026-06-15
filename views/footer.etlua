@@ -12,15 +12,23 @@
     <!-- Left column: site info + links -->
     <div style="flex: 1; min-width: 200px;">
       <p><strong><%= site.site_name %></strong></p>
-      <p>
-        <a href="/contact">Contact</a>
-        <% if site.show_campaigns_footer then %> &middot; <a href="/campaigns">Campaigns</a><% end %>
-        <% if #footer_pages > 0 then %>
-          <% for _, p in ipairs(footer_pages) do %>
-            &middot; <a href="/page/<%= p.slug %>"><%= p.title %></a>
+      <%
+        local util = require("lapis.util")
+        local raw = util.from_json(site.footer_links or "[]") or {}
+        local footer_links = {}
+        -- Normalize: cjson may decode as object or array
+        if raw[1] then for _, v in ipairs(raw) do table.insert(footer_links, v) end end
+      %>
+      <% if #footer_links > 0 or #footer_pages > 0 then %>
+        <p>
+          <% for i, link in ipairs(footer_links) do %>
+            <a href="<%= link.url %>"><%= link.label %></a><% if i < #footer_links or #footer_pages > 0 then %> &middot; <% end %>
           <% end %>
-        <% end %>
-      </p>
+          <% for i, p in ipairs(footer_pages) do %>
+            <a href="/page/<%= p.slug %>"><%= p.title %></a><% if i < #footer_pages then %> &middot; <% end %>
+          <% end %>
+        </p>
+      <% end %>
       <p style="font-size: 0.8rem;">Built with Lapis &amp; OpenResty.</p>
     </div>
 

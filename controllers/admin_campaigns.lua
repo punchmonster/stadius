@@ -1,6 +1,7 @@
 --[[ controllers/admin_campaigns.lua — campaign editor (admin + editor) ]]
 local Campaigns = require("models.campaigns")
 local Permissions = require("models.permissions")
+local Image = require("modules.image")
 
 return {
   before = function(self)
@@ -32,13 +33,14 @@ return {
     local action = self.params.action
 
     if action == "create" then
-      local ok, c = Campaigns.create(self.params.title, self.params.description, self.params.goal_type, self.params.goal_target, self.params.goal_current)
+      local ok, c = Campaigns.create(self.params.title, self.params.tagline, self.params.description, self.params.goal_type, self.params.goal_target, self.params.goal_current)
       self.message = ok and ("Campaign created: #" .. c.id) or ("Error: " .. (c or "?"))
     elseif action == "edit" then
       local id = tonumber(self.params.id)
       if id then
         local u = {}
         if self.params.title and #self.params.title > 0 then u.title = self.params.title end
+        if self.params.tagline then u.tagline = self.params.tagline end
         u.description = self.params.description or ""
         u.goal_type = self.params.goal_type
         u.goal_target = self.params.goal_target
@@ -51,6 +53,29 @@ return {
       if id then
         local _, msg = Campaigns.delete(id)
         self.message = msg
+      end
+
+    -- Image actions
+    elseif action == "upload_image" then
+      local name = Image.save_upload(self.params, self.session.username)
+      local id = tonumber(self.params.id)
+      if name and id then
+        Campaigns.update(id, { header_image = name })
+        self.message = "Image uploaded."
+      elseif not name then
+        self.message = "Upload failed."
+      end
+
+    elseif action == "remove_image" then
+      local id = tonumber(self.params.id)
+      if id then Campaigns.update(id, { header_image = "" }) end
+      self.message = "Image removed."
+
+    elseif action == "select_image" then
+      local id = tonumber(self.params.id)
+      if id and self.params.filename then
+        Campaigns.update(id, { header_image = self.params.filename })
+        self.message = "Image set."
       end
     end
 

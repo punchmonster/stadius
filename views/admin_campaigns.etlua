@@ -15,6 +15,54 @@
 
 <% if mode == "new" or mode == "edit" then %>
   <div class="row">
+  <div class="col-33">
+    <div class="card" style="margin-bottom: 1rem;">
+      <h3><%- icon('image') %> Image</h3>
+      <% if edit_campaign and edit_campaign.header_image and edit_campaign.header_image ~= '' then %>
+        <img src="/static/uploads/media/<%= edit_campaign.header_image %>"
+             style="width: 100%; border-radius: 4px; margin-bottom: 0.5rem;" alt="">
+        <form action="/admin/campaigns" method="POST" style="margin-bottom: 0.5rem;">
+          <input type="hidden" name="action" value="remove_image">
+          <input type="hidden" name="id" value="<%= edit_campaign.id %>">
+          <button type="submit" class="btn-danger" style="width: 100%;">Remove Image</button>
+        </form>
+      <% else %>
+        <p class="text-muted text-sm">No image set</p>
+      <% end %>
+      <details>
+        <summary class="btn-outline" style="width: 100%;"><%- icon('upload') %> Upload / Pick</summary>
+        <form action="/admin/campaigns" method="POST" enctype="multipart/form-data" style="margin-top: 0.5rem;">
+          <input type="hidden" name="action" value="upload_image">
+          <input type="hidden" name="id" value="<%= edit_campaign and edit_campaign.id or '' %>">
+          <div class="form-row">
+            <input type="file" name="header_image" accept="image/*" style="width: 100%;">
+          </div>
+          <button type="submit" class="btn-outline" style="width: 100%;">Upload</button>
+        </form>
+        <div class="media-picker-list">
+          <%
+            local Media = require("models.media")
+            local all_media = Media.list_all()
+          %>
+          <% for _, m in ipairs(all_media) do %>
+            <div class="media-picker-item">
+              <img src="/static/uploads/media/<%= m.filename %>" class="media-picker-thumb" alt="">
+              <div class="media-picker-meta">
+                <p class="media-picker-name"><%= m.title ~= '' and m.title or m.filename %></p>
+                <form action="/admin/campaigns" method="POST" class="media-picker-actions">
+                  <input type="hidden" name="id" value="<%= edit_campaign and edit_campaign.id or '' %>">
+                  <input type="hidden" name="action" value="select_image">
+                  <input type="hidden" name="filename" value="<%= m.filename %>">
+                  <button type="submit" class="btn-link">set image</button>
+                </form>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </details>
+    </div>
+  </div>
+
   <div class="col-66">
   <div class="card">
     <h2><% if mode == "new" then %>New Campaign<% else %>Edit: <%= edit_campaign and edit_campaign.title or "" %><% end %></h2>
@@ -29,6 +77,11 @@
         <label for="title">Title</label>
         <input type="text" id="title" name="title" required class="input-full"
                value="<%= edit_campaign and edit_campaign.title or '' %>">
+      </div>
+      <div class="form-row">
+        <label for="tagline">Tagline <span class="text-muted text-sm">(shown on homepage and overview)</span></label>
+        <input type="text" id="tagline" name="tagline" class="input-full"
+               value="<%= edit_campaign and edit_campaign.tagline or '' %>" placeholder="A short, punchy line">
       </div>
       <div class="form-row">
         <label for="description">Description</label>
@@ -58,7 +111,6 @@
     </form>
   </div>
   </div>
-  <div class="col-33"></div>
   </div>
 <% end %>
 
