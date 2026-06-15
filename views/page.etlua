@@ -7,4 +7,11 @@
   <div class="article-content">
     <%- page_html %>
   </div>
+  <%
+    local hooks = require("modules.hooks")
+    for _, fn in ipairs(hooks.get("page_content")) do
+      local out = fn(custom_page)
+      if out then %><%- out %><% end
+    end
+  %>
 <% end %>

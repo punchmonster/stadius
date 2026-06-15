@@ -3,7 +3,7 @@
   <h1>Stadius</h1>
   <p>No articles yet.</p>
 <% else %>
-  <div style="display: flex; gap: 2rem; flex-wrap: wrap;">
+  <div class="home-layout" style="display: flex; gap: 2rem; flex-wrap: wrap;">
     <!-- Main content -->
     <div style="flex: 3; min-width: 0;">
       <h3 style="font-family: var(--font-display); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--color-muted); margin-top: 0;">Updates</h3>
@@ -42,7 +42,7 @@
 
   <!-- Three-card row -->
   <% if #trio > 0 then %>
-    <div style="display: flex; gap: 1.25rem; margin-bottom: 1rem;">
+    <div class="home-trio" style="display: flex; gap: 1.25rem; margin-bottom: 1rem;">
       <% for _, a in ipairs(trio) do %>
         <div class="card" style="flex: 1; min-width: 0; padding: 0 0 1rem 0;">
           <% if a.header_image and a.header_image ~= '' then %>
@@ -69,7 +69,11 @@
       <div style="display: flex; gap: 1rem; align-items: center; border-top: 1px solid var(--color-border); padding: 0.75rem 0;">
         <div style="flex: 1; min-width: 0;">
           <a href="/articles/<%= a.id %>/<%= a.slug %>" style="font-weight: 600; text-decoration: none;"><%= a.title %></a>
-          <span class="card__meta" style="margin-left: 0.5rem;"><%= a._created or a.created_at %></span>
+          <%
+            local d = a._created or a.created_at or ""
+            d = d:gsub("%s+%d%d:%d%d.*$", "")
+          %>
+          <span class="card__meta" style="margin-left: 0.5rem;"><%= d %></span>
         </div>
         <span class="card__meta"><%= a.author %></span>
       </div>
@@ -83,7 +87,7 @@
 
     <!-- Sidebar column (shared) -->
     <% if (site.show_campaigns_home and campaigns and #campaigns > 0) or site.show_newsletter_home then %>
-      <div style="flex: 1; min-width: 220px; max-width: 300px;">
+      <div class="home-sidebar" style="flex: 1; min-width: 240px; max-width: 420px;">
 
         <!-- Campaigns -->
         <% if site.show_campaigns_home and campaigns and #campaigns > 0 then %>

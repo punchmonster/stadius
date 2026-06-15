@@ -213,6 +213,18 @@ hr {
 .site-nav a.active {
   border-bottom: 2px solid #a8c8e8;
 }
+
+/* Hamburger button — hidden on desktop, visible on mobile */
+.nav-toggle {
+  display: none;
+  background: none;
+  border: 1px solid var(--color-border);
+  padding: 6px 12px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  color: var(--color-text);
+  line-height: 1;
+}
 .site-nav .nav-login {
   border: 1px solid var(--color-link);
   padding: 4px 14px;
@@ -407,11 +419,33 @@ input:focus, textarea:focus, select:focus {
 /* --------------------------------------------------------------------------
    Responsive
    -------------------------------------------------------------------------- */
-@media (max-width: 600px) {
+@media (max-width: 700px) {
   body { font-size: 1rem; }
+  .container { padding: 0 1rem; }
+
+  /* Cards stack vertically */
   .card--flex { flex-direction: column; }
   .card__thumb { width: 100%; }
   .card__thumb--portrait { aspect-ratio: 4/5; }
+
+  /* Homepage hero */
+  .hero-image { max-height: 250px; }
+
+  /* Homepage trio stacks */
+  .home-trio { flex-direction: column; }
+
+  /* Sidebar goes full width below content */
+  .home-layout { flex-direction: column; }
+  .home-sidebar { max-width: 100% !important; flex: 1 0 100% !important; }
+
+  /* Nav */
   .site-nav { flex-wrap: wrap; gap: 0.75rem; }
   .sort-bar { flex-wrap: wrap; gap: 0.5rem; }
+
+  /* Hamburger nav */
+  .site-header .container { flex-wrap: wrap; }
+  .nav-toggle { display: block; }
+  .site-nav:not(.open) { display: none; }
+  .site-nav.open { display: flex; flex-direction: column; width: 100%; padding-top: 0.5rem; }
 }
+

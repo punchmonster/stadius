@@ -2,7 +2,7 @@
 local DB = "data/pages.json"
 local J = require("modules.json_util")
 
-local function create(title, slug, content, location)
+local function create(title, slug, content, content_type, location)
   local all = J.read(DB)
   local max_id = 0
   for _, p in ipairs(all) do if p.id and p.id > max_id then max_id = p.id end end
@@ -11,6 +11,7 @@ local function create(title, slug, content, location)
     title = title,
     slug = slug or title:lower():gsub("[^a-z0-9%-]", "-"):gsub("%-+", "-"),
     content = content or "",
+    content_type = content_type or "html",
     location = location or "nav",
     created_at = os.date("!%Y-%m-%dT%H:%M:%SZ"),
     updated_at = os.date("!%Y-%m-%dT%H:%M:%SZ"),
@@ -25,8 +26,9 @@ local function update(id, updates)
     if p.id == id then
       if updates.title    then p.title    = updates.title end
       if updates.slug     then p.slug     = updates.slug end
-      if updates.content  then p.content  = updates.content end
-      if updates.location then p.location = updates.location end
+      if updates.content      then p.content      = updates.content end
+      if updates.content_type then p.content_type = updates.content_type end
+      if updates.location     then p.location     = updates.location end
       p.updated_at = os.date("!%Y-%m-%dT%H:%M:%SZ")
       all[i] = p
       return J.write(DB, all), "Page updated"

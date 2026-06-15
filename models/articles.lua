@@ -238,8 +238,8 @@ local function make_sorter(sort, order)
   end
 end
 
---[[ Lists all public articles, optionally sorted. ]]
-local function list_public(sort, order, tag)
+--[[ Lists all public articles, optionally filtered and sorted. ]]
+local function list_public(sort, order, tag, search)
   local articles = read_articles()
   local result = {}
   for _, a in ipairs(articles) do
@@ -250,6 +250,16 @@ local function list_public(sort, order, tag)
           if t:lower() == tag:lower() then found = true break end
         end
         if not found then goto continue end
+      end
+      if search then
+        local q = search:lower()
+        local in_title   = a.title and a.title:lower():find(q, 1, true)
+        local in_content = a.content and a.content:lower():find(q, 1, true)
+        local in_tags    = false
+        for _, t in ipairs(a.tags or {}) do
+          if t:lower():find(q, 1, true) then in_tags = true break end
+        end
+        if not (in_title or in_content or in_tags) then goto continue end
       end
       table.insert(result, a)
     end
@@ -280,7 +290,7 @@ end
   Returns:
     array of article tables
 --]]
-local function list_all(sort, order, tag)
+local function list_all(sort, order, tag, search)
   local articles = read_articles()
   if tag then
     local filtered = {}
@@ -288,6 +298,20 @@ local function list_all(sort, order, tag)
       for _, t in ipairs(a.tags or {}) do
         if t:lower() == tag:lower() then table.insert(filtered, a) break end
       end
+    end
+    articles = filtered
+  end
+  if search then
+    local q = search:lower()
+    local filtered = {}
+    for _, a in ipairs(articles) do
+      local in_title   = a.title and a.title:lower():find(q, 1, true)
+      local in_content = a.content and a.content:lower():find(q, 1, true)
+      local in_tags    = false
+      for _, t in ipairs(a.tags or {}) do
+        if t:lower():find(q, 1, true) then in_tags = true break end
+      end
+      if in_title or in_content or in_tags then table.insert(filtered, a) end
     end
     articles = filtered
   end

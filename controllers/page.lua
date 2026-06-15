@@ -13,8 +13,13 @@ return {
       return { render = "page", status = 404 }
     end
     self.page_title = page.title
-    self.meta_description = page.content:gsub("#+%s*", ""):gsub("%*%*?", ""):gsub("\n", " "):sub(1, 200)
-    self.page_html = Markdown.to_html(page.content)
+    self.meta_description = page.content:gsub("<[^>]+>", ""):gsub("\n", " "):sub(1, 200)
+    local hooks = require("modules.hooks")
+    if page.content_type == "markdown" then
+      self.page_html = Markdown.to_html(page.content)
+    else
+      self.page_html = hooks.render_shortcodes(page.content)
+    end
     self.custom_page = page
     return { render = "page" }
   end,

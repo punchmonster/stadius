@@ -71,15 +71,17 @@ return {
       local sort = self.params.sort or "date"
       local order = self.params.order or "desc"
       local tag = self.params.tag
+      local search = self.params.q
       local all
       if role == "admin" or role == "editor" then
-        all = Articles.list_all(sort, order, tag)
+        all = Articles.list_all(sort, order, tag, search)
       else
-        all = Articles.list_public(sort, order, tag)
+        all = Articles.list_public(sort, order, tag, search)
       end
       self.sort = sort
       self.order = order
       self.tag_filter = tag
+      self.search_query = search
 
       local per_page = 8
       local page = tonumber(self.params.page) or 1

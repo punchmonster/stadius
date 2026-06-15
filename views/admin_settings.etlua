@@ -60,6 +60,13 @@
             Show campaigns on the home page
           </label>
         </div>
+        <div class="form-row">
+          <label class="toggle-label">
+            <input type="checkbox" class="toggle" name="show_header_search" value="true"
+                   <% if settings.show_header_search then %>checked<% end %>>
+            Show search bar in the site header
+          </label>
+        </div>
         <button type="submit" class="btn-primary"><%- icon('save') %> Save Settings</button>
       </form>
     </div>

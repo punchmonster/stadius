@@ -1,6 +1,19 @@
 <!-- views/articles.etlua — article listing, serif framework -->
 <h1>Articles</h1>
 
+<!-- Search bar -->
+<form action="/articles" method="GET" style="margin-bottom: 1rem;">
+  <div style="display: flex; gap: 0.5rem;">
+    <input type="text" name="q" value="<%= search_query or '' %>" placeholder="Search articles..." class="input-full" style="margin-bottom: 0;">
+    <% if sort then %><input type="hidden" name="sort" value="<%= sort %>"><% end %>
+    <% if order then %><input type="hidden" name="order" value="<%= order %>"><% end %>
+    <button type="submit" class="btn">Search</button>
+    <% if search_query then %>
+      <a href="/articles" class="btn btn--outline">Clear</a>
+    <% end %>
+  </div>
+</form>
+
 <% if tag_filter then %>
   <p class="card__meta" style="margin-bottom: 1rem;">
     Tagged: <strong><%= tag_filter %></strong>

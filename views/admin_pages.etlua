@@ -35,6 +35,13 @@
                placeholder="my-page">
       </div>
       <div class="form-row">
+        <label for="content_type">Content type</label>
+        <select id="content_type" name="content_type">
+          <option value="html" <% if not edit_page or edit_page.content_type=='html' then %>selected<% end %>>HTML</option>
+          <option value="markdown" <% if edit_page and edit_page.content_type=='markdown' then %>selected<% end %>>Markdown</option>
+        </select>
+      </div>
+      <div class="form-row">
         <label for="location">Show in</label>
         <select id="location" name="location">
           <option value="nav" <% if not edit_page or edit_page.location=='nav' then %>selected<% end %>>Navigation</option>

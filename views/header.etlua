@@ -12,6 +12,15 @@
       <% end %>
       <%= site.site_name %>
     </a>
+    <button class="nav-toggle" onclick="document.querySelector('.site-nav').classList.toggle('open')" aria-label="Menu">&equiv;</button>
+    <% if site.show_header_search then %>
+      <div class="nav-search" style="display: flex; align-items: center;">
+        <button type="button" class="nav-search-toggle" onclick="var w=this.parentElement.querySelector('.nav-search-input'); var v=w.style.display==='none'; w.style.display=v?'block':'none'; if(v)w.focus()" style="background: none; border: none; cursor: pointer; color: var(--color-muted); padding: 2px 4px;" aria-label="Search"><%- icon('search') %></button>
+        <form action="/articles" method="GET" style="display: inline;">
+          <input type="search" name="q" placeholder="Search..." class="nav-search-input" style="display: none; padding: 4px 8px; font-size: 0.75rem; border: 1px solid var(--color-border); width: 140px; transition: width 0.2s;">
+        </form>
+      </div>
+    <% end %>
     <nav class="site-nav">
       <a href="/"         class="<% if section == 'home'     then %>active<% end %>">Home</a>
       <a href="/articles" class="<% if section == 'articles' then %>active<% end %>">Articles</a>

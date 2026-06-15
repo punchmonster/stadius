@@ -92,6 +92,10 @@ local function to_html(md)
     return ""
   end
 
+  -- Process shortcodes before markdown conversion
+  local hooks = require("modules.hooks")
+  md = hooks.render_shortcodes(md)
+
   local lines = {}
   for line in md:gmatch("[^\r\n]+") do
     table.insert(lines, line)

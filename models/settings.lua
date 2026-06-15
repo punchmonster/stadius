@@ -21,6 +21,7 @@ local DEFAULTS = {
   show_newsletter_home = false,
   footer_links = "[]",
   disabled_plugins = "[]",
+  show_header_search = false,
 }
 
 local function get()

@@ -1,20 +1,32 @@
 [
   {
-    "content": "We are a small publication.",
+    "content": "<p>We are a small publication.</p>",
+    "content_type": "html",
     "created_at": "2026-06-15T08:11:20Z",
     "id": 1,
     "location": "footer",
     "slug": "about",
     "title": "About",
-    "updated_at": "2026-06-15T08:22:40Z"
+    "updated_at": "2026-06-15T14:49:52Z"
   },
   {
     "content": "Privacy policy text.",
+    "content_type": "markdown",
     "created_at": "2026-06-15T08:11:27Z",
     "id": 2,
     "location": "footer",
     "slug": "privacy",
     "title": "Privacy",
-    "updated_at": "2026-06-15T08:11:27Z"
+    "updated_at": "2026-06-15T14:51:20Z"
+  },
+  {
+    "content": "<h2>Demo</h2><p>{{ greeting }}</p>",
+    "content_type": "html",
+    "created_at": "2026-06-15T14:48:40Z",
+    "id": 3,
+    "location": "none",
+    "slug": "html-demo",
+    "title": "HTML Demo",
+    "updated_at": "2026-06-15T14:51:03Z"
   }
 ]

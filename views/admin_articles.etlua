@@ -11,6 +11,14 @@
   <a href="/admin/articles?action=new"><%- icon('plus') %> New Article</a>
   <span class="sep">|</span>
   <a href="/admin/articles">All Articles</a>
+  <form action="/admin/articles" method="GET" style="display: flex; gap: 0.25rem; align-items: center; margin-left: auto;">
+    <input type="search" name="q" value="<%= search_query or '' %>" placeholder="Search..." style="padding: 4px 8px; font-size: 0.85rem; width: 180px;">
+    <% if per_page then %><input type="hidden" name="per_page" value="<%= per_page %>"><% end %>
+    <button type="submit" style="background: none; border: none; cursor: pointer; color: var(--text-muted);"><%- icon('search') %></button>
+    <% if search_query then %>
+      <a href="/admin/articles" class="btn-link" style="font-size: 0.75rem;">clear</a>
+    <% end %>
+  </form>
   <span style="margin-left: auto; font-size: 0.85rem; display: flex; gap: 0.5rem; align-items: center;">
     Sort:
     <a href="?sort=date&order=<%= sort=='date' and order~='asc' and 'asc' or 'desc' %>&per_page=<%= per_page %>"

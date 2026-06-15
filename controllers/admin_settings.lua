@@ -31,6 +31,7 @@ return {
     local form = self.params.form_id
     if form == "general" then
       updates.show_campaigns_home = (self.params.show_campaigns_home == "true")
+      updates.show_header_search = (self.params.show_header_search == "true")
     elseif form == "contact" then
       updates.show_contact_footer = (self.params.show_contact_footer == "true")
     elseif form == "newsletter" then

@@ -32,7 +32,7 @@ return {
     local action = self.params.action
 
     if action == "create" then
-      local ok, page = Pages.create(self.params.title, self.params.slug, self.params.content or "", self.params.location or "nav")
+      local ok, page = Pages.create(self.params.title, self.params.slug, self.params.content or "", self.params.content_type or "html", self.params.location or "nav")
       self.message = ok and ("Page created: " .. page.slug) or ("Error: " .. (page or "?"))
     elseif action == "edit" then
       local id = tonumber(self.params.id)
@@ -41,6 +41,7 @@ return {
         if self.params.title    and #self.params.title > 0 then updates.title    = self.params.title end
         if self.params.slug     and #self.params.slug > 0  then updates.slug     = self.params.slug end
         if self.params.location and #self.params.location > 0 then updates.location = self.params.location end
+        if self.params.content_type and #self.params.content_type > 0 then updates.content_type = self.params.content_type end
         updates.content = self.params.content or ""
         local _, msg = Pages.update(id, updates)
         self.message = msg
