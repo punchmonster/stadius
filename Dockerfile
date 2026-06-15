@@ -25,6 +25,9 @@ WORKDIR /app
 # Bake the code into the image
 COPY . /app
 
+# Ensure log directory exists
+RUN mkdir -p /app/logs
+
 # Compile the nginx config for production (lua_code_cache on, daemon off)
 RUN lapis build production
 
