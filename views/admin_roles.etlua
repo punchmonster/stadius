@@ -33,7 +33,7 @@
             <tr>
               <td><%= label %></td>
               <td style="text-align: center;">
-                <input type="checkbox" name="<%= key %>" <% if has_perm(key) then %>checked<% end %>>
+                <input type="checkbox" class="toggle" name="<%= key %>" <% if has_perm(key) then %>checked<% end %> onchange="this.form.submit()">
               </td>
             </tr>
           <% end %>

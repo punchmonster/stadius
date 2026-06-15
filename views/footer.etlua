@@ -29,7 +29,16 @@
           <% end %>
         </p>
       <% end %>
-      <p style="font-size: 0.8rem;">Built with Lapis &amp; OpenResty.</p>
+      <p style="font-size: 0.8rem;">
+        Built with Lapis &amp; OpenResty.
+        <%
+          local hooks = require("modules.hooks")
+          for _, fn in ipairs(hooks.get("footer_links")) do
+            local out = fn()
+            if out then %><%- out %><% end
+          end
+        %>
+      </p>
     </div>
 
     <!-- Right column: contact + social -->

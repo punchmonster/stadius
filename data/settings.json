@@ -7,6 +7,7 @@
   "contact_phone": "",
   "contact_twitter": "stadius",
   "contact_whatsapp": "",
+  "disabled_plugins": "[\"example\"]",
   "favicon": "",
   "footer_links": "[{\"label\":\"Campaigns\",\"url\":\"\\/campaigns\"},{\"label\":\"Contact\",\"url\":\"\\/contact\"}]",
   "logo": "",

@@ -46,6 +46,17 @@ return {
       end
       if #links == 0 then updates.footer_links = "[]"
       else updates.footer_links = require("lapis.util").to_json(links) end
+
+    elseif form == "plugins" then
+      local all_plugins = require("plugins.manifest")
+      local disabled = {}
+      for _, name in ipairs(all_plugins) do
+        if self.params["plugin_" .. name] ~= "true" then
+          table.insert(disabled, name)
+        end
+      end
+      if #disabled == 0 then updates.disabled_plugins = "[]"
+      else updates.disabled_plugins = require("lapis.util").to_json(disabled) end
     end
 
     -- Handle favicon upload

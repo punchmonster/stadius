@@ -123,6 +123,15 @@
           </div>
         <% end %>
 
+        <!-- Plugin hook: homepage_sidebar -->
+        <%
+          local hooks = require("modules.hooks")
+          for _, fn in ipairs(hooks.get("homepage_sidebar")) do
+            local out = fn()
+            if out then %><%- out %><% end
+          end
+        %>
+
       </div>
     <% end %>
   </div>

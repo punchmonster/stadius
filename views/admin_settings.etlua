@@ -182,4 +182,39 @@
   <div class="col-33"></div>
 </div>
 
+<!-- Plugins -->
+<div class="row" style="margin-top: 2rem;">
+  <div class="col-66">
+    <div class="card">
+      <h3><%- icon('package') %> Plugins</h3>
+      <p class="text-muted text-sm">Enable or disable installed plugins. Changes take effect on the next request.</p>
+      <form action="/admin/settings" method="POST">
+        <input type="hidden" name="form_id" value="plugins">
+        <%
+          local util = require("lapis.util")
+          local disabled_list = util.from_json(settings.disabled_plugins or "[]") or {}
+          local is_disabled = {}
+          if disabled_list[1] then for _, d in ipairs(disabled_list) do is_disabled[d] = true end end
+          local all_plugins = require("plugins.manifest")
+        %>
+        <% if #all_plugins == 0 then %>
+          <p class="text-muted text-sm">No plugins installed.</p>
+        <% else %>
+          <% for _, name in ipairs(all_plugins) do %>
+            <div class="form-row">
+              <label class="toggle-label">
+                <input type="checkbox" class="toggle" name="plugin_<%= name %>" value="true"
+                       <% if not is_disabled[name] then %>checked<% end %>>
+                <strong><%= name %></strong>
+              </label>
+            </div>
+          <% end %>
+        <% end %>
+        <button type="submit" class="btn-primary" style="margin-top: 0.5rem;"><%- icon('save') %> Save Plugin State</button>
+      </form>
+    </div>
+  </div>
+  <div class="col-33"></div>
+</div>
+
 

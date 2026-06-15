@@ -20,6 +20,7 @@ local DEFAULTS = {
   show_campaigns_home = false,
   show_newsletter_home = false,
   footer_links = "[]",
+  disabled_plugins = "[]",
 }
 
 local function get()

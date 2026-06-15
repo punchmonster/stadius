@@ -12,6 +12,23 @@ local app = lapis.Application()
 app:enable("etlua")
 app.layout = require("views.layout")
 
+-- Load plugins (respects disabled list in settings)
+do
+  local plugins = require("plugins.manifest")
+  local Settings = require("models.settings")
+  local site = Settings.get()
+  local disabled = {}
+  if site.disabled_plugins and site.disabled_plugins ~= "" then
+    local raw = require("lapis.util").from_json(site.disabled_plugins) or {}
+    if raw[1] then for _, p in ipairs(raw) do disabled[p] = true end end
+  end
+  for _, name in ipairs(plugins) do
+    if not disabled[name] then
+      pcall(function() require("plugins." .. name .. ".init") end)
+    end
+  end
+end
+
 -- Global before_filter: refresh role and permissions from DB on every request.
 -- This ensures role changes take effect immediately without re-login.
 app:before_filter(function(self)
