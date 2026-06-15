@@ -1,9 +1,0 @@
-{
-  "permissions": {
-    "allow": [
-      "Bash(docker exec stadius *)",
-      "Bash(curl *)",
-      "Bash(docker restart *)"
-    ]
-  }
-}

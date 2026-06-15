@@ -8,3 +8,4 @@ nginx.pid
 .DS_Store
 /logs
 CLAUDE.md
+/.claude
