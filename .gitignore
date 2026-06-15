@@ -6,3 +6,4 @@ scgi_temp/
 uwsgi_temp/
 nginx.pid
 .DS_Store
+/logs
