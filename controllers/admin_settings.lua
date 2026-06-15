@@ -22,8 +22,13 @@ return {
     end
 
     local updates = {}
-    if self.params.site_name then updates.site_name = self.params.site_name end
-    if self.params.timezone  then updates.timezone  = self.params.timezone end
+    for _, key in ipairs({"site_name", "timezone", "contact_email", "contact_phone",
+                           "contact_address", "contact_twitter", "contact_github",
+                           "contact_facebook", "contact_instagram", "contact_whatsapp"}) do
+      if self.params[key] ~= nil then updates[key] = self.params[key] end
+    end
+    -- Checkbox: present = true, absent = false
+    updates.show_contact_footer = (self.params.show_contact_footer == "true")
 
     -- Handle favicon upload
     local fav = self.params.favicon

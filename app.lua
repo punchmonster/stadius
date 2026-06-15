@@ -44,6 +44,7 @@ local admin_settings_controller = require("controllers.admin_settings")
 local admin_pages_controller   = require("controllers.admin_pages")
 local profile_controller      = require("controllers.profile")
 local page_controller          = require("controllers.page")
+local contact_controller       = require("controllers.contact")
 local articles_controller     = require("controllers.articles")
 local events_controller       = require("controllers.events")
 
@@ -101,6 +102,9 @@ app:match("event", "/agenda/:id", respond_to(events_controller))
 
 -- Custom pages (public)
 app:match("page", "/page/:slug", respond_to(page_controller))
+
+-- Contact page
+app:match("contact", "/contact", respond_to(contact_controller))
 
 -- Logout — expires the session cookie and redirects home
 app:match("logout", "/logout", respond_to({

@@ -1,17 +1,74 @@
-<!-- views/footer.etlua — public site footer with custom page links -->
+<!-- views/footer.etlua — column-based footer with contact + social icons -->
+<%
+  local Settings = require("models.settings")
+  local site = Settings.get()
+  local Pages = require("models.pages")
+  local icon = require("modules.icon").icon
+  local footer_pages = Pages.list_by_location("footer")
+%>
 <footer class="site-footer">
-  <div class="container">
-    <%
-      local Pages = require("models.pages")
-      local footer_pages = Pages.list_by_location("footer")
-    %>
-    <% if #footer_pages > 0 then %>
-      <p style="margin-bottom: 0.5rem;">
-        <% for i, p in ipairs(footer_pages) do %>
-          <a href="/page/<%= p.slug %>"><%= p.title %></a><% if i < #footer_pages then %> &middot; <% end %>
+  <div class="container" style="display: flex; gap: 3rem; flex-wrap: wrap; text-align: left;">
+
+    <!-- Left column: site info + custom pages -->
+    <div style="flex: 1; min-width: 200px;">
+      <p><strong><%= site.site_name %></strong></p>
+      <p>Built with Lapis &amp; OpenResty.</p>
+      <% if #footer_pages > 0 then %>
+        <p style="margin-top: 0.5rem;">
+          <% for i, p in ipairs(footer_pages) do %>
+            <a href="/page/<%= p.slug %>"><%= p.title %></a><% if i < #footer_pages then %> &middot; <% end %>
+          <% end %>
+        </p>
+      <% end %>
+    </div>
+
+    <!-- Right column: contact + social -->
+    <% if site.show_contact_footer then %>
+      <div style="flex: 1; min-width: 200px;">
+        <p style="font-family: var(--font-display); font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--color-muted); margin-bottom: 0.75rem;">Contact</p>
+
+        <% if site.contact_email and site.contact_email ~= '' then %>
+          <p style="margin: 0 0 0.3rem; display: flex; align-items: center; gap: 0.4rem;">
+            <%- icon('mail') %> <a href="mailto:<%= site.contact_email %>"><%= site.contact_email %></a>
+          </p>
         <% end %>
-      </p>
+
+        <% if site.contact_phone and site.contact_phone ~= '' then %>
+          <p style="margin: 0 0 0.3rem; display: flex; align-items: center; gap: 0.4rem;">
+            <%- icon('phone') %> <%= site.contact_phone %>
+          </p>
+        <% end %>
+
+        <% if site.contact_address and site.contact_address ~= '' then %>
+          <p style="margin: 0 0 0.3rem; display: flex; align-items: center; gap: 0.4rem;">
+            <%- icon('map-pin') %> <%= site.contact_address %>
+          </p>
+        <% end %>
+
+        <!-- Social icons -->
+        <%
+          local socials = {
+            { key = "contact_twitter",   icon = "twitter",   href = "https://x.com/" },
+            { key = "contact_facebook",  icon = "facebook",  href = "https://facebook.com/" },
+            { key = "contact_instagram", icon = "instagram", href = "https://instagram.com/" },
+            { key = "contact_github",    icon = "github",    href = "https://github.com/" },
+            { key = "contact_whatsapp",  icon = "message-circle", href = "https://wa.me/" },
+          }
+        %>
+        <p style="display: flex; gap: 0.75rem; margin-top: 0.75rem;">
+          <% for _, s in ipairs(socials) do
+               local val = site[s.key]
+               if val and val ~= '' then
+                 local clean = val:gsub("^@", "")
+                 local url = s.href .. clean
+                 if s.key == "contact_whatsapp" then url = s.href .. val:gsub("[^0-9]", "") end
+          %>
+            <a href="<%= url %>" style="color: var(--color-muted);" target="_blank" rel="noopener"><%- icon(s.icon) %></a>
+          <%   end
+             end %>
+        </p>
+      </div>
     <% end %>
-    <p>Stadius &mdash; built with Lapis &amp; OpenResty.</p>
+
   </div>
 </footer>

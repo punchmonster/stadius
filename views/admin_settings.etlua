@@ -58,3 +58,66 @@
   </div>
   <div class="col-33"></div>
 </div>
+
+<div class="row" style="margin-top: 2rem;">
+  <div class="col-66">
+    <div class="card">
+      <h3><%- icon('mail') %> Contact Information</h3>
+      <p class="text-muted text-sm">Used on the contact page and callable in templates.</p>
+      <form action="/admin/settings" method="POST">
+
+        <div class="form-row">
+          <label for="contact_email">Email</label>
+          <input type="email" id="contact_email" name="contact_email" class="input-full"
+                 value="<%= settings.contact_email or '' %>" placeholder="hello@example.com">
+        </div>
+        <div class="form-row">
+          <label for="contact_phone">Phone</label>
+          <input type="text" id="contact_phone" name="contact_phone" class="input-full"
+                 value="<%= settings.contact_phone or '' %>" placeholder="+1 555 0100">
+        </div>
+        <div class="form-row">
+          <label for="contact_address">Address</label>
+          <input type="text" id="contact_address" name="contact_address" class="input-full"
+                 value="<%= settings.contact_address or '' %>" placeholder="123 Main St, City">
+        </div>
+        <div class="form-row">
+          <label for="contact_twitter">Twitter / X handle</label>
+          <input type="text" id="contact_twitter" name="contact_twitter" class="input-full"
+                 value="<%= settings.contact_twitter or '' %>" placeholder="@handle">
+        </div>
+        <div class="form-row">
+          <label for="contact_github">GitHub</label>
+          <input type="text" id="contact_github" name="contact_github" class="input-full"
+                 value="<%= settings.contact_github or '' %>" placeholder="username">
+        </div>
+        <div class="form-row">
+          <label for="contact_facebook">Facebook</label>
+          <input type="text" id="contact_facebook" name="contact_facebook" class="input-full"
+                 value="<%= settings.contact_facebook or '' %>" placeholder="username or page-slug">
+        </div>
+        <div class="form-row">
+          <label for="contact_instagram">Instagram</label>
+          <input type="text" id="contact_instagram" name="contact_instagram" class="input-full"
+                 value="<%= settings.contact_instagram or '' %>" placeholder="@handle">
+        </div>
+        <div class="form-row">
+          <label for="contact_whatsapp">WhatsApp (phone number, digits only)</label>
+          <input type="text" id="contact_whatsapp" name="contact_whatsapp" class="input-full"
+                 value="<%= settings.contact_whatsapp or '' %>" placeholder="15550100">
+        </div>
+
+        <div class="form-row">
+          <label>
+            <input type="checkbox" name="show_contact_footer" value="true"
+                   <% if settings.show_contact_footer then %>checked<% end %>>
+            Show contact info in the site footer
+          </label>
+        </div>
+
+        <button type="submit" class="btn-primary"><%- icon('save') %> Save Contact Info</button>
+      </form>
+    </div>
+  </div>
+  <div class="col-33"></div>
+</div>

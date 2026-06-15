@@ -397,7 +397,6 @@ input:focus, textarea:focus, select:focus {
    Footer
    -------------------------------------------------------------------------- */
 .site-footer {
-  text-align: center;
   padding: 2rem 0;
   margin-top: 3rem;
   border-top: 1px solid var(--color-border);

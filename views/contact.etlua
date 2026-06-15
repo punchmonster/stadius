@@ -1,0 +1,65 @@
+<!-- views/contact.etlua — contact page using site settings -->
+<%
+  local icon = require("modules.icon").icon
+%>
+<h1>Contact</h1>
+
+<p>Get in touch with us.</p>
+
+<div style="display: flex; gap: 2rem; margin-top: 2rem; flex-wrap: wrap;">
+  <!-- Contact details -->
+  <div style="flex: 1; min-width: 280px;">
+    <% if settings.contact_email and settings.contact_email ~= '' then %>
+      <div style="display: flex; align-items: flex-start; gap: 0.75rem; margin-bottom: 1.25rem;">
+        <span style="color: var(--color-muted); padding-top: 2px;"><%- icon('mail') %></span>
+        <div>
+          <p style="margin: 0; font-family: var(--font-display); font-size: 0.65rem; text-transform: uppercase; color: var(--color-muted); letter-spacing: 0.05em;">Email</p>
+          <p style="margin: 0;"><a href="mailto:<%= settings.contact_email %>"><%= settings.contact_email %></a></p>
+        </div>
+      </div>
+    <% end %>
+
+    <% if settings.contact_phone and settings.contact_phone ~= '' then %>
+      <div style="display: flex; align-items: flex-start; gap: 0.75rem; margin-bottom: 1.25rem;">
+        <span style="color: var(--color-muted); padding-top: 2px;"><%- icon('phone') %></span>
+        <div>
+          <p style="margin: 0; font-family: var(--font-display); font-size: 0.65rem; text-transform: uppercase; color: var(--color-muted); letter-spacing: 0.05em;">Phone</p>
+          <p style="margin: 0;"><%= settings.contact_phone %></p>
+        </div>
+      </div>
+    <% end %>
+
+    <% if settings.contact_address and settings.contact_address ~= '' then %>
+      <div style="display: flex; align-items: flex-start; gap: 0.75rem; margin-bottom: 1.25rem;">
+        <span style="color: var(--color-muted); padding-top: 2px;"><%- icon('map-pin') %></span>
+        <div>
+          <p style="margin: 0; font-family: var(--font-display); font-size: 0.65rem; text-transform: uppercase; color: var(--color-muted); letter-spacing: 0.05em;">Address</p>
+          <p style="margin: 0;"><%= settings.contact_address %></p>
+        </div>
+      </div>
+    <% end %>
+
+    <% if settings.contact_twitter and settings.contact_twitter ~= '' then %>
+      <div style="display: flex; align-items: flex-start; gap: 0.75rem; margin-bottom: 1.25rem;">
+        <span style="color: var(--color-muted); padding-top: 2px;"><%- icon('twitter') %></span>
+        <div>
+          <p style="margin: 0; font-family: var(--font-display); font-size: 0.65rem; text-transform: uppercase; color: var(--color-muted); letter-spacing: 0.05em;">Twitter</p>
+          <p style="margin: 0;"><a href="https://x.com/<%= settings.contact_twitter:gsub('^@', '') %>"><%= settings.contact_twitter %></a></p>
+        </div>
+      </div>
+    <% end %>
+
+    <% if settings.contact_github and settings.contact_github ~= '' then %>
+      <div style="display: flex; align-items: flex-start; gap: 0.75rem; margin-bottom: 1.25rem;">
+        <span style="color: var(--color-muted); padding-top: 2px;"><%- icon('github') %></span>
+        <div>
+          <p style="margin: 0; font-family: var(--font-display); font-size: 0.65rem; text-transform: uppercase; color: var(--color-muted); letter-spacing: 0.05em;">GitHub</p>
+          <p style="margin: 0;"><a href="https://github.com/<%= settings.contact_github %>"><%= settings.contact_github %></a></p>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <!-- Empty right column for balance -->
+  <div style="flex: 1; min-width: 200px;"></div>
+</div>

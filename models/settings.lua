@@ -4,10 +4,19 @@ local J = require("modules.json_util")
 
 -- Defaults applied on first read if no file exists.
 local DEFAULTS = {
-  site_name = "Stadius",
-  timezone  = "UTC",
-  favicon   = "",
-  logo      = "",
+  site_name   = "Stadius",
+  timezone    = "UTC",
+  favicon     = "",
+  logo        = "",
+  contact_email = "",
+  contact_phone = "",
+  contact_address = "",
+  contact_twitter   = "",
+  contact_github    = "",
+  contact_facebook  = "",
+  contact_instagram = "",
+  contact_whatsapp  = "",
+  show_contact_footer = false,
 }
 
 local function get()

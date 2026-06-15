@@ -1,6 +1,15 @@
 {
+  "contact_address": "",
+  "contact_email": "hello@stadius.dev",
+  "contact_facebook": "",
+  "contact_github": "stadius",
+  "contact_instagram": "stadius",
+  "contact_phone": "",
+  "contact_twitter": "stadius",
+  "contact_whatsapp": "",
   "favicon": "",
   "logo": "",
+  "show_contact_footer": true,
   "site_name": "Stadius",
-  "timezone": "Europe/Amsterdam"
+  "timezone": "UTC"
 }
