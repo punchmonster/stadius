@@ -1,0 +1,20 @@
+[
+  {
+    "created_at": "2026-06-15T10:08:06Z",
+    "description": "Help us reach our goal.",
+    "goal_current": 87,
+    "goal_target": 200,
+    "goal_type": "count",
+    "id": 1,
+    "title": "Community Fundraiser"
+  },
+  {
+    "created_at": "2026-06-15T10:08:06Z",
+    "description": "Growing our community.",
+    "goal_current": 64,
+    "goal_target": 100,
+    "goal_type": "percent",
+    "id": 2,
+    "title": "New Members Drive"
+  }
+]

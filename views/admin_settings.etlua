@@ -52,6 +52,14 @@
           <input type="file" id="logo" name="logo" accept="image/*">
         </div>
 
+        <div class="form-row">
+          <label>
+            <input type="checkbox" name="show_campaigns_home" value="true"
+                   <% if settings.show_campaigns_home then %>checked<% end %>>
+            Show campaigns on the home page
+          </label>
+        </div>
+
         <button type="submit" class="btn-primary"><%- icon('save') %> Save Settings</button>
       </form>
     </div>
@@ -114,7 +122,6 @@
             Show contact info in the site footer
           </label>
         </div>
-
         <button type="submit" class="btn-primary"><%- icon('save') %> Save Contact Info</button>
       </form>
     </div>

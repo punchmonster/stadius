@@ -29,6 +29,7 @@ return {
     end
     -- Checkbox: present = true, absent = false
     updates.show_contact_footer = (self.params.show_contact_footer == "true")
+    updates.show_campaigns_home = (self.params.show_campaigns_home == "true")
 
     -- Handle favicon upload
     local fav = self.params.favicon

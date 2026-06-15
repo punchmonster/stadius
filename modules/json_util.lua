@@ -28,7 +28,7 @@ local function pp(v, i)
       return "{\n" .. table.concat(parts, ",\n") .. "\n" .. p .. "}"
     end
   elseif type(v) == "string" then
-    return '"' .. v:gsub('\\','\\\\'):gsub('"','\\"'):gsub('\n','\\n') .. '"'
+    return '"' .. v:gsub('\\','\\\\'):gsub('"','\\"'):gsub('\r','\\r'):gsub('\n','\\n') .. '"'
   elseif type(v) == "boolean" then return v and "true" or "false"
   elseif type(v) == "number" then return tostring(v)
   else return "null" end

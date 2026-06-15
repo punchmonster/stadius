@@ -17,6 +17,7 @@ local DEFAULTS = {
   contact_instagram = "",
   contact_whatsapp  = "",
   show_contact_footer = false,
+  show_campaigns_home = false,
 }
 
 local function get()

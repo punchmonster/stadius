@@ -1,0 +1,33 @@
+<!-- views/campaigns.etlua — public campaigns listing -->
+<h1>Campaigns</h1>
+
+<% if not campaigns or #campaigns == 0 then %>
+  <p>No active campaigns right now.</p>
+<% else %>
+  <% for _, c in ipairs(campaigns) do
+       local target = tonumber(c.goal_target) or 0
+       local current = tonumber(c.goal_current) or 0
+       local pct = target > 0 and math.min(100, math.floor((current / target) * 100)) or 0
+  %>
+    <div class="card">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem;">
+        <div style="flex: 1; min-width: 200px;">
+          <h2 class="card__title"><%= c.title %></h2>
+          <p class="card__meta"><%= c.goal_type == 'count' and 'Count' or 'Percentage' %> &mdash; <%= c.goal_current %> of <%= c.goal_target %></p>
+          <% if c.description and c.description ~= '' then %>
+            <p style="font-size: 0.9rem;"><%= c.description %></p>
+          <% end %>
+        </div>
+        <div style="flex: 1; min-width: 200px; max-width: 300px;">
+          <div style="display: flex; justify-content: space-between; margin-bottom: 0.25rem; font-family: var(--font-display); font-size: 0.7rem; color: var(--color-muted);">
+            <span><%= pct %>%</span>
+            <span><%= c.goal_target %></span>
+          </div>
+          <div style="height: 10px; background: #e8e4dc; overflow: hidden;">
+            <div style="height: 100%; width: <%= pct %>%; background: var(--color-link); transition: width 0.3s;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+<% end %>

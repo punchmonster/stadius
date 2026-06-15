@@ -45,6 +45,8 @@ local admin_pages_controller   = require("controllers.admin_pages")
 local profile_controller      = require("controllers.profile")
 local page_controller          = require("controllers.page")
 local contact_controller       = require("controllers.contact")
+local campaigns_controller     = require("controllers.campaigns")
+local admin_campaigns_controller = require("controllers.admin_campaigns")
 local articles_controller     = require("controllers.articles")
 local events_controller       = require("controllers.events")
 
@@ -94,6 +96,9 @@ app:match("admin_settings", "/admin/settings", respond_to(admin_settings_control
 -- Admin page builder
 app:match("admin_pages", "/admin/pages", respond_to(admin_pages_controller))
 
+-- Admin campaigns
+app:match("admin_campaigns", "/admin/campaigns", respond_to(admin_campaigns_controller))
+
 -- Public agenda page (listing)
 app:match("agenda", "/agenda", respond_to(events_controller))
 
@@ -105,6 +110,9 @@ app:match("page", "/page/:slug", respond_to(page_controller))
 
 -- Contact page
 app:match("contact", "/contact", respond_to(contact_controller))
+
+-- Campaigns listing
+app:match("campaigns", "/campaigns", respond_to(campaigns_controller))
 
 -- Logout — expires the session cookie and redirects home
 app:match("logout", "/logout", respond_to({

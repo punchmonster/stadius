@@ -126,8 +126,8 @@ local function to_html(md)
       table.insert(html, "<hr>")
       i = i + 1
 
-    -- Headings
-    elseif line:match("^#%s+") then
+    -- Headings (one or more #)
+    elseif line:match("^#+%s") then
       local content = line:gsub("^#+%s*", "")
       local level = #line:match("^#+")
       level = math.min(level, 6)

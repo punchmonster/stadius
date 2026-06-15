@@ -1,0 +1,100 @@
+<%
+  local icon = require("modules.icon").icon
+%>
+<h1><%- icon('target') %> Campaigns</h1>
+
+<% if message then %><p class="alert"><strong><%= message %></strong></p><% end %>
+
+<div class="toolbar">
+  <a href="/admin/campaigns?action=new"><%- icon('plus') %> New Campaign</a>
+  <span class="sep">|</span>
+  <a href="/admin/campaigns">All Campaigns</a>
+  <span class="sep">|</span>
+  <a href="/campaigns">Public page</a>
+</div>
+
+<% if mode == "new" or mode == "edit" then %>
+  <div class="row">
+  <div class="col-66">
+  <div class="card">
+    <h2><% if mode == "new" then %>New Campaign<% else %>Edit: <%= edit_campaign and edit_campaign.title or "" %><% end %></h2>
+    <form action="/admin/campaigns" method="POST">
+      <% if mode == "edit" then %>
+        <input type="hidden" name="action" value="edit">
+        <input type="hidden" name="id" value="<%= edit_campaign and edit_campaign.id or '' %>">
+      <% else %>
+        <input type="hidden" name="action" value="create">
+      <% end %>
+      <div class="form-row">
+        <label for="title">Title</label>
+        <input type="text" id="title" name="title" required class="input-full"
+               value="<%= edit_campaign and edit_campaign.title or '' %>">
+      </div>
+      <div class="form-row">
+        <label for="description">Description</label>
+        <textarea id="description" name="description" rows="4" class="input-full"
+                  ><%= edit_campaign and edit_campaign.description or '' %></textarea>
+      </div>
+      <div class="form-row" style="display: flex; gap: 1rem; flex-wrap: wrap;">
+        <div style="flex: 1; min-width: 150px;">
+          <label for="goal_type">Goal type</label>
+          <select id="goal_type" name="goal_type">
+            <option value="percent" <% if not edit_campaign or edit_campaign.goal_type=='percent' then %>selected<% end %>>Percentage</option>
+            <option value="count" <% if edit_campaign and edit_campaign.goal_type=='count' then %>selected<% end %>>Item count</option>
+          </select>
+        </div>
+        <div style="flex: 1; min-width: 120px;">
+          <label for="goal_target">Target</label>
+          <input type="number" id="goal_target" name="goal_target" min="1" required class="input-full"
+                 value="<%= edit_campaign and edit_campaign.goal_target or 100 %>">
+        </div>
+        <div style="flex: 1; min-width: 120px;">
+          <label for="goal_current">Current</label>
+          <input type="number" id="goal_current" name="goal_current" min="0" class="input-full"
+                 value="<%= edit_campaign and edit_campaign.goal_current or 0 %>">
+        </div>
+      </div>
+      <button type="submit" class="btn-primary"><%- icon('save') %> <% if mode == "new" then %>Create Campaign<% else %>Save Changes<% end %></button>
+    </form>
+  </div>
+  </div>
+  <div class="col-33"></div>
+  </div>
+<% end %>
+
+<h2>All Campaigns</h2>
+<table>
+  <thead><tr><th>ID</th><th>Title</th><th>Type</th><th>Progress</th><th>Actions</th></tr></thead>
+  <tbody>
+    <%
+      local Campaigns = require("models.campaigns")
+    %>
+    <% if campaigns then for _, c in ipairs(campaigns) do
+         local target = tonumber(c.goal_target) or 0
+         local current = tonumber(c.goal_current) or 0
+         local pct = target > 0 and math.min(100, math.floor((current / target) * 100)) or 0
+    %>
+      <tr>
+        <td><%= c.id %></td>
+        <td><strong><%= c.title %></strong></td>
+        <td><%= c.goal_type == 'count' and 'Count' or 'Percent' %></td>
+        <td>
+          <div style="display: flex; align-items: center; gap: 0.5rem;">
+            <div style="flex: 1; height: 8px; background: var(--border); border-radius: 4px; overflow: hidden;">
+              <div style="height: 100%%; width: <%= pct %>%%; background: var(--accent);"></div>
+            </div>
+            <span class="text-sm"><%= c.goal_current %>/<%= c.goal_target %> (<%= pct %>%)</span>
+          </div>
+        </td>
+        <td class="actions-cell">
+          <a href="/admin/campaigns?action=edit&id=<%= c.id %>" class="btn-outline"><%- icon('edit-2') %> Edit</a>
+          <form action="/admin/campaigns" method="POST" onsubmit="return confirm('Delete?')" style="margin:0;">
+            <input type="hidden" name="action" value="delete">
+            <input type="hidden" name="id" value="<%= c.id %>">
+            <button type="submit" class="btn-danger"><%- icon('trash-2') %> Delete</button>
+          </form>
+        </td>
+      </tr>
+    <% end end %>
+  </tbody>
+</table>

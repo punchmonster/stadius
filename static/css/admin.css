@@ -261,6 +261,33 @@ button:active, .btn:active { opacity: 0.8; }
   text-decoration: none;
 }
 
+/* Utility spacing */
+.mb-sm { margin-bottom: 0.3rem; }
+.mt-sm { margin-top: 0.5rem; }
+.w-full { width: 100%; }
+
+/* Media picker items */
+.media-picker-list { max-height: 500px; overflow-y: auto; margin-top: 0.5rem; }
+.media-picker-item {
+  display: flex; gap: 8px; align-items: center;
+  margin-bottom: 6px; padding: 4px;
+  border: 1px solid var(--border); border-radius: 4px;
+}
+.media-picker-thumb {
+  width: 60px; height: 38px; object-fit: cover;
+  border-radius: 2px; flex-shrink: 0;
+}
+.media-picker-meta { flex: 1; min-width: 0; font-size: 0.75rem; }
+.media-picker-name {
+  margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.media-picker-actions { margin: 2px 0 0; }
+.media-picker-actions button,
+.media-picker-actions .btn-link {
+  background: none; border: none; color: var(--accent);
+  cursor: pointer; padding: 0; font-size: 0.7rem; min-height: auto;
+}
+
 /* Inline sub-date inputs */
 .detail .sub-edit { margin-left: 8px; }
 .detail .sub-edit + .sub-edit { margin-left: 4px; }

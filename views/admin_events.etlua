@@ -55,7 +55,7 @@
         <summary style="cursor: pointer; font-weight: 600; display: flex; align-items: center; gap: 6px;">
           <%- icon('folder') %> Media Library
         </summary>
-        <div style="margin-top: 0.5rem; max-height: 500px; overflow-y: auto;">
+        <div class="media-picker-list">
           <%
             local Media = require("models.media")
             local all_media = Media.list_all()
@@ -64,20 +64,18 @@
             <p class="text-muted text-sm">No images in library.</p>
           <% else %>
             <% for _, m in ipairs(all_media) do %>
-              <div style="display: flex; gap: 8px; align-items: center; margin-bottom: 6px; padding: 4px; border: 1px solid var(--border); border-radius: 4px;">
-                <img src="/static/uploads/media/<%= m.filename %>"
-                     style="width: 60px; height: 38px; object-fit: cover; border-radius: 2px; flex-shrink: 0;" alt="">
-                <div style="flex: 1; min-width: 0; font-size: 0.75rem;">
-                  <p style="margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"><%= m.title ~= '' and m.title or m.filename %></p>
-                  <form action="/admin/events" method="POST" style="margin: 2px 0 0; display: inline;">
+              <div class="media-picker-item">
+                <img src="/static/uploads/media/<%= m.filename %>" class="media-picker-thumb" alt="">
+                <div class="media-picker-meta">
+                  <p class="media-picker-name"><%= m.title ~= '' and m.title or m.filename %></p>
+                  <form action="/admin/events" method="POST" class="media-picker-actions">
                     <input type="hidden" name="id" value="<%= edit_event and edit_event.id or '' %>">
                     <input type="hidden" name="action" value="select_image">
                     <input type="hidden" name="filename" value="<%= m.filename %>">
-                    <button type="submit" style="background: none; border: none; color: var(--accent); cursor: pointer; padding: 0; font-size: 0.7rem; min-height: auto;">set header</button>
+                    <button type="submit" class="btn-link">set header</button>
                   </form>
-                  <span style="color: var(--text-muted); margin: 0 4px;">|</span>
-                  <button type="button" onclick="copyMd('<%= m.filename %>', '<%= m.alt_text or '' %>')"
-                          style="background: none; border: none; color: var(--accent); cursor: pointer; padding: 0; font-size: 0.7rem; min-height: auto;">copy md</button>
+                  <span class="text-muted" style="margin: 0 4px;">|</span>
+                  <button type="button" onclick="copyMd('<%= m.filename %>', '<%= m.alt_text or '' %>')" class="btn-link">copy md</button>
                 </div>
               </div>
             <% end %>
