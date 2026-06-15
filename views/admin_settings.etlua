@@ -54,8 +54,8 @@
         </div>
 
         <div class="form-row">
-          <label>
-            <input type="checkbox" name="show_campaigns_home" value="true"
+          <label class="toggle-label">
+            <input type="checkbox" class="toggle" name="show_campaigns_home" value="true"
                    <% if settings.show_campaigns_home then %>checked<% end %>>
             Show campaigns on the home page
           </label>
@@ -117,8 +117,8 @@
         </div>
 
         <div class="form-row">
-          <label>
-            <input type="checkbox" name="show_contact_footer" value="true"
+          <label class="toggle-label">
+            <input type="checkbox" class="toggle" name="show_contact_footer" value="true"
                    <% if settings.show_contact_footer then %>checked<% end %>>
             Show contact info in the site footer
           </label>
@@ -137,8 +137,8 @@
       <form action="/admin/settings" method="POST">
         <input type="hidden" name="form_id" value="newsletter">
         <div class="form-row">
-          <label>
-            <input type="checkbox" name="show_newsletter_home" value="true"
+          <label class="toggle-label">
+            <input type="checkbox" class="toggle" name="show_newsletter_home" value="true"
                    <% if settings.show_newsletter_home then %>checked<% end %>>
             Show newsletter signup on the home page
           </label>

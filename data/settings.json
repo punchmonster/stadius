@@ -10,7 +10,7 @@
   "favicon": "",
   "logo": "",
   "show_campaigns_home": true,
-  "show_contact_footer": false,
+  "show_contact_footer": true,
   "show_newsletter_home": true,
   "site_name": "Stadius",
   "timezone": "UTC"
