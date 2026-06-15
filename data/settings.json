@@ -9,9 +9,10 @@
   "contact_whatsapp": "",
   "favicon": "",
   "logo": "",
+  "show_campaigns_footer": true,
   "show_campaigns_home": true,
   "show_contact_footer": true,
-  "show_newsletter_home": true,
+  "show_newsletter_home": false,
   "site_name": "Stadius",
   "timezone": "UTC"
 }

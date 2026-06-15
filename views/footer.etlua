@@ -9,17 +9,19 @@
 <footer class="site-footer">
   <div class="container" style="display: flex; gap: 3rem; flex-wrap: wrap; text-align: left;">
 
-    <!-- Left column: site info + custom pages -->
+    <!-- Left column: site info + links -->
     <div style="flex: 1; min-width: 200px;">
       <p><strong><%= site.site_name %></strong></p>
-      <p>Built with Lapis &amp; OpenResty.</p>
-      <% if #footer_pages > 0 then %>
-        <p style="margin-top: 0.5rem;">
-          <% for i, p in ipairs(footer_pages) do %>
-            <a href="/page/<%= p.slug %>"><%= p.title %></a><% if i < #footer_pages then %> &middot; <% end %>
+      <p>
+        <a href="/contact">Contact</a>
+        <% if site.show_campaigns_footer then %> &middot; <a href="/campaigns">Campaigns</a><% end %>
+        <% if #footer_pages > 0 then %>
+          <% for _, p in ipairs(footer_pages) do %>
+            &middot; <a href="/page/<%= p.slug %>"><%= p.title %></a>
           <% end %>
-        </p>
-      <% end %>
+        <% end %>
+      </p>
+      <p style="font-size: 0.8rem;">Built with Lapis &amp; OpenResty.</p>
     </div>
 
     <!-- Right column: contact + social -->

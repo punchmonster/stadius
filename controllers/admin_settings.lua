@@ -35,6 +35,7 @@ return {
       updates.show_contact_footer = (self.params.show_contact_footer == "true")
     elseif form == "newsletter" then
       updates.show_newsletter_home = (self.params.show_newsletter_home == "true")
+      updates.show_campaigns_footer = (self.params.show_campaigns_footer == "true")
     end
 
     -- Handle favicon upload

@@ -143,6 +143,13 @@
             Show newsletter signup on the home page
           </label>
         </div>
+        <div class="form-row">
+          <label class="toggle-label">
+            <input type="checkbox" class="toggle" name="show_campaigns_footer" value="true"
+                   <% if settings.show_campaigns_footer then %>checked<% end %>>
+            Show campaigns link in the site footer
+          </label>
+        </div>
         <button type="submit" class="btn-primary"><%- icon('save') %> Save</button>
       </form>
 
