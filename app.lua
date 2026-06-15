@@ -41,7 +41,9 @@ local admin_events_controller   = require("controllers.admin_events")
 local admin_roles_controller   = require("controllers.admin_roles")
 local admin_media_controller   = require("controllers.admin_media")
 local admin_settings_controller = require("controllers.admin_settings")
+local admin_pages_controller   = require("controllers.admin_pages")
 local profile_controller      = require("controllers.profile")
+local page_controller          = require("controllers.page")
 local articles_controller     = require("controllers.articles")
 local events_controller       = require("controllers.events")
 
@@ -88,11 +90,17 @@ app:match("admin_media", "/admin/media", respond_to(admin_media_controller))
 -- Admin site settings
 app:match("admin_settings", "/admin/settings", respond_to(admin_settings_controller))
 
+-- Admin page builder
+app:match("admin_pages", "/admin/pages", respond_to(admin_pages_controller))
+
 -- Public agenda page (listing)
 app:match("agenda", "/agenda", respond_to(events_controller))
 
 -- Single event page
 app:match("event", "/agenda/:id", respond_to(events_controller))
+
+-- Custom pages (public)
+app:match("page", "/page/:slug", respond_to(page_controller))
 
 -- Logout — expires the session cookie and redirects home
 app:match("logout", "/logout", respond_to({

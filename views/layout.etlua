@@ -7,11 +7,29 @@
   <%
     local Settings = require("models.settings")
     local site = Settings.get()
+    local title = page_title or site.site_name
+    local desc = meta_description or "A self-contained CMS built with Lapis & OpenResty."
+    local url = meta_url or build_url and build_url() or ""
+    local image = meta_image and ("/static/uploads/media/" .. meta_image) or ""
+    local author = meta_author or site.site_name
   %>
-  <title><%= page_title or site.site_name %> — <%= site.site_name %></title>
+  <title><%= title %> — <%= site.site_name %></title>
+  <meta name="description" content="<%= desc %>">
+  <meta name="author" content="<%= author %>">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="<%= title %>">
+  <meta property="og:description" content="<%= desc %>">
+  <meta property="og:type" content="<%= meta_type or 'website' %>">
+  <meta property="og:site_name" content="<%= site.site_name %>">
+  <% if url ~= '' then %><meta property="og:url" content="<%= url %>"><% end %>
+  <% if image ~= '' then %><meta property="og:image" content="<%= image %>"><% end %>
+
+  <!-- Favicon -->
   <% if site.favicon and site.favicon ~= '' then %>
     <link rel="icon" href="/static/uploads/media/<%= site.favicon %>" type="image/x-icon">
   <% end %>
+
   <link rel="stylesheet" href="/static/css/normalize.css">
   <link rel="stylesheet" href="/static/css/public.css">
 </head>

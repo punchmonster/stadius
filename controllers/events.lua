@@ -37,6 +37,15 @@ return {
       self.event = event
       self.page_title = event.title
 
+      -- SEO / meta
+      self.meta_type = "article"
+      self.meta_author = event.author
+      local plain = event.description:gsub("#+%s*", ""):gsub("%*%*?", ""):gsub("%[([^%]]*)%]%([^%)]*%)", "%1"):gsub("\n", " ")
+      self.meta_description = plain:sub(1, 200) .. (plain:len() > 200 and "..." or "")
+      if event.header_image and event.header_image ~= '' then
+        self.meta_image = event.header_image
+      end
+
       -- Check if current user has RSVP'd
       local username = self.session.username
       self.is_logged_in = username ~= nil

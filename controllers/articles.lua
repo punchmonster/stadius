@@ -55,6 +55,15 @@ return {
       self.page_title = article.title
       self.can_edit = (role == "admin" or role == "editor")
 
+      -- SEO / meta
+      self.meta_type = "article"
+      self.meta_author = article.author
+      local plain = article.content:gsub("#+%s*", ""):gsub("%*%*?", ""):gsub("%[([^%]]*)%]%([^%)]*%)", "%1"):gsub("\n", " ")
+      self.meta_description = plain:sub(1, 200) .. (plain:len() > 200 and "..." or "")
+      if article.header_image and article.header_image ~= '' then
+        self.meta_image = article.header_image
+      end
+
       -- View counting disabled pending async implementation
       -- Articles.increment_view(id)
 

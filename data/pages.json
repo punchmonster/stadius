@@ -1,0 +1,20 @@
+[
+  {
+    "content": "We are a small publication.",
+    "created_at": "2026-06-15T08:11:20Z",
+    "id": 1,
+    "location": "nav",
+    "slug": "about",
+    "title": "About",
+    "updated_at": "2026-06-15T08:11:20Z"
+  },
+  {
+    "content": "Privacy policy text.",
+    "created_at": "2026-06-15T08:11:27Z",
+    "id": 2,
+    "location": "footer",
+    "slug": "privacy",
+    "title": "Privacy",
+    "updated_at": "2026-06-15T08:11:27Z"
+  }
+]

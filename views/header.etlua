@@ -16,6 +16,12 @@
       <a href="/"         class="<% if section == 'home'     then %>active<% end %>">Home</a>
       <a href="/articles" class="<% if section == 'articles' then %>active<% end %>">Articles</a>
       <a href="/agenda"   class="<% if section == 'agenda'   then %>active<% end %>">Agenda</a>
+      <%
+        local Pages = require("models.pages")
+        for _, p in ipairs(Pages.list_by_location("nav")) do
+      %>
+        <a href="/page/<%= p.slug %>"><%= p.title %></a>
+      <% end %>
       <% if session and session.username then %>
         <a href="/profile" class="nav-user <% if section == 'profile' then %>active<% end %>"><%- icon('user') %> <%= session.username %></a>
       <% else %>

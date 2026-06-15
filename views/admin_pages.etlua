@@ -1,0 +1,80 @@
+<%
+  local icon = require("modules.icon").icon
+%>
+<h1><%- icon('file-text') %> Pages</h1>
+
+<% if message then %><p class="alert"><strong><%= message %></strong></p><% end %>
+
+<div class="toolbar">
+  <a href="/admin/pages?action=new"><%- icon('plus') %> New Page</a>
+  <span class="sep">|</span>
+  <a href="/admin/pages">All Pages</a>
+</div>
+
+<% if mode == "new" or mode == "edit" then %>
+  <div class="row">
+  <div class="col-66">
+  <div class="card">
+    <h2><% if mode == "new" then %>New Page<% else %>Edit: <%= edit_page and edit_page.title or "" %><% end %></h2>
+    <form action="/admin/pages" method="POST">
+      <% if mode == "edit" then %>
+        <input type="hidden" name="action" value="edit">
+        <input type="hidden" name="id" value="<%= edit_page and edit_page.id or '' %>">
+      <% else %>
+        <input type="hidden" name="action" value="create">
+      <% end %>
+      <div class="form-row">
+        <label for="title">Title</label>
+        <input type="text" id="title" name="title" required class="input-full"
+               value="<%= edit_page and edit_page.title or '' %>">
+      </div>
+      <div class="form-row">
+        <label for="slug">Slug (URL: /page/<strong>my-page</strong>)</label>
+        <input type="text" id="slug" name="slug" class="input-full"
+               value="<%= edit_page and edit_page.slug or '' %>"
+               placeholder="my-page">
+      </div>
+      <div class="form-row">
+        <label for="location">Show in</label>
+        <select id="location" name="location">
+          <option value="nav" <% if not edit_page or edit_page.location=='nav' then %>selected<% end %>>Navigation</option>
+          <option value="footer" <% if edit_page and edit_page.location=='footer' then %>selected<% end %>>Footer</option>
+          <option value="none" <% if edit_page and edit_page.location=='none' then %>selected<% end %>>Neither (hidden)</option>
+        </select>
+      </div>
+      <div class="form-row">
+        <label for="content">Content (Markdown)</label>
+        <textarea id="content" name="content" class="font-mono textarea-content"
+                  ><%= edit_page and edit_page.content or '' %></textarea>
+      </div>
+      <button type="submit" class="btn-primary"><%- icon('save') %> <% if mode == "new" then %>Create Page<% else %>Save Changes<% end %></button>
+    </form>
+  </div>
+  </div>
+  <div class="col-33"></div>
+  </div>
+<% end %>
+
+<h2>All Pages</h2>
+<table>
+  <thead><tr><th>ID</th><th>Title</th><th>Slug</th><th>Location</th><th>Updated</th><th>Actions</th></tr></thead>
+  <tbody>
+    <% if pages then for _, p in ipairs(pages) do %>
+      <tr>
+        <td><%= p.id %></td>
+        <td><strong><a href="/page/<%= p.slug %>"><%= p.title %></a></strong></td>
+        <td><%= p.slug %></td>
+        <td><%= p.location %></td>
+        <td><%= p.updated_at %></td>
+        <td class="actions-cell">
+          <a href="/admin/pages?action=edit&id=<%= p.id %>" class="btn-outline"><%- icon('edit-2') %> Edit</a>
+          <form action="/admin/pages" method="POST" onsubmit="return confirm('Delete this page?')" style="margin:0;">
+            <input type="hidden" name="action" value="delete">
+            <input type="hidden" name="id" value="<%= p.id %>">
+            <button type="submit" class="btn-danger"><%- icon('trash-2') %> Delete</button>
+          </form>
+        </td>
+      </tr>
+    <% end end %>
+  </tbody>
+</table>

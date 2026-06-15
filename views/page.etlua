@@ -1,0 +1,10 @@
+<!-- views/page.etlua — custom page content -->
+<% if not custom_page then %>
+  <h1>Page not found</h1>
+  <p><a href="/">Back to home</a></p>
+<% else %>
+  <h1><%= custom_page.title %></h1>
+  <div class="article-content">
+    <%- page_html %>
+  </div>
+<% end %>
