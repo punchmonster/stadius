@@ -30,7 +30,7 @@ local function fmt_offset(offset)
 end
 
 local function format(iso)
-  if not iso or iso == "" then return "-" end
+  if not iso or iso == "" or type(iso) ~= "string" then return "-" end
   local y, m, d, h, min = iso:match("^(%d%d%d%d)%-(%d%d)%-(%d%d)T(%d%d):(%d%d)")
   if y then
     local month = MONTHS[tonumber(m)]

@@ -1,0 +1,12 @@
+.git
+.claude
+logs
+client_body_temp
+fastcgi_temp
+proxy_temp
+scgi_temp
+uwsgi_temp
+.DS_Store
+docker-compose.yml
+README.md
+*.md
