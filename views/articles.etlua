@@ -46,6 +46,11 @@
     <% end %>
   <% end %>
         </p>
+        <%
+          local s = a.content:gsub("#+%s*", ""):gsub("%*%*?", ""):gsub("%[([^%]]*)%]%([^%)]*%)", "%1"):gsub("\n", " "):sub(1, 160)
+          if #a.content > 160 then s = s .. "..." end
+        %>
+        <p class="card__summary" style="font-size: 0.9rem; color: var(--color-muted);"><%= s %></p>
         <p class="card__summary">
           <a href="/articles/<%= a.id %>/<%= a.slug %>">Read more</a>
         </p>

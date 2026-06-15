@@ -11,6 +11,7 @@
   <div class="col-66">
     <div class="card">
       <form action="/admin/settings" method="POST" enctype="multipart/form-data">
+        <input type="hidden" name="form_id" value="general">
 
         <div class="form-row">
           <label for="site_name">Site Name</label>
@@ -59,7 +60,6 @@
             Show campaigns on the home page
           </label>
         </div>
-
         <button type="submit" class="btn-primary"><%- icon('save') %> Save Settings</button>
       </form>
     </div>
@@ -73,6 +73,7 @@
       <h3><%- icon('mail') %> Contact Information</h3>
       <p class="text-muted text-sm">Used on the contact page and callable in templates.</p>
       <form action="/admin/settings" method="POST">
+        <input type="hidden" name="form_id" value="contact">
 
         <div class="form-row">
           <label for="contact_email">Email</label>
@@ -128,3 +129,34 @@
   </div>
   <div class="col-33"></div>
 </div>
+
+<div class="row" style="margin-top: 2rem;">
+  <div class="col-66">
+    <div class="card">
+      <h3><%- icon('mail') %> Newsletter</h3>
+      <form action="/admin/settings" method="POST">
+        <input type="hidden" name="form_id" value="newsletter">
+        <div class="form-row">
+          <label>
+            <input type="checkbox" name="show_newsletter_home" value="true"
+                   <% if settings.show_newsletter_home then %>checked<% end %>>
+            Show newsletter signup on the home page
+          </label>
+        </div>
+        <button type="submit" class="btn-primary"><%- icon('save') %> Save</button>
+      </form>
+
+      <hr style="margin: 1rem 0;">
+      <p class="text-muted text-sm">Export subscriber emails as CSV.</p>
+      <a href="/admin/newsletter-export" class="btn-outline"><%- icon('download') %> Export CSV</a>
+
+      <%
+        local J = require("modules.json_util")
+        local subscribers = J.read("data/newsletter.json")
+      %>
+      <p class="text-muted text-sm" style="margin-top: 0.5rem;"><%= #subscribers %> subscriber(s)</p>
+    </div>
+  </div>
+  <div class="col-33"></div>
+</div>
+

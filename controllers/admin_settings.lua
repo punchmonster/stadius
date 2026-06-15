@@ -27,9 +27,15 @@ return {
                            "contact_facebook", "contact_instagram", "contact_whatsapp"}) do
       if self.params[key] ~= nil then updates[key] = self.params[key] end
     end
-    -- Checkbox: present = true, absent = false
-    updates.show_contact_footer = (self.params.show_contact_footer == "true")
-    updates.show_campaigns_home = (self.params.show_campaigns_home == "true")
+    -- Only update checkboxes from the form that was submitted
+    local form = self.params.form_id
+    if form == "general" then
+      updates.show_campaigns_home = (self.params.show_campaigns_home == "true")
+    elseif form == "contact" then
+      updates.show_contact_footer = (self.params.show_contact_footer == "true")
+    elseif form == "newsletter" then
+      updates.show_newsletter_home = (self.params.show_newsletter_home == "true")
+    end
 
     -- Handle favicon upload
     local fav = self.params.favicon

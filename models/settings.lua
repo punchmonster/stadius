@@ -18,6 +18,7 @@ local DEFAULTS = {
   contact_whatsapp  = "",
   show_contact_footer = false,
   show_campaigns_home = false,
+  show_newsletter_home = false,
 }
 
 local function get()

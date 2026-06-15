@@ -35,7 +35,7 @@
       if #hero.content > 200 then snippet = snippet .. "..." end
     %>
     <p style="font-size: 0.9rem; color: var(--color-muted);"><%= snippet %></p>
-    <p><a href="/articles/<%= hero.id %>/<%= hero.slug %>">Read this article</a></p>
+    <p><a href="/articles/<%= hero.id %>/<%= hero.slug %>">Read more</a></p>
   </div>
 
   <hr>
@@ -81,30 +81,48 @@
       <p><a href="/articles">All articles</a></p>
     </div>
 
-    <!-- Campaign sidebar -->
-    <% if site.show_campaigns_home and campaigns and #campaigns > 0 then %>
+    <!-- Sidebar column (shared) -->
+    <% if (site.show_campaigns_home and campaigns and #campaigns > 0) or site.show_newsletter_home then %>
       <div style="flex: 1; min-width: 220px; max-width: 300px;">
-        <h3 style="font-family: var(--font-display); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--color-muted); margin-top: 0;">Campaigns</h3>
-        <% for _, c in ipairs(campaigns) do
-             local target = tonumber(c.goal_target) or 0
-             local current = tonumber(c.goal_current) or 0
-             local pct = target > 0 and math.min(100, math.floor((current / target) * 100)) or 0
-        %>
-          <div class="card" style="padding: 0.75rem; margin-bottom: 0.75rem;">
-            <p style="margin: 0 0 0.3rem; font-weight: 600; font-size: 0.9rem;"><%= c.title %></p>
-            <% if c.description and c.description ~= '' then %>
-              <p style="margin: 0 0 0.5rem; font-size: 0.8rem; color: var(--color-muted);"><%= c.description %></p>
-            <% end %>
-            <div style="display: flex; justify-content: space-between; margin-bottom: 0.2rem; font-family: var(--font-display); font-size: 0.65rem; color: var(--color-muted);">
-              <span><%= pct %>%</span>
-              <span><%= c.goal_current %>/<%= c.goal_target %></span>
+
+        <!-- Campaigns -->
+        <% if site.show_campaigns_home and campaigns and #campaigns > 0 then %>
+          <h3 style="font-family: var(--font-display); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--color-muted); margin-top: 0;">Campaigns</h3>
+          <% for _, c in ipairs(campaigns) do
+               local target = tonumber(c.goal_target) or 0
+               local current = tonumber(c.goal_current) or 0
+               local pct = target > 0 and math.min(100, math.floor((current / target) * 100)) or 0
+          %>
+            <div class="card" style="padding: 0.75rem; margin-bottom: 0.75rem;">
+              <p style="margin: 0 0 0.3rem; font-weight: 600; font-size: 0.9rem;"><%= c.title %></p>
+              <% if c.description and c.description ~= '' then %>
+                <p style="margin: 0 0 0.5rem; font-size: 0.8rem; color: var(--color-muted);"><%= c.description %></p>
+              <% end %>
+              <div style="display: flex; justify-content: space-between; margin-bottom: 0.2rem; font-family: var(--font-display); font-size: 0.65rem; color: var(--color-muted);">
+                <span><%= pct %>%</span>
+                <span><%= c.goal_current %>/<%= c.goal_target %></span>
+              </div>
+              <div style="height: 6px; background: #e8e4dc; overflow: hidden;">
+                <div style="height: 100%; width: <%= pct %>%; background: var(--color-link);"></div>
+              </div>
             </div>
-            <div style="height: 6px; background: #e8e4dc; overflow: hidden;">
-              <div style="height: 100%; width: <%= pct %>%; background: var(--color-link);"></div>
-            </div>
+          <% end %>
+          <p style="font-size: 0.8rem;"><a href="/campaigns">All campaigns</a></p>
+        <% end %>
+
+        <!-- Newsletter -->
+        <% if site.show_newsletter_home then %>
+          <div style="margin-top: 1rem; padding: 1rem; border: 1px solid var(--color-border);">
+            <h3 style="font-family: var(--font-display); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--color-muted); margin: 0 0 0.5rem;">Newsletter</h3>
+            <p style="font-size: 0.8rem; margin: 0 0 0.5rem; color: var(--color-muted);">Updates &amp; events in your inbox.</p>
+            <form action="/newsletter" method="POST">
+              <input type="email" name="email" required placeholder="your@email.com"
+                     style="width: 100%; padding: 8px 10px; font-size: 0.85rem; border: 1px solid var(--color-border); margin-bottom: 0.4rem;">
+              <button type="submit" class="btn" style="width: 100%; font-size: 0.8rem; padding: 8px;">Subscribe</button>
+            </form>
           </div>
         <% end %>
-        <p style="font-size: 0.8rem;"><a href="/campaigns">All campaigns</a></p>
+
       </div>
     <% end %>
   </div>
