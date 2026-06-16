@@ -2,10 +2,81 @@
   local icon = require("modules.icon").icon
 %>
 <h1><%- icon('home') %> Dashboard</h1>
-
 <p>Logged in as <strong><%= current_user %></strong>.</p>
 
-<div class="card">
-  <h2><%- icon('users') %> Overview</h2>
-  <p>Registered users (non-admin): <strong><%= user_count or 0 %></strong></p>
+<div class="row" style="margin-top: 1.5rem; align-items: stretch;">
+
+  <!-- Articles card -->
+  <div class="col-50">
+    <div class="card" style="height: 100%;">
+      <h2 style="margin-top: 0;"><%- icon('edit') %> Recent Articles</h2>
+      <% if recent_articles and #recent_articles > 0 then %>
+        <% for _, a in ipairs(recent_articles) do %>
+          <div style="display: flex; justify-content: space-between; align-items: baseline; padding: 0.35rem 0; border-bottom: 1px solid var(--border);">
+            <a href="/articles/<%= a.id %>/<%= a.slug %>"><%= a.title %></a>
+            <span class="text-muted text-sm"><%= a._created or a.created_at %></span>
+          </div>
+        <% end %>
+      <% else %>
+        <p class="text-muted text-sm">No articles yet.</p>
+      <% end %>
+      <p style="margin-top: 0.75rem;"><a href="/admin/articles"><%- icon('edit') %> Manage articles</a></p>
+    </div>
+  </div>
+
+  <!-- Users card -->
+  <div class="col-50">
+    <div class="card" style="height: 100%;">
+      <h2 style="margin-top: 0;"><%- icon('users') %> Users</h2>
+      <p><strong><%= total_users or 0 %></strong> registered users (<%= non_admin_users or 0 %> non-admin)</p>
+
+      <!-- Bar chart -->
+      <div style="display: flex; align-items: flex-end; gap: 4px; height: 100px; margin: 1rem 0;">
+        <% for _, m in ipairs(signup_months) do
+             local count = signup_counts[m.key] or 0
+             local height = signup_max > 0 and math.max(4, math.floor((count / signup_max) * 100)) or 4
+        %>
+          <div style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-end;">
+            <div style="width: 100%; height: <%= height %>px; background: var(--accent); border-radius: 2px 2px 0 0; min-height: 2px;" title="<%= m.key %>: <%= count %>"></div>
+            <span class="text-muted" style="font-size: 0.55rem; margin-top: 2px;"><%= m.label %></span>
+          </div>
+        <% end %>
+      </div>
+
+      <p><a href="/admin/users"><%- icon('users') %> Manage users</a></p>
+    </div>
+  </div>
+
+  <!-- Newsletter card -->
+  <div class="col-50">
+    <div class="card" style="height: 100%;">
+      <h2 style="margin-top: 0;"><%- icon('mail') %> Newsletter</h2>
+      <p><strong><%= newsletter_count or 0 %></strong> subscribers</p>
+      <p><a href="/admin/settings"><%- icon('settings') %> Newsletter settings</a></p>
+    </div>
+  </div>
+
+  <!-- Campaigns card -->
+  <div class="col-50">
+    <div class="card" style="height: 100%;">
+      <h2 style="margin-top: 0;"><%- icon('target') %> Campaigns</h2>
+      <% if campaigns and #campaigns > 0 then %>
+        <% for _, c in ipairs(campaigns) do %>
+          <div style="margin-bottom: 0.5rem;">
+            <div style="display: flex; justify-content: space-between; font-size: 0.8rem; margin-bottom: 0.15rem;">
+              <span><a href="/campaigns/<%= c.id %>"><%= c.title %></a></span>
+              <span class="text-muted"><%= c._pct %>%</span>
+            </div>
+            <div style="height: 6px; background: var(--border); border-radius: 3px; overflow: hidden;">
+              <div style="height: 100%; width: <%= c._pct %>%; background: var(--accent);"></div>
+            </div>
+          </div>
+        <% end %>
+      <% else %>
+        <p class="text-muted text-sm">No campaigns yet.</p>
+      <% end %>
+      <p style="margin-top: 0.75rem;"><a href="/admin/campaigns"><%- icon('target') %> Manage campaigns</a></p>
+    </div>
+  </div>
+
 </div>
