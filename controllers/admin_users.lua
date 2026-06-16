@@ -147,7 +147,7 @@ return {
 
       local updated = 0
       for username in pairs(usernames) do
-        local role_val = H.H.nil_if_empty(roles[username])
+        local role_val = H.nil_if_empty(roles[username])
         local pw_val   = H.nil_if_empty(passwords[username])
 
         local sub_active = H.nil_if_empty(sub_actives[username])
