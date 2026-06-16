@@ -47,6 +47,18 @@ return {
       return { redirect_to = self:url_for("index") }
     end
     local action = self.params.action
+
+    -- JSON export
+    if action == "export" then
+      local J = require("modules.json_util")
+      local articles = J.read("data/articles.json")
+      local json = require("lapis.util").to_json(articles)
+      ngx.header["Content-Type"] = "application/json; charset=utf-8"
+      ngx.header["Content-Disposition"] = "attachment; filename=\"articles.json\""
+      ngx.say(json)
+      return ngx.exit(ngx.HTTP_OK)
+    end
+
     paginate(self)
     if action == "new" then
       self.mode = "new"

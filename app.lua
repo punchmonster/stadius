@@ -116,6 +116,7 @@ app:match("admin_pages", "/admin/pages", respond_to(admin_pages_controller))
 -- Admin campaigns
 app:match("admin_campaigns", "/admin/campaigns", respond_to(admin_campaigns_controller))
 
+
 -- Public agenda page (listing)
 app:match("agenda", "/agenda", respond_to(events_controller))
 

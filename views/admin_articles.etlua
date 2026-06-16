@@ -11,6 +11,8 @@
   <a href="/admin/articles?action=new"><%- icon('plus') %> New Article</a>
   <span class="sep">|</span>
   <a href="/admin/articles">All Articles</a>
+  <span class="sep">|</span>
+  <a href="/admin/articles?action=export">Export JSON</a>
   <form action="/admin/articles" method="GET" style="display: flex; gap: 0.25rem; align-items: center; margin-left: auto;">
     <input type="search" name="q" value="<%= search_query or '' %>" placeholder="Search..." style="padding: 4px 8px; font-size: 0.85rem; width: 180px;">
     <% if per_page then %><input type="hidden" name="per_page" value="<%= per_page %>"><% end %>

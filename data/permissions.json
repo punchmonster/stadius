@@ -12,6 +12,7 @@
     "media"
   ],
   "editor": [
+    "dashboard",
     "articles",
     "events",
     "media",
