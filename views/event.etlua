@@ -1,52 +1,45 @@
-<!-- views/event.etlua — single event page, serif framework -->
+<!-- views/event.etlua — single event page, responsive split layout -->
 <% if not event then %>
   <h1>Event not found</h1>
   <p><a href="/agenda">Back to agenda</a></p>
 <% else %>
 
-  <!-- Side-by-side: portrait image left, info right -->
-  <div style="display: flex; gap: 2rem; margin-bottom: 2rem; align-items: flex-start;">
-    <!-- Portrait image -->
-    <div style="flex-shrink: 0; width: 40%; max-width: 380px; aspect-ratio: 4/5; overflow: hidden;">
+  <div class="split-layout">
+    <div class="split-image">
       <% if event.header_image and event.header_image ~= '' then
            local Media = require("models.media")
            local meta = Media.find_by_filename(event.header_image)
       %>
         <img src="/static/uploads/media/<%= event.header_image %>"
-             alt="<%= meta and meta.alt_text ~= '' and meta.alt_text or event.title %>"
-             style="width: 100%; height: 100%; object-fit: cover;">
+             alt="<%= meta and meta.alt_text ~= '' and meta.alt_text or event.title %>">
       <% else %>
-        <div style="width: 100%; height: 100%; background: #f0ede5;"></div>
+        <div class="split-image-placeholder"></div>
       <% end %>
     </div>
 
-    <!-- Info -->
-    <div style="flex: 1; min-width: 0;">
+    <div class="split-info">
       <h1 style="margin-top: 0;"><%= event.title %></h1>
 
-      <div style="display: flex; flex-direction: column; gap: 1rem; font-size: 0.9rem;">
+      <div style="display: flex; flex-direction: column; gap: 0.8rem;">
         <div>
           <p style="margin: 0 0 0.15rem; font-family: var(--font-display); font-size: 0.65rem; color: var(--color-muted); text-transform: uppercase; letter-spacing: 0.05em;">Date &amp; Time</p>
-          <p style="margin: 0; font-size: 1.05rem;"><%= event._event_date or event.event_date %></p>
+          <p style="margin: 0;"><%= event._event_date or event.event_date %></p>
         </div>
         <% if event.location and event.location ~= '' then %>
           <div>
             <p style="margin: 0 0 0.15rem; font-family: var(--font-display); font-size: 0.65rem; color: var(--color-muted); text-transform: uppercase; letter-spacing: 0.05em;">Location</p>
-            <p style="margin: 0; font-size: 1.05rem;"><%= event.location %></p>
+            <p style="margin: 0;"><%= event.location %></p>
           </div>
         <% end %>
         <div>
           <p style="margin: 0 0 0.15rem; font-family: var(--font-display); font-size: 0.65rem; color: var(--color-muted); text-transform: uppercase; letter-spacing: 0.05em;">Organiser</p>
-          <p style="margin: 0; font-size: 1.05rem;"><%= event.author %></p>
+          <p style="margin: 0;"><%= event.author %></p>
         </div>
       </div>
 
-      <!-- RSVP inline -->
       <% if event.rsvp_enabled then %>
-        <div style="margin-top: 1.5rem; display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;">
-          <p style="margin: 0; font-size: 0.85rem;">
-            <strong><%= #(event.rsvps or {}) %></strong> attending
-          </p>
+        <div style="margin-top: 1rem; display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
+          <p style="margin: 0; font-size: 0.85rem;"><strong><%= #(event.rsvps or {}) %></strong> attending</p>
           <% if is_logged_in then %>
             <form action="/agenda/<%= event.id %>" method="POST" style="margin: 0;">
               <% if has_rsvpd then %>
@@ -59,9 +52,7 @@
             <p style="margin: 0; font-size: 0.85rem;"><em><a href="/login">Log in</a> to RSVP.</em></p>
           <% end %>
         </div>
-        <% if message then %>
-          <p class="alert" style="margin-top: 0.5rem;"><%= message %></p>
-        <% end %>
+        <% if message then %><p class="alert" style="margin-top: 0.5rem;"><%= message %></p><% end %>
         <% if #(event.rsvps or {}) > 0 then %>
           <p style="margin: 0.3rem 0 0; font-size: 0.8rem; color: var(--color-muted);"><%= table.concat(event.rsvps, ", ") %></p>
         <% end %>
@@ -71,11 +62,8 @@
 
   <hr>
 
-  <div class="article-content">
-    <%- event.description_html %>
-  </div>
+  <div class="article-content"><%- event.description_html %></div>
 
   <hr>
-
   <p><a href="/agenda">Back to agenda</a></p>
 <% end %>
