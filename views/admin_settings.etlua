@@ -154,14 +154,36 @@
       </form>
 
       <hr style="margin: 1rem 0;">
-      <p class="text-muted text-sm">Export subscriber emails as CSV.</p>
-      <a href="/admin/newsletter-export" class="btn-outline"><%- icon('download') %> Export CSV</a>
 
       <%
         local J = require("modules.json_util")
         local subscribers = J.read("data/newsletter.json")
       %>
-      <p class="text-muted text-sm" style="margin-top: 0.5rem;"><%= #subscribers %> subscriber(s)</p>
+      <p class="text-muted text-sm"><%= #subscribers %> subscriber(s)</p>
+
+      <!-- Import CSV -->
+      <form action="/admin/settings" method="POST" enctype="multipart/form-data" style="margin-top: 0.75rem;">
+        <input type="hidden" name="form_id" value="newsletter_import">
+        <label class="text-sm">Import CSV (one email per line or column)</label>
+        <div style="display: flex; gap: 0.5rem; align-items: center;">
+          <input type="file" name="csv_file" accept=".csv,.txt" style="flex: 1;">
+          <button type="submit" class="btn-outline"><%- icon('upload') %> Import</button>
+        </div>
+      </form>
+
+      <!-- Remove single email -->
+      <form action="/admin/settings" method="POST" style="margin-top: 0.5rem;">
+        <input type="hidden" name="form_id" value="newsletter_remove">
+        <div style="display: flex; gap: 0.5rem; align-items: center;">
+          <input type="email" name="remove_email" placeholder="email to remove" class="input-full" style="margin-bottom: 0;">
+          <button type="submit" class="btn-danger" style="flex-shrink: 0;"><%- icon('trash-2') %> Remove</button>
+        </div>
+      </form>
+
+      <!-- Export -->
+      <div style="margin-top: 0.5rem;">
+        <a href="/admin/newsletter-export" class="btn-outline"><%- icon('download') %> Export CSV</a>
+      </div>
     </div>
   </div>
   <div class="col-33"></div>

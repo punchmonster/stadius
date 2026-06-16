@@ -1,6 +1,7 @@
 --[[ controllers/admin_settings.lua — site settings (admin only) ]]
 local Settings = require("models.settings")
 local Permissions = require("models.permissions")
+local J = require("modules.json_util")
 
 return {
   before = function(self)
@@ -36,6 +37,44 @@ return {
       updates.show_contact_footer = (self.params.show_contact_footer == "true")
     elseif form == "newsletter" then
       updates.show_newsletter_home = (self.params.show_newsletter_home == "true")
+
+    elseif form == "newsletter_import" then
+      local file = self.params.csv_file
+      if file and file.content then
+        local existing = J.read("data/newsletter.json")
+        local seen = {}
+        for _, s in ipairs(existing) do seen[s.email:lower()] = true end
+        local added = 0
+        for email in file.content:gmatch("[^\r\n,]+") do
+          email = email:match("^%s*(.-)%s*$"):lower()
+          if email:match("@") and not seen[email] then
+            seen[email] = true
+            table.insert(existing, { email = email, signed_up = os.date("!%Y-%m-%dT%H:%M:%SZ") })
+            added = added + 1
+          end
+        end
+        J.write("data/newsletter.json", existing)
+        self.message = "Imported " .. added .. " new subscriber(s)."
+      else
+        self.message = "No file selected."
+      end
+
+    elseif form == "newsletter_remove" then
+      local target = (self.params.remove_email or ""):match("^%s*(.-)%s*$"):lower()
+      if target ~= "" then
+        local existing = J.read("data/newsletter.json")
+        local updated = {}
+        local removed = false
+        for _, s in ipairs(existing) do
+          if s.email:lower() == target then
+            removed = true
+          else
+            table.insert(updated, s)
+          end
+        end
+        J.write("data/newsletter.json", updated)
+        self.message = removed and ("Removed " .. target) or "Email not found."
+      end
     elseif form == "footer_links" then
       local raw = self.params.fl_raw or ""
       local links = {}
