@@ -1,8 +1,7 @@
-<!-- views/events.etlua — agenda listing, serif framework -->
+<!-- views/events.etlua — agenda listing, split-layout cards -->
 <h1>Agenda</h1>
 
 <p>Upcoming events.</p>
-
 
 <% if events and #events > 0 then %>
   <%
@@ -13,36 +12,39 @@
   <% for _, e in ipairs(events) do
        local y, m = e.event_date:match("^(%d%d%d%d)%-(%d%d)")
        local month_label = ""
-       if y and m then
-         month_label = months[tonumber(m)] .. " " .. y
-       end
+       if y and m then month_label = months[tonumber(m)] .. " " .. y end
        if month_label ~= last_month then
          last_month = month_label
   %>
     <h2 style="margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--color-border);"><%= month_label %></h2>
   <%   end %>
-    <div class="card card--flex">
-      <% if e.header_image and e.header_image ~= '' then %>
-        <a href="/agenda/<%= e.id %>" class="card__thumb card__thumb--portrait">
-          <img src="/static/uploads/media/<%= e.header_image %>" alt="<%= e.title %>">
-        </a>
-      <% end %>
-      <div class="card__body">
+
+    <div class="split-layout" style="margin-bottom: 0.75rem; gap: 1rem;">
+      <div class="split-image" style="max-width: 160px;">
+        <% if e.header_image and e.header_image ~= '' then %>
+          <a href="/agenda/<%= e.id %>"><img src="/static/uploads/media/<%= e.header_image %>" alt="<%= e.title %>" style="width: 100%; height: 100%; object-fit: cover;"></a>
+        <% else %>
+          <div class="split-image-placeholder"></div>
+        <% end %>
+      </div>
+      <div class="split-info">
         <h2 class="card__title">
           <a href="/agenda/<%= e.id %>"><%= e.title %></a>
         </h2>
         <p class="card__meta">
-          <strong><%= e._event_date or e.event_date %></strong> &mdash; by <%= e.author %>
+          <strong><%= e._event_date or e.event_date %></strong>
+          <% if e.location and e.location ~= '' then %> &mdash; <%= e.location %><% end %>
+          <br><%= e.organiser or e.author %>
         </p>
-        <div style="font-size: 0.9rem;">
+        <p style="margin: 0.3rem 0 0; font-size: 0.85rem;">
           <%
             local first_para = e.description:match("^([^\n]+)")
             local plain = first_para and first_para:gsub("#+%s*", ""):gsub("%*%*?", ""):gsub("%[([^%]]*)%]%([^%)]*%)", "%1") or ""
           %>
           <%= plain %>
           <% if #e.description > #(first_para or "") then %>...<% end %>
-        </div>
-        <p><a href="/agenda/<%= e.id %>">Read more</a></p>
+        </p>
+        <p style="margin: 0.2rem 0 0;"><a href="/agenda/<%= e.id %>">More details</a></p>
       </div>
     </div>
   <% end %>

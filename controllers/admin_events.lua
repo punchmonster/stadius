@@ -148,6 +148,7 @@ return {
         self.params.description or "",
         edate,
         self.session.username,
+        self.params.organiser or "",
         self.params.location or "",
         self.params.rsvp_enabled or false
       )
@@ -167,10 +168,12 @@ return {
           updates.title = self.params.title
         end
         updates.description = self.params.description or ""
+        if self.params.organiser then updates.organiser = self.params.organiser end
         local edate = self.params.event_date or ""
         if edate ~= "" and not edate:match("Z$") then edate = edate .. ":00Z" end
         updates.event_date = edate
         updates.location = self.params.location or ""
+        updates.organiser = self.params.organiser or ""
         updates.rsvp_enabled = self.params.rsvp_enabled or false
 
         local ok, msg = Events.update(id, updates)

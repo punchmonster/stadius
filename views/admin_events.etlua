@@ -114,6 +114,13 @@
       </div>
 
       <div class="form-row">
+        <label for="organiser">Organiser</label>
+        <input type="text" id="organiser" name="organiser"
+               value="<%= edit_event and edit_event.organiser or '' %>"
+               placeholder="Name or organisation" style="max-width: 50%;">
+      </div>
+
+      <div class="form-row">
         <label for="location">Location</label>
         <input type="text" id="location" name="location"
                value="<%= edit_event and edit_event.location or '' %>"

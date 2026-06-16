@@ -28,7 +28,7 @@ local write_events = function(data) return J.write(DB, data) end
     true, event_table on success
     false, error_message on failure
 --]]
-local function create(title, description, event_date, author, location, rsvp_enabled)
+local function create(title, description, event_date, author, organiser, location, rsvp_enabled)
   if not title or #title < 1 then
     return false, "Title is required"
   end
@@ -49,6 +49,7 @@ local function create(title, description, event_date, author, location, rsvp_ena
     description = description or "",
     event_date = event_date,
     location = location or "",
+    organiser = organiser or author or "",
     rsvp_enabled = rsvp_enabled or false,
     rsvps = {},
     header_image = nil,
@@ -83,6 +84,7 @@ local function update(id, updates)
       if updates.description then e.description = updates.description end
       if updates.event_date then e.event_date = updates.event_date end
       if updates.location then e.location = updates.location end
+      if updates.organiser then e.organiser = updates.organiser end
       if updates.header_image then e.header_image = updates.header_image end
       if updates.rsvp_enabled ~= nil then
         if updates.rsvp_enabled == true or updates.rsvp_enabled == "true" then

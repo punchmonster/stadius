@@ -12,7 +12,8 @@
     ],
     "author": "stadius-admin",
     "header_image": "_default_green.jpg",
-    "created_at": "2026-05-15T00:00:00Z"
+    "created_at": "2026-05-15T00:00:00Z",
+    "organiser": "stadius-admin"
   },
   {
     "id": 2,
@@ -28,7 +29,8 @@
     ],
     "author": "editor1",
     "header_image": "_default_blue.jpg",
-    "created_at": "2026-05-17T00:00:00Z"
+    "created_at": "2026-05-17T00:00:00Z",
+    "organiser": "editor1"
   },
   {
     "id": 3,
@@ -41,7 +43,8 @@
     "rsvps": [],
     "author": "stadius-admin",
     "header_image": "_default_red.jpg",
-    "created_at": "2026-05-19T00:00:00Z"
+    "created_at": "2026-05-19T00:00:00Z",
+    "organiser": "stadius-admin"
   },
   {
     "id": 4,
@@ -54,7 +57,8 @@
     "rsvps": [],
     "author": "editor1",
     "header_image": "_default_yellow.jpg",
-    "created_at": "2026-05-21T00:00:00Z"
+    "created_at": "2026-05-21T00:00:00Z",
+    "organiser": "editor1"
   },
   {
     "id": 5,
@@ -67,7 +71,8 @@
     "rsvps": [],
     "author": "stadius-admin",
     "header_image": "_default_orange.jpg",
-    "created_at": "2026-05-23T00:00:00Z"
+    "created_at": "2026-05-23T00:00:00Z",
+    "organiser": "stadius-admin"
   },
   {
     "id": 6,
@@ -82,7 +87,8 @@
     ],
     "author": "editor1",
     "header_image": "_default_brown.jpg",
-    "created_at": "2026-05-25T00:00:00Z"
+    "created_at": "2026-05-25T00:00:00Z",
+    "organiser": "editor1"
   },
   {
     "id": 7,
@@ -95,7 +101,8 @@
     "rsvps": [],
     "author": "stadius-admin",
     "header_image": "_default_green.jpg",
-    "created_at": "2026-05-27T00:00:00Z"
+    "created_at": "2026-05-27T00:00:00Z",
+    "organiser": "stadius-admin"
   },
   {
     "id": 8,
@@ -112,7 +119,8 @@
     ],
     "author": "editor1",
     "header_image": "_default_blue.jpg",
-    "created_at": "2026-05-29T00:00:00Z"
+    "created_at": "2026-05-29T00:00:00Z",
+    "organiser": "editor1"
   },
   {
     "id": 9,
@@ -125,7 +133,8 @@
     "rsvps": [],
     "author": "stadius-admin",
     "header_image": "_default_red.jpg",
-    "created_at": "2026-05-31T00:00:00Z"
+    "created_at": "2026-05-31T00:00:00Z",
+    "organiser": "stadius-admin"
   },
   {
     "id": 10,
@@ -140,7 +149,8 @@
     ],
     "author": "editor1",
     "header_image": "_default_yellow.jpg",
-    "created_at": "2026-06-02T00:00:00Z"
+    "created_at": "2026-06-02T00:00:00Z",
+    "organiser": "editor1"
   },
   {
     "id": 11,
@@ -153,7 +163,8 @@
     "rsvps": [],
     "author": "stadius-admin",
     "header_image": "_default_orange.jpg",
-    "created_at": "2026-06-04T00:00:00Z"
+    "created_at": "2026-06-04T00:00:00Z",
+    "organiser": "stadius-admin"
   },
   {
     "id": 12,
@@ -171,6 +182,7 @@
     ],
     "author": "editor1",
     "header_image": "_default_brown.jpg",
-    "created_at": "2026-06-06T00:00:00Z"
+    "created_at": "2026-06-06T00:00:00Z",
+    "organiser": "editor1"
   }
 ]
