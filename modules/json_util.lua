@@ -47,7 +47,7 @@ end
 -- Write table to JSON file with pretty printing.
 local function write_json(path, data)
   local file = io.open(path, "w")
-  if not file then return false end
+  if not file then return false, "Cannot open file: " .. path end
   file:write(pp(data))
   file:close()
   return true

@@ -155,7 +155,7 @@ return {
       if ok then
         self.message = "Event created: #" .. tostring(result.id)
       else
-        self.message = "Error: " .. result
+        self.message = "Error: " .. tostring(result or "unknown")
       end
 
     elseif action == "edit" then
@@ -189,7 +189,7 @@ return {
         self.message = msg
       end
 
-    -- Image actions --
+    -- Image actions — stay in edit mode
     elseif action == "upload_image" then
       local name = Image.save_upload(self.params, self.session.username)
       local id = tonumber(self.params.id)
@@ -197,20 +197,32 @@ return {
         Events.update(id, { header_image = name })
         self.message = "Image uploaded."
       elseif not name then
-        self.message = "Upload failed — check file type (JPG/PNG/WebP only)."
+        self.message = "Upload failed."
       end
+      self.mode = "edit"
+      self.edit_event = id and Events.find_by_id(id) or nil
+      paginate(self)
+      return { render = "admin_events", layout = "admin_layout" }
 
     elseif action == "remove_image" then
       local id = tonumber(self.params.id)
       if id then Events.update(id, { header_image = "" }) end
       self.message = "Image removed."
+      self.mode = "edit"
+      self.edit_event = id and Events.find_by_id(id) or nil
+      paginate(self)
+      return { render = "admin_events", layout = "admin_layout" }
 
     elseif action == "select_image" then
       local id = tonumber(self.params.id)
       if id and self.params.filename then
         Events.update(id, { header_image = self.params.filename })
-        self.message = "Header image set from library."
+        self.message = "Image set."
       end
+      self.mode = "edit"
+      self.edit_event = id and Events.find_by_id(id) or nil
+      paginate(self)
+      return { render = "admin_events", layout = "admin_layout" }
     end
 
     paginate(self)

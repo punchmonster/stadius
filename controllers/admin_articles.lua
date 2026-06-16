@@ -86,7 +86,7 @@ return {
         self.session.username, H.parse_tags(self.params.tags),
         self.params.visibility or "public", self.params.slug
       )
-      self.message = ok and ("Article created: #" .. tostring(result.id)) or ("Error: " .. result)
+      self.message = ok and ("Article created: #" .. tostring(result.id)) or ("Error: " .. tostring(result or "unknown"))
 
     elseif action == "edit" then
       local id = tonumber(self.params.id)
@@ -106,7 +106,7 @@ return {
         self.message = msg
       else self.message = "Invalid article id" end
 
-    -- Image actions --
+    -- Image actions — stay in edit mode
     elseif action == "upload_image" then
       local name = Image.save_upload(self.params, self.session.username)
       local id = tonumber(self.params.id)
@@ -116,11 +116,21 @@ return {
       elseif not name then
         self.message = "Upload failed — check file type (JPG/PNG/WebP only)."
       end
+      self.mode = "edit"
+      self.edit_article = id and Articles.find_by_id(id) or nil
+      if self.edit_article then self.edit_tags = table.concat(self.edit_article.tags or {}, ", ") end
+      paginate(self)
+      return { render = "admin_articles", layout = "admin_layout" }
 
     elseif action == "remove_image" then
       local id = tonumber(self.params.id)
       if id then Articles.update(id, { header_image = "" }) end
       self.message = "Image removed."
+      self.mode = "edit"
+      self.edit_article = id and Articles.find_by_id(id) or nil
+      if self.edit_article then self.edit_tags = table.concat(self.edit_article.tags or {}, ", ") end
+      paginate(self)
+      return { render = "admin_articles", layout = "admin_layout" }
 
     elseif action == "select_image" then
       local id = tonumber(self.params.id)
@@ -128,6 +138,11 @@ return {
         Articles.update(id, { header_image = self.params.filename })
         self.message = "Header image set from library."
       end
+      self.mode = "edit"
+      self.edit_article = id and Articles.find_by_id(id) or nil
+      if self.edit_article then self.edit_tags = table.concat(self.edit_article.tags or {}, ", ") end
+      paginate(self)
+      return { render = "admin_articles", layout = "admin_layout" }
     end
 
     paginate(self)
