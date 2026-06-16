@@ -99,28 +99,33 @@ return {
       else updates.disabled_plugins = require("lapis.util").to_json(disabled) end
     end
 
+    -- Save an upload directly without image processing
+    local function save_raw(file)
+      if not file or not file.content or #file.content == 0 then return nil end
+      local ext = (file.filename or "img"):match("%.([^%.]+)$") or "png"
+      local name = os.time() .. "_" .. (file.filename or "image"):gsub("[^%w%.%-]", "_")
+      local path = "static/uploads/media/" .. name
+      local f = io.open(path, "w")
+      if not f then return nil end
+      f:write(file.content)
+      f:close()
+      return name
+    end
+
     -- Handle favicon upload
     local fav = self.params.favicon
     if fav and fav.content and #fav.content > 0 then
-      local Image = require("modules.image")
-      local name, _, err = Image.process(fav.content, fav.filename or "favicon")
-      if name then
-        updates.favicon = name
-      else
-        self.message = "Favicon: " .. (err or "upload failed")
-      end
+      local name = save_raw(fav)
+      if name then updates.favicon = name
+      else self.message = "Favicon: upload failed" end
     end
 
     -- Handle logo upload
     local logo = self.params.logo
     if logo and logo.content and #logo.content > 0 then
-      local Image = require("modules.image")
-      local name, _, err = Image.process(logo.content, logo.filename or "logo")
-      if name then
-        updates.logo = name
-      elseif not self.message then
-        self.message = "Logo: " .. (err or "upload failed")
-      end
+      local name = save_raw(logo)
+      if name then updates.logo = name
+      elseif not self.message then self.message = "Logo: upload failed" end
     end
 
     Settings.save(updates)
